@@ -1,0 +1,5 @@
+
+genericcdds:
+  image: bioinformatics-ua/genericcdss:latest
+  ports:
+    - "45555:3000"
