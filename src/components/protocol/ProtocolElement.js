@@ -8,7 +8,7 @@ class ProtocolElement extends Component {
     }
 
     handleSubmit(event) {
-        this.props.next(this.props.options);
+        this.props.next(this.props.options, this.props.componentPosition);
     }
 
     render() {

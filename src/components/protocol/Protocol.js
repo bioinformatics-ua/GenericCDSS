@@ -6,6 +6,7 @@ class Protocol extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            lastComponent: 1,
             atualComponent: 1,
             items: []
         };
@@ -21,9 +22,19 @@ class Protocol extends Component {
         }
     }
 
-    setAtualComponent(id){
-        console.log(id);
-        this.setState({atualComponent: id});
+    setAtualComponent(componentId, componentPosition){
+        this.setState({
+            atualComponent: componentId,
+            lastComponent:componentPosition
+        });
+    }
+
+    addComponentToItems(component, items, position){
+        switch(component.type)
+        {
+            case "choice": items.push(<ProtocolRadioElement componentPosition={position} label={component.label} options={component.options} next={this.setAtualComponent}/>); break;
+            case "action": items.push(<ProtocolElement componentPosition={position}  label={component.label} options={component.next} next={this.setAtualComponent}/>); break;
+        }
     }
 
     render() {
@@ -131,32 +142,31 @@ class Protocol extends Component {
             next: null
         }];
 
+        console.log(this.state);
+
+
         let items = [];
+        let stateItems = [];
         for (let index = 0; index < this.state.items.length; index++)
         {
             let component = this.search(this.state.items[index].componentId, composition);
-            switch(component.type)
-            {
-                case "choice": items.push(<ProtocolRadioElement label={component.label} options={component.options} next={this.setAtualComponent}/>); break;
-                case "action": items.push(<ProtocolElement label={component.label} options={component.next} next={this.setAtualComponent}/>); break;
-            }
+            this.addComponentToItems(component, items, this.state.items[index].componentPositionInArray);
+            stateItems.push({componentId: component.componentId, componentPositionInArray:this.state.items[index].componentPositionInArray});
+
+            if(this.state.items[index].componentPositionInArray === this.state.lastComponent)
+                break;
         }
 
-        if(this.state.atualComponent > 0){
+        if(this.state.atualComponent !== 0){
             let component = this.search(this.state.atualComponent, composition);
-            console.log(component.next);
-            switch(component.type)
-            {
-                case "choice": items.push(<ProtocolRadioElement label={component.label} options={component.options} next={this.setAtualComponent}/>); break;
-                case "action": items.push(<ProtocolElement label={component.label} options={component.next} next={this.setAtualComponent}/>); break;
-            }
+            this.addComponentToItems(component, items, this.state.items.length+1);
 
-            let stateItems = this.state.items;
-            stateItems.push({componentId: component.componentId});
+            stateItems.push({componentId: component.componentId, componentPositionInArray:this.state.items.length+1});
 
             this.setState({
-                atualComponent: 0-this.state.atualComponent,
-                items: stateItems
+                atualComponent: 0,
+                items: stateItems,
+                lastComponent: this.state.items.length+1
             });
         }
         return (

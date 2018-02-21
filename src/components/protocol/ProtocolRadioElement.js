@@ -8,7 +8,7 @@ class ProtocolRadioElement extends Component {
     }
 
     handleOptionChange(nextElement) {
-        this.props.next(nextElement);
+        this.props.next(nextElement, this.props.componentPosition);
     }
 
     render() {
