@@ -1,0 +1,23 @@
+#.gitignore
+.idea/*
+node_modules/*
+env/*
+
+#Put this files in somewhere private
+docker-compose.yml
+
+#Ignore migrations
+genericCDSS/accounts/migrations/*
+genericCDSS/history/migrations/*
+genericCDSS/patients/migrations/*
+genericCDSS/protocol/migrations/*
+genericCDSS/protocol_element/migrations/*
+genericCDSS/utils/migrations/*
+
+#Don't ignore migrations the __init__.py
+!genericCDSS/accounts/migrations/__init__.py
+!genericCDSS/history/migrations/__init__.py
+!genericCDSS/patients/migrations/__init__.py
+!genericCDSS/protocol/migrations/__init__.py
+!genericCDSS/protocol_element/migrations/__init__.py
+!genericCDSS/utils/migrations/__init__.py
