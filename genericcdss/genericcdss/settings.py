@@ -31,12 +31,15 @@ ADMINS = (
     ('Joao Rafael Almeida', 'joao.rafael.almeida@ua.pt'),
 )
 
+SITE_NAME = "Generic CDSS"
 
+ADMIN_CONSOLE_NAME = SITE_NAME + " Admin"
 # Application definition
 
 INSTALLED_APPS = [
     #'jet.dashboard',
     'jet',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +54,14 @@ INSTALLED_APPS = [
     'patients',
     'protocol',
     'protocol_element',
-    'utils'
+    'utils',
+
+	'constance',
+    'constance.backends.database',
+
+    'rest_framework',
+    #'oauth2_provider',
+    #'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -62,6 +72,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'genericcdss.urls'
@@ -137,3 +149,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GLOBALS = {
+    'SITE_NAME': SITE_NAME,
+    'COPYRIGHT': "Bioinformatics.UA, UA",
+    'FOOTER_EXTRA': """
+                    <!-- EXTRA HTML FOOTER CODE HERE -->
+                    <small id="supportability">This website is optimised to Safari, Chrome, Firefox, Opera and IE9+.
+                    <!--It runs in IE7-IE8, but it has low performance and no enhanced features.--></small>
+                   """
+}
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+CONSTANCE_CONFIG = {
+    'copyright': (GLOBALS['COPYRIGHT'], 'Text to show as copyright'),
+    'copyrightsplash': ('<a target="_blank" href="http://bioinformatics.ua.pt/">Bioinformatics, UA.</a>', 'Text to show as copyright on splash screen'),
+    'footer_extra': (GLOBALS['FOOTER_EXTRA'], 'Extra HTML to be shown besides the footer'),
+    'site_name': (GLOBALS['SITE_NAME'], 'Website title')
+}
+
+CONSTANCE_CONFIG_FIELDSETS = {
+    'General Options': ('site_name', 'footer_extra', 'copyrightsplash', 'copyright'),
+}
+
+JET_DEFAULT_THEME = 'light-blue'

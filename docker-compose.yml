@@ -1,5 +1,16 @@
+db:
+  image: postgres:9.3
+  environment:
+    - POSTGRES_USER=?
+    - POSTGRES_PASS=12345
+  volumes:
+    - ../persistence_prod_sql:/var/lib/postgresql/data
+  ports:
+    - "8881:5432"
 
 genericcdds:
+  links:
+  - db
   image: bioinformatics-ua/genericcdss:latest
   ports:
     - "45555:3000"

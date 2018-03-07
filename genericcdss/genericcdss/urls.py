@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+
+admin.site.site_header = settings.ADMIN_CONSOLE_NAME
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     #url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     url(r'^admin/', admin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    #url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+
+    #Api
+    url(r'^api/account/', include('accounts.urls'))
 ]
