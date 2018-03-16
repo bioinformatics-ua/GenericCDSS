@@ -19,13 +19,13 @@ class UserRecoveryTestCase(TestCase):
         userRecovery.save()
         new_count = UserRecovery.objects.count()
 
-        self.assertEqual(old_count + 1, new_count, "The UserRecovery module can not create a new entry")
+        self.assertEqual(old_count + 1, new_count)
 
     def test_unicode_(self):
         userRecovery = UserRecovery(user=self.user)
         self.unicode = u"Password Recovery for %s" % self.user
 
-        self.assertEqual(self.unicode, userRecovery.__unicode__(), "The UserRecovery has an issue in the unicode method")
+        self.assertEqual(self.unicode, userRecovery.__unicode__())
 
     def test_UserRecovery_can_be_used_outdate(self):
         outdated = timezone.now() - timezone.timedelta(days=30)
@@ -34,7 +34,7 @@ class UserRecoveryTestCase(TestCase):
 
         userRecovery_outdated = UserRecovery.getUserRecovery(userRecovery.hash)
 
-        self.assertIsNone(userRecovery_outdated, "UserRecovery is outdated and it can not be used")
+        self.assertIsNone(userRecovery_outdated)
 
 
     def test_UserRecovery_can_be_used_twice(self):
@@ -46,8 +46,8 @@ class UserRecoveryTestCase(TestCase):
         UserRecovery.getUserRecovery(hash=hash).setNewPassword(new_password)
         user_authenticated = authenticate(username=self.user.username, password=new_password)
 
-        self.assertIsNotNone(user_authenticated, "Password recovery did not work")
+        self.assertIsNotNone(user_authenticated)
 
         userRecovery_after_use = UserRecovery.getUserRecovery(hash)
 
-        self.assertIsNone(userRecovery_after_use, "UserRecovery can be used for the second time")
+        self.assertIsNone(userRecovery_after_use)

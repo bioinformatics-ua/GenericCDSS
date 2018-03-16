@@ -31,7 +31,7 @@ class UserSerializerTestCase(TestCase):
             u'email': self.user.email
         }
 
-        self.assertEqual(result.data, desiredFormat, "The desired serializer format is not valid")
+        self.assertEqual(result.data, desiredFormat)
 
     def test_create_user(self):
         user_data = {
@@ -50,9 +50,9 @@ class UserSerializerTestCase(TestCase):
         user_created = user_serialized.save()
         user_in_database = User.objects.get(email=self.email)
 
-        self.assertTrue(user_serialized_valid, "User serializer is not valid")
-        self.assertEquals(user_in_database, user_created, "User created through serializer does not match with the created in database")
-        self.assertFalse(user_in_database.is_active, "User created should be inactive at first")
+        self.assertTrue(user_serialized_valid)
+        self.assertEquals(user_in_database, user_created)
+        self.assertFalse(user_in_database.is_active)
 
     def test_update_user(self):
         self.test_create_user()
@@ -77,16 +77,12 @@ class UserSerializerTestCase(TestCase):
         user_created = user_serialized.save()
         user_in_database_after_updated = User.objects.get(email=self.email)
 
-        self.assertTrue(user_serialized_valid, "User serializer is not valid")
-        self.assertEquals(user_in_database_after_updated, user_created,
-                          "User updated through serializer does not match with the updated in database")
+        self.assertTrue(user_serialized_valid)
+        self.assertEquals(user_in_database_after_updated, user_created)
 
-        self.assertEquals(user_in_database_after_updated.username, username_to_update,
-                          "User name updated through serializer does not match with the updated in database")
-        self.assertEquals(user_in_database_after_updated.first_name, first_name_to_update,
-                          "First name updated through serializer does not match with the updated in database")
-        self.assertEquals(user_in_database_after_updated.last_name, last_name_to_update,
-                          "Last name updated through serializer does not match with the updated in database")
+        self.assertEquals(user_in_database_after_updated.username, username_to_update)
+        self.assertEquals(user_in_database_after_updated.first_name, first_name_to_update)
+        self.assertEquals(user_in_database_after_updated.last_name, last_name_to_update)
 
     def test_try_to_create_a_staff_user_trough_serializer(self):
         email = 'createdStaffUserSerializer@ua.pt'
@@ -105,6 +101,6 @@ class UserSerializerTestCase(TestCase):
         user_serialized_valid = user_serialized.is_valid()
         user_created = user_serialized.save()
 
-        self.assertTrue(user_serialized_valid, "User serializer is not valid")
-        self.assertFalse(user_created.is_staff, "User that is created can not be staff")
+        self.assertTrue(user_serialized_valid)
+        self.assertFalse(user_created.is_staff)
 

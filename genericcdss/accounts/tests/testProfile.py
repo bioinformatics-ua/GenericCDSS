@@ -16,12 +16,12 @@ class ProfileTestCase(TestCase):
         self.profile.save()
         new_count = Profile.objects.count()
 
-        self.assertEqual(old_count + 1, new_count, "The Profile module can not create a new entry")
+        self.assertEqual(old_count + 1, new_count)
 
     def test_unicode_(self):
         self.unicode = u"User profile for %s" % self.user
 
-        self.assertEqual(self.unicode, self.profile.__unicode__(), "The Profile has an issue in the unicode method")
+        self.assertEqual(self.unicode, self.profile.__unicode__())
 
     def test_model_can_create_a_profile_nurse_type(self):
         nurse = User.objects.create_user('Nurse', 'nurse@ua.pt', '12345')
@@ -30,7 +30,7 @@ class ProfileTestCase(TestCase):
         nurse_profile.save()
         new_count = Profile.objects.filter(role=Profile.NURSE).count()
 
-        self.assertEqual(old_count + 1, new_count, "The Profile module can not create a Nurse")
+        self.assertEqual(old_count + 1, new_count)
 
     def test_model_can_create_a_profile_physician_type(self):
         physician = User.objects.create_user('Doctor', 'doctor@ua.pt', '12345')
@@ -39,4 +39,4 @@ class ProfileTestCase(TestCase):
         physician_profile.save()
         new_count = Profile.objects.filter(role=Profile.PHYSICIAN).count()
 
-        self.assertEqual(old_count + 1, new_count, "The Profile module can not create a Physician")
+        self.assertEqual(old_count + 1, new_count)

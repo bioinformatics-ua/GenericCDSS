@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view, list_route
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import permissions
+from rest_framework import status
 
 from accounts.models import Profile, UserRecovery
 from accounts.api.serializers import UserSerializer
@@ -21,7 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    #filter_backends = [filters.DjangoFilterBackend, filters.OrderingFilter]
+    filter_backends = [filters.OrderingFilter]#filters.DjangoFilterBackend
     filter_fields = ["username", "first_name", "last_name", "email", "is_staff", "last_login", "id"]
 
     def list(self, request, *args, **kwargs):
@@ -60,8 +61,8 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         return super(UserViewSet, self).partial_update(request, *args, **kwargs)
 
-    @list_route(methods=['get', 'patch'], permission_classes=[permissions.AllowAny])
-    def personal_account_details(self, request):
+    @list_route(methods=['get', 'patch'])
+    def personalAccountDetails(self, request):
         """
         Get personal account details, if logged in.
         """
@@ -87,7 +88,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'authenticated': False})
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
-    def check_email(self, request):
+    def checkEmail(self, request):
         """
         Case insensitive checks if a email is available to be registered as a username.
         """
@@ -112,17 +113,12 @@ class UserViewSet(viewsets.ModelViewSet):
             'error': "Email is mandatory field to check if email is free"
         })
 
-    @list_route(methods=['get', 'post'])
-    def activate_user(self, request):
+    @list_route(methods=['post'])
+    def activateUser(self, request):
         """
         Activates an inactive user. Can only be used by staff users to activate other users.
         """
-        email = None
-
-        if request.method == 'GET':
-            email = request.GET.get('email', None)
-        else:
-            email = request.data.get('email', None)
+        email = request.data.get('email', None)
 
         if request.user.is_staff and email != None:
             email = email.lower()
@@ -142,20 +138,20 @@ class UserViewSet(viewsets.ModelViewSet):
 
                     return Response({
                         'success': True
-                    })
+                    }, status=status.HTTP_200_OK)
 
                 return Response({
                     'error': 'User already activated'
-                })
+                }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
             except User.DoesNotExist:
                 return Response({
                     'error': "Can't activate user, %s it doesn't exist" % email
-                })
+                }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
         return Response({
             'error': "Invalid or not authorized request"
-        })
+        }, status=status.HTTP_401_UNAUTHORIZED)
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def register(self, request):
@@ -166,9 +162,9 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({
                 'error': "An already registered user can't register new users!"
             })
-
-        password = request.data.pop('password', None)
-        email = request.data.get('email', None)
+        dataRequest = request.data.copy()
+        password = dataRequest.pop('password', None)
+        email = dataRequest.get('email', None)
 
         if email != None and password != None:
             email = email.lower()
@@ -178,11 +174,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
                 return Response({
                     'error': "An user with this email already exists"
-                })
+                }, status=status.HTTP_400_BAD_REQUEST)
             except User.DoesNotExist:
-                request.data['username'] = email[:30]
-                request.data['email'] = email
-                serializer = UserSerializer(data=request.data, context={'request': request})
+                if(dataRequest['username'] == None):
+                    dataRequest['username'] = email[:30]
+                dataRequest['email'] = email
+                serializer = UserSerializer(data=dataRequest, context={'request': request})
 
                 user_validated = serializer.is_valid(raise_exception=True)
 
@@ -197,17 +194,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
                     History.new(event=History.ADD, actor=new_user, object=new_user, authorized=staff)
 
-                    return Response(serializer.data)
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
                 return Response({
                     'error': "User details invalid"
-                })
+                }, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({
             'error': "Email and password are mandatory fields on registering a new user"
-        })
+        }, status=status.HTTP_400_BAD_REQUEST)
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
-    def recover_password(self, request):
+    def recoverPassword(self, request):
         """
         Allows users to ask for password recovery(which needs to be confirmed).
         """
@@ -240,7 +237,7 @@ class UserViewSet(viewsets.ModelViewSet):
         })
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
-    def change_password(self, request):
+    def changePassword(self, request):
         """
         Allows users to change their own password, after confirming a password recovery.
         """

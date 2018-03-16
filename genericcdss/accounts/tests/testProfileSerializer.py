@@ -23,4 +23,4 @@ class ProfileTestCase(TestCase):
             u'role': Profile.ADMINISTRATOR
         }
 
-        self.assertEqual(result.data, desiredFormat, "The desired serializer format is not valid")
+        self.assertEqual(result.data, desiredFormat)

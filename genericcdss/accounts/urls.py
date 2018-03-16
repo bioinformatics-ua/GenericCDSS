@@ -4,7 +4,7 @@ from rest_framework import routers
 from api.views import UserViewSet
 
 router = routers.DefaultRouter()
-router.register(r'', UserViewSet, base_name='user-detail')
+router.register(r'', UserViewSet, base_name='userview')
 
 urlpatterns = [
     #url(r'^', UserViewSet.as_view(), name="create")
