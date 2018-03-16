@@ -176,7 +176,7 @@ class UserViewSet(viewsets.ModelViewSet):
                     'error': "An user with this email already exists"
                 }, status=status.HTTP_400_BAD_REQUEST)
             except User.DoesNotExist:
-                if(dataRequest['username'] == None):
+                if(not 'username' in dataRequest):
                     dataRequest['username'] = email[:30]
                 dataRequest['email'] = email
                 serializer = UserSerializer(data=dataRequest, context={'request': request})
