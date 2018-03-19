@@ -11,6 +11,9 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import status
 
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 from accounts.models import Profile, UserRecovery
 from accounts.api.serializers import UserSerializer
 
@@ -22,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    filter_backends = [filters.OrderingFilter]#filters.DjangoFilterBackend
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ["username", "first_name", "last_name", "email", "is_staff", "last_login", "id"]
 
     def list(self, request, *args, **kwargs):

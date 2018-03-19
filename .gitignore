@@ -7,17 +7,17 @@ env/*
 docker-compose.yml
 
 #Ignore migrations
-genericCDSS/accounts/migrations/*
-genericCDSS/history/migrations/*
-genericCDSS/patients/migrations/*
-genericCDSS/protocol/migrations/*
-genericCDSS/protocol_element/migrations/*
-genericCDSS/utils/migrations/*
+genericcdss/accounts/migrations/*
+genericcdss/history/migrations/*
+genericcdss/patients/migrations/*
+genericcdss/protocol/migrations/*
+genericcdss/protocol_element/migrations/*
+genericcdss/utils/migrations/*
 
 #Don't ignore migrations the __init__.py
-!genericCDSS/accounts/migrations/__init__.py
-!genericCDSS/history/migrations/__init__.py
-!genericCDSS/patients/migrations/__init__.py
-!genericCDSS/protocol/migrations/__init__.py
-!genericCDSS/protocol_element/migrations/__init__.py
-!genericCDSS/utils/migrations/__init__.py
+!genericcdss/accounts/migrations/__init__.py
+!genericcdss/history/migrations/__init__.py
+!genericcdss/patients/migrations/__init__.py
+!genericcdss/protocol/migrations/__init__.py
+!genericcdss/protocol_element/migrations/__init__.py
+!genericcdss/utils/migrations/__init__.py
