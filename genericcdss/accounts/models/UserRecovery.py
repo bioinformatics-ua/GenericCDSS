@@ -17,7 +17,7 @@ class UserRecovery(models.Model):
     def __unicode__(self):
         return u"Password Recovery for %s" % self.user
 
-    def setNewPassword(self,new_password):
+    def setNewPassword(self, new_password):
         self.user.set_password(new_password)
         self.user.save()
         self.used = True

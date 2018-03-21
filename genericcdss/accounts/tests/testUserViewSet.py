@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from rest_framework.test import APIClient, APIRequestFactory
 from rest_framework import status
 
+from accounts.models import UserRecovery
+
 class UserViewSetTestCase(TestCase):
     def setUp(self):
         '''
@@ -37,6 +39,7 @@ class UserViewSetTestCase(TestCase):
         '''
         Test the user creation through the webservice
         Should be a normal user, inactive and not be staff
+        :return User
         '''
         response = self.client.post('/api/account/register/', self.userData, format='json')
 
@@ -46,6 +49,8 @@ class UserViewSetTestCase(TestCase):
         self.assertEqual(user.email, self.email)                        #Check if is created
         self.assertFalse(user.is_active)                                #Check if is not active
         self.assertFalse(user.is_staff)                                 #Check if is not stuff
+
+        return user
 
     def test_try_create_forced_active_user(self):
         '''
@@ -125,26 +130,171 @@ class UserViewSetTestCase(TestCase):
         response = self.client.get('/api/account/', format='json')
 
         self.assertEqual(response.data["count"], numUserToCreate + usersContageBeforeCreatingRandomUsers) # Check if the response has all the users
-        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is not authorized
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
         self.client.logout()
 
-    def test_recovery_user(self):
-        print "TO DO"
-
-    def test_register(self):
-        print "TO DO"
-
     def test_login(self):
-        print "TO DO"
+        '''
+        Test the login method to access the system (not allow inactive users to log)
+        '''
+        user = self.test_create_user()
+        password = self.userData['password']
+
+        #Unative user
+        response = self.client.post('/api/account/login/', {
+            "username": user.username,
+            "password": password
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)        # Check if response is unauthorized
+        self.assertFalse(response.data["authenticated"])                            # Check if is not authenticated
+
+        #Wrong password
+        response = self.client.post('/api/account/login/', {
+            "username": user.username,
+            "password": password + "12345"
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertFalse(response.data["authenticated"])                            # Check if is not authenticated
+
+        #Call a web services that needs login
+        response = self.client.get('/api/account/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)        # Check if response is not authorized
+
+        #Active user
+        self.client.force_authenticate(self.admin)
+        response = self.client.post('/api/account/activateUser/', {"email": user.email}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+        self.client.logout()
+
+        response = self.client.post('/api/account/login/', {
+            "username": user.username,
+            "password": password
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+
+        numUserInBD = User.objects.all().count()
+        response = self.client.get('/api/account/', format='json')
+        self.assertEqual(response.data["count"], numUserInBD)                       # Check if the response has all the users
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
 
     def test_logout(self):
-        print "TO DO"
+        '''
+        Test the logout function using the user tested in the function login
+        '''
+        self.test_login()
 
-    def test_change_password(self):
-        print "TO DO"
+        response = self.client.get('/api/account/logout/', {}, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+        self.assertFalse(response.data["authenticated"])                            # Check if is not authenticated
+
+        response = self.client.get('/api/account/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)        # Check if response is not authorized
+
+    def test_recovery_user(self):
+        '''
+        Test the user recovery and all the situations.
+        Needs to be tested if the user receives the email and can recover the password
+        '''
+        #Using an unregisted email
+        response = self.client.post('/api/account/recoverPassword/', {"email": "dummy@ua.pt"}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertEqual(response.data["error"], "An user with this email does not exist.")
+
+        #Doing a bad request
+        response = self.client.post('/api/account/recoverPassword/', {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertEqual(response.data["error"], "Email is a mandatory field when a password is recover.")
+
+        #Using a logged user (this is not a good test because maybe we want to recovery users loged but...)
+        self.client.force_authenticate(self.simpleUser)
+        response = self.client.post('/api/account/recoverPassword/', {"email": self.simpleUser.email}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertEqual(response.data["error"], "An already logged in user can't recover a password!")
+        self.client.logout()
+
+        #The right behavior
+        response = self.client.post('/api/account/recoverPassword/', {"email": self.simpleUser.email}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+        userRecovery = UserRecovery.objects.get(user=self.simpleUser) #This hash is received by email
+
+        #Incomplete request
+        response = self.client.post('/api/account/changePassword/', {
+            "password": "new12345qwert"
+        }, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertEqual(response.data["error"], "This request is not valid.")
+
+        #Request well done
+        response = self.client.post('/api/account/changePassword/', {
+             "hash": userRecovery.hash,
+            "password": "new12345qwert"
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+        self.assertTrue(response.data["success"])
+
+        #Reusing the same hash
+        response = self.client.post('/api/account/changePassword/', {
+            "hash": userRecovery.hash,
+            "password": "new12345qwert"
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertEqual(response.data["error"], "Either the request does not exist, or it has expired.")
 
     def test_check_duplicated_email(self):
-        print "TO DO"
+        '''
+        Look up for duplicated emails, when the user registers
+        '''
+        #Using a email from a registed user
+        response = self.client.post('/api/account/checkEmail/', {"email": self.simpleUser.email}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is ok
+        self.assertEqual(response.data["email"], self.simpleUser.email)
+        self.assertFalse(response.data["available"])
+
+        #Using a available email
+        response = self.client.post('/api/account/checkEmail/', {"email": "dummy@ua.pt"}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+        self.assertEqual(response.data["email"], "dummy@ua.pt")
+        self.assertTrue(response.data["available"])
+
+        #Not using nothing
+        response = self.client.post('/api/account/checkEmail/', {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)         # Check if response is a bad request
+        self.assertEqual(response.data['error'], "Email is mandatory field to check if email is free")
 
     def test_update_information(self):
-        print "TO DO"
+        '''
+        Test the update of personal data
+        '''
+        #get personal details without login
+        response = self.client.get('/api/account/personalAccountDetails/', {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)        # Check if response is unauthorized
+
+        self.test_login()
+        response = self.client.get('/api/account/personalAccountDetails/', {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)                  # Check if response is ok
+        self.assertEqual(response.data["username"], self.userData["username"])
+        self.assertEqual(response.data["email"], self.userData["email"])
+
+
+        response = self.client.patch('/api/account/personalAccountDetails/', {
+            "username": "updatedUser",
+            "first_name": "updatedUser",
+            "last_name": "updatedUser",
+            "email": "new.email@ua.pt",
+            "profile": {"role": 2},
+            "password": "12345qwert"
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)  # Check if response is ok
+        self.assertEqual(response.data["username"], "updatedUser")
+        self.assertEqual(response.data["first_name"], "updatedUser")
+        self.assertEqual(response.data["last_name"], "updatedUser")
+        self.assertEqual(response.data["email"], "new.email@ua.pt")
+        self.assertEqual(response.data["profile"],{"role": 2})
+

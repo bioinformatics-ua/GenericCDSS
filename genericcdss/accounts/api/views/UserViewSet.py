@@ -22,53 +22,53 @@ from history.models import History
 from utils.time import sessionExpiringTime
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.get_queryset().order_by('id')#.all()
     serializer_class = UserSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ["username", "first_name", "last_name", "email", "is_staff", "last_login", "id"]
 
     def list(self, request, *args, **kwargs):
-        """
+        '''
         Return a list of users
-        """
+        '''
         return super(UserViewSet, self).list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        """
+        '''
         Insert a new user (staff only)
-        """
+        '''
         return super(UserViewSet, self).create(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
-        """
+        '''
         Retrieve a user, by id
-        """
+        '''
         return super(UserViewSet, self).retrieve(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        """
+        '''
         Update a user, by id (staff only)
-        """
+        '''
         return super(UserViewSet, self).update(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
-        """
+        '''
         Partial Update a user, by id (staff only)
-        """
+        '''
         return super(UserViewSet, self).partial_update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        """
+        '''
         Delete a user, by id (staff only)
-        """
+        '''
         return super(UserViewSet, self).partial_update(request, *args, **kwargs)
 
     @list_route(methods=['get', 'patch'])
     def personalAccountDetails(self, request):
-        """
+        '''
         Get personal account details, if logged in.
-        """
+        '''
         if request.user.is_authenticated():
             try:
                 profile = request.user.profile
@@ -86,15 +86,15 @@ class UserViewSet(viewsets.ModelViewSet):
                     request.user.set_password(password)
                     request.user.save()
 
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({'authenticated': False})
+            return Response({'authenticated': False}, status=status.HTTP_400_BAD_REQUEST)
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def checkEmail(self, request):
-        """
+        '''
         Case insensitive checks if a email is available to be registered as a username.
-        """
+        '''
         email = request.data.get('email')
 
         if email != None:
@@ -105,22 +105,22 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({
                     'email': email,
                     'available': False
-                })
+                }, status=status.HTTP_400_BAD_REQUEST)
             except User.DoesNotExist:
                 return Response({
                     'email': email,
                     'available': True
-                })
+                }, status=status.HTTP_200_OK)
 
         return Response({
             'error': "Email is mandatory field to check if email is free"
-        })
+        }, status=status.HTTP_400_BAD_REQUEST)
 
     @list_route(methods=['post'])
     def activateUser(self, request):
-        """
+        '''
         Activates an inactive user. Can only be used by staff users to activate other users.
-        """
+        '''
         email = request.data.get('email', None)
 
         if request.user.is_staff and email != None:
@@ -158,13 +158,13 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def register(self, request):
-        """
+        '''
         Allows users to register themselves. Being then put on a waiting list to be approved.
-        """
+        '''
         if request.user.is_authenticated():
             return Response({
                 'error': "An already registered user can't register new users!"
-            })
+            }, status.HTTP_400_BAD_REQUEST)
         dataRequest = request.data.copy()
         password = dataRequest.pop('password', None)
         email = dataRequest.get('email', None)
@@ -208,13 +208,13 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def recoverPassword(self, request):
-        """
+        '''
         Allows users to ask for password recovery(which needs to be confirmed).
-        """
+        '''
         if request.user.is_authenticated():
             return Response({
                 'error': "An already logged in user can't recover a password!"
-            })
+            }, status.HTTP_400_BAD_REQUEST)
 
         email = request.data.get('email', None)
 
@@ -228,26 +228,26 @@ class UserViewSet(viewsets.ModelViewSet):
 
                 History.new(event=History.RECOVER, actor=user, object=userRecovery, authorized=[user])
 
-                return Response({'success': True})
+                return Response({'success': True}, status.HTTP_200_OK)
             except User.DoesNotExist:
                 pass
 
             return Response({
                 'error': "An user with this email does not exist."
-            })
+            }, status.HTTP_400_BAD_REQUEST)
         return Response({
-            'error': "Email is a mandatory field when a password is recover"
-        })
+            'error': "Email is a mandatory field when a password is recover."
+        }, status.HTTP_400_BAD_REQUEST)
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def changePassword(self, request):
-        """
+        '''
         Allows users to change their own password, after confirming a password recovery.
-        """
+        '''
         if request.user.is_authenticated():
             return Response({
                 'error': "An already logged in user can't recover a password!"
-            })
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         hash = request.data.get('hash', None)
         new_password = request.data.get('password', None)
@@ -260,21 +260,21 @@ class UserViewSet(viewsets.ModelViewSet):
 
                 History.new(event=History.EDIT, actor=userRecovery.user, object=userRecovery.user, authorized=[userRecovery.user])
 
-                return Response({'success': True})
-            except UserRecovery.DoesNotExist:
+                return Response({'success': True}, status=status.HTTP_200_OK)
+            except (UserRecovery.DoesNotExist, AttributeError):
                 return Response({
                     'error': "Either the request does not exist, or it has expired."
-                })
+                }, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({
             'error': "This request is not valid."
-        })
+        }, status=status.HTTP_400_BAD_REQUEST)
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def login(self, request):
-        """
+        '''
         Logs in an user doing case insentitive validation for emails.
-        """
+        '''
         if not request.user.is_authenticated():
             username = request.data.get('username', None)
             password = request.data.get('password', None)
@@ -285,35 +285,40 @@ class UserViewSet(viewsets.ModelViewSet):
             if username != None:
                 username = username.lower()
 
-            if '@' in username:
-                try:
+            user = None
+            try:
+                if '@' in username:
                     user = User.objects.get(email=username)
-                    username = user.username
-                except:
-                    pass
+                else:
+                    user = User.objects.get(username=username)
+            except:
+                return Response({
+                    'authenticated': False,
+                    'error': 'This login username and password are invalid'
+                }, status=status.HTTP_400_BAD_REQUEST)
 
-            user = authenticate(username=username, password=password)
-            if user is not None:
+            #user = authenticate(username=username, password=password)
+            if user.check_password(password):
                 if user.is_active:
                     login(request, user)
                 else:
                     return Response({
                         'authenticated': False,
                         'error': 'This account is disabled. This may be because of you are waiting approval.If this is not the case, please contact the administrator'
-                    })
+                    }, status=status.HTTP_401_UNAUTHORIZED)
             else:
                 return Response({
                     'authenticated': False,
                     'error': 'This login username and password are invalid'
-                })
+                }, status=status.HTTP_400_BAD_REQUEST)
 
-        return self.personal_account_details(request)
+        return self.personalAccountDetails(request)
 
     @list_route(methods=['get'])
     def logout(self, request):
-        """
+        '''
         Logs out a logged in user
-        """
+        '''
         logout(request)
 
-        return Response({'authenticated': False})
+        return Response({'authenticated': False}, status.HTTP_200_OK)

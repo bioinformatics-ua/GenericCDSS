@@ -56,7 +56,7 @@ class History(models.Model):
     event               = models.PositiveSmallIntegerField(choices=EVENTS, default=ADD)
     actor               = models.ForeignKey(User)
     date                = models.DateTimeField(auto_now_add=True)
-    observations        = models.CharField(max_length=2000, blank=True)
+    observations        = models.CharField(max_length=2000, null=True, blank=True)
 
     # generic foreign key that refers to the object related to this action
     object_type         = models.ForeignKey(ContentType)
