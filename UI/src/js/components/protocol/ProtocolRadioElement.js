@@ -18,7 +18,7 @@ class ProtocolRadioElement extends Component {
             var option = this.props.options[i];
             console.log(this.props.options);
             options.push(
-                <label class="btn btn-secondary" onClick={() => this.handleOptionChange(option.option)} >
+                <label className="btn btn-secondary" onClick={() => this.handleOptionChange(option.option)} >
                     <input type="radio"/> {option.option}
                 </label>
             );

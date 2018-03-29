@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "font-awesome": "^4.7.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
+    "react-cookie": "^2.1.4",
     "react-dom": "^16.2.0",
+    "react-html-parser": "^2.0.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "0.9.5",
-    "react-table": "^6.7.6"
+    "react-table": "^6.7.6",
+    "reflux": "^6.4.1"
   },
   "devDependencies": {},
   "scripts": {

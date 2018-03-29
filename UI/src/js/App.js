@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import '../css/app.css';
-import Header from './components/Header.js';
-import Footer from './components/Footer.js';
-import Routes from './components/Routes.js';
+import Header from './components/globalComponents/Header.js';
+import Footer from './components/globalComponents/Footer.js';
+import Routes from './components/globalComponents/Routes.js';
 import {BrowserRouter as Router} from "react-router-dom";
 
 class App extends Component {

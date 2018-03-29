@@ -28,6 +28,7 @@ urlpatterns = [
 
     #Api
     url(r'^api/account/', include('accounts.urls')),
+    url(r'^api/utils/', include('utils.urls')),
     #...
 
     #Admin

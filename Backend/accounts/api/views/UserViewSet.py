@@ -86,7 +86,10 @@ class UserViewSet(viewsets.ModelViewSet):
                     request.user.set_password(password)
                     request.user.save()
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            result = serializer.data
+            result['authenticated'] = True
+
+            return Response(result, status=status.HTTP_200_OK)
         else:
             return Response({'authenticated': False}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -105,7 +108,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({
                     'email': email,
                     'available': False
-                }, status=status.HTTP_400_BAD_REQUEST)
+                })
             except User.DoesNotExist:
                 return Response({
                     'email': email,
@@ -114,7 +117,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response({
             'error': "Email is mandatory field to check if email is free"
-        }, status=status.HTTP_400_BAD_REQUEST)
+        })
 
     @list_route(methods=['post'])
     def activateUser(self, request):
@@ -145,16 +148,16 @@ class UserViewSet(viewsets.ModelViewSet):
 
                 return Response({
                     'error': 'User already activated'
-                }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+                })
 
             except User.DoesNotExist:
                 return Response({
                     'error': "Can't activate user, %s it doesn't exist" % email
-                }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+                })
 
         return Response({
             'error': "Invalid or not authorized request"
-        }, status=status.HTTP_401_UNAUTHORIZED)
+        })
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def register(self, request):
@@ -234,10 +237,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
             return Response({
                 'error': "An user with this email does not exist."
-            }, status.HTTP_400_BAD_REQUEST)
+            })
         return Response({
             'error': "Email is a mandatory field when a password is recover."
-        }, status.HTTP_400_BAD_REQUEST)
+        })
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def changePassword(self, request):
@@ -264,11 +267,11 @@ class UserViewSet(viewsets.ModelViewSet):
             except (UserRecovery.DoesNotExist, AttributeError):
                 return Response({
                     'error': "Either the request does not exist, or it has expired."
-                }, status=status.HTTP_400_BAD_REQUEST)
+                })
 
         return Response({
             'error': "This request is not valid."
-        }, status=status.HTTP_400_BAD_REQUEST)
+        })
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def login(self, request):
@@ -295,22 +298,22 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({
                     'authenticated': False,
                     'error': 'This login username and password are invalid'
-                }, status=status.HTTP_400_BAD_REQUEST)
+                })
 
-            #user = authenticate(username=username, password=password)
-            if user.check_password(password):
+            user = authenticate(username=username, password=password)
+            if user != None:#.check_password(password):
                 if user.is_active:
                     login(request, user)
                 else:
                     return Response({
                         'authenticated': False,
                         'error': 'This account is disabled. This may be because of you are waiting approval.If this is not the case, please contact the administrator'
-                    }, status=status.HTTP_401_UNAUTHORIZED)
+                    })
             else:
                 return Response({
                     'authenticated': False,
                     'error': 'This login username and password are invalid'
-                }, status=status.HTTP_400_BAD_REQUEST)
+                })
 
         return self.personalAccountDetails(request)
 
@@ -321,4 +324,4 @@ class UserViewSet(viewsets.ModelViewSet):
         '''
         logout(request)
 
-        return Response({'authenticated': False}, status.HTTP_200_OK)
+        return Response({'authenticated': False})

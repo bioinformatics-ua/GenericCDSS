@@ -25,7 +25,16 @@ SECRET_KEY = '5xl1*t=-qz1a)+*)#3zo$1+v_n)#dz8d72jco80w48dco3)gt)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+    #'.127.0.0.1',  # Allow domain and subdomains
+    #'.127.0.0.1.',  # Also allow FQDN and subdomains,
+    #'localhost'
+
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 ADMINS = (
     ('Joao Rafael Almeida', 'joao.rafael.almeida@ua.pt'),
@@ -59,6 +68,7 @@ INSTALLED_APPS = [
     'constance.backends.database',
 
     'rest_framework',
+    'corsheaders',
     'django_filters',
     #'rest_framework_swagger',
     #'oauth2_provider',
@@ -66,6 +76,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -159,6 +170,9 @@ USE_L10N = True
 USE_TZ = True
 
 
+SESSION_COOKIE_NAME = os.environ.get('SESSION_COOKIE_NAME', 'genericcdss')
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -172,11 +186,12 @@ AUTHENTICATION_BACKENDS = (
 GLOBALS = {
     'SITE_NAME': SITE_NAME,
     'COPYRIGHT': "Bioinformatics.UA, UA",
-    'FOOTER_EXTRA': """
-                    <!-- EXTRA HTML FOOTER CODE HERE -->
-                    <small id="supportability">This website is optimised to Safari, Chrome, Firefox, Opera and IE9+.
-                    <!--It runs in IE7-IE8, but it has low performance and no enhanced features.--></small>
-                   """
+    'FOOTER_EXTRA': """<a href='http://www.ua.pt/'>
+                    <img style='margin-left:20px' src='https://emif-catalogue.eu/taska/static/images/logo-ua2.png'>
+                    </a>""",
+    'APP_SYMBOL':"""
+                    <img style='margin-left:20px' src='static/NOTFOUND'>
+                 """
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
@@ -185,11 +200,12 @@ CONSTANCE_CONFIG = {
     'copyright': (GLOBALS['COPYRIGHT'], 'Text to show as copyright'),
     'copyrightsplash': ('<a target="_blank" href="http://bioinformatics.ua.pt/">Bioinformatics, UA.</a>', 'Text to show as copyright on splash screen'),
     'footer_extra': (GLOBALS['FOOTER_EXTRA'], 'Extra HTML to be shown besides the footer'),
+    'app_symbol': (GLOBALS['APP_SYMBOL'], 'Image used to represent the system (Logo)'),
     'site_name': (GLOBALS['SITE_NAME'], 'Website title')
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'General Options': ('site_name', 'footer_extra', 'copyrightsplash', 'copyright'),
+    'General Options': ('site_name', 'footer_extra', 'app_symbol', 'copyrightsplash', 'copyright'),
 }
 
 JET_DEFAULT_THEME = 'light-blue'
