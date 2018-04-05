@@ -1,8 +1,9 @@
 import Reflux from 'reflux';
-import API from '../Axios.js';
+import API from '../API.js';
+import {StateActions} from './StateReflux.js';
+import History from '../components/globalComponents/History.js';
 
-const authURL = 'account';
-const UserActions = Reflux.createActions(['login', 'logout', 'loginSuccess', 'loginFailed']);
+const UserActions = Reflux.createActions(['login', 'logout', 'loginSuccess', 'loginFailed', 'getUserData']);
 
 class UserStore extends Reflux.Store {
     constructor() {
@@ -16,42 +17,53 @@ class UserStore extends Reflux.Store {
     }
 
     onLogin(user, password, remember) {
-        API.post(authURL + "/login/",  {
+        StateActions.loadingStart();
+        API.POST("account", "login", {
             "username": user,
             "password": password,
-            "remember":remember
+            "remember": remember
         }).then(res => {
+            UserActions.loginSuccess(res.data, res.data["authenticated"]);
+        })
+    }
 
-                console.log(res)
-                const authenticated = res.data["authenticated"];
-                const token = res.config.headers["csrftoken"];
-                UserActions.loginSuccess(res.data, authenticated, token);
+    onGetUserData() {
+        StateActions.loadingStart();
+        API.GET("account", "personalAccountDetails")
+            .then(res => {
+                this.setState({
+                    authenticated: res.data["authenticated"],
+                    user: res.data
+                });
+                this.trigger();
+                StateActions.loadingEnd();
             })
     }
 
     onLogout() {
-        API.get(authURL + "/logout/")
+        API.GET("account", "logout")
             .then(res => {
-                const authenticated = res.data["authenticated"];
-                this.setState({authenticated: authenticated});
+                this.setState({authenticated: res.data["authenticated"]});
+                History.push('/');
             })
     }
 
-    onLoginSuccess(data, authenticated, token){
-        if(authenticated === false){
+    onLoginSuccess(data, authenticated) {
+        if (authenticated === false) {
             UserActions.loginFailed();
         } else {
-            sessionStorage.setItem('token', token);
             this.setState({
-                    authenticated: authenticated,
-                    failed: !authenticated,
-                    user: data
-                });
+                authenticated: authenticated,
+                failed: !authenticated,
+                user: data
+            });
+            History.push('/home');
         }
         this.trigger();
+        StateActions.loadingEnd();
     }
 
-    onLoginFailed(){
+    onLoginFailed() {
         this.setState({failed: true});
         this.trigger();
     }

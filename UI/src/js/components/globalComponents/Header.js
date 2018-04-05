@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import NavigationBar from './NavigationBar.js';
-import API from '../../Axios.js';
+import API from '../../API.js';
 import ReactHtmlParser from 'react-html-parser';
-
-const headerURL = 'utils/header';
 
 class Header extends Component {
     constructor(props) {
@@ -15,20 +13,21 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        API.get(headerURL)
+        API.GET("header")
             .then(res => {
-                const appSymbol = res.data["appSymbol"];
-                this.setState({appSymbol});
+                if (this.refs.header)
+                    this.setState({appSymbol: res.data["appSymbol"]});
             })
     }
 
     render() {
         return (
-            <div className="Header">
+            <div ref="header" className="Header">
                 <nav className="navbar navbar-inverse">
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <button type="button" className="navbar-toggle" data-toggle="collapse"
+                                    data-target="#myNavbar">
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>

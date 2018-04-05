@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProtocolElement from './ProtocolElement.js';
 import ProtocolRadioElement from './ProtocolRadioElement.js';
+import PatientInfo from '../patient/PatientInfo.js';
 
 class Protocol extends Component {
     constructor(props) {
@@ -143,9 +144,6 @@ class Protocol extends Component {
             next: null
         }];
 
-        console.log(this.state);
-
-
         let items = [];
         let stateItems = [];
         for (let index = 0; index < this.state.items.length; index++)
@@ -172,8 +170,8 @@ class Protocol extends Component {
         }
         return (
             <div className="Protocol">
-                <h2>Protocolo para o paciente {params.object}</h2>
-                    {items}
+                <PatientInfo patientID={params.object} />
+                <div className="ProtocolExecution">{items}</div>
             </div>
         );
     }

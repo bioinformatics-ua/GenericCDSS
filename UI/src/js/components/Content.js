@@ -1,57 +1,45 @@
 import React, {Component} from 'react';
+import Reflux from 'reflux';
 import ReactTable from 'react-table'
 import "react-table/react-table.css";
 import { Link } from "react-router-dom";
+import { PatientStore, PatientActions } from '../reflux/PatientReflux.js';
 
-class Content extends Component {
+class Content extends Reflux.Component {
+    constructor(props) {
+        super(props);
+        this.store = PatientStore;
+    }
+
+    componentDidMount(){
+        PatientActions.load();
+    }
+
     render() {
-
-        const data = [{
-            name: 'João Almeida',
-            age: 24,
-            room: 101
-        },{
-            name: 'Maria Ferreia',
-            age: 26,
-            room: 102
-        },{
-            name: 'Marta Pereira',
-            age: 35,
-            room: 103
-        },{
-            name: 'José Oliveira',
-            age: 45,
-            room: 104
-        },{
-            name: 'Sofia Alves',
-            age: 26,
-            room: 105
-        },{
-            name: 'Ana Rodrigues',
-            age: 29,
-            room: 106
-        }];
-
-        const columns = [{
+        const columns = [ {
             Header: 'Nome',
-            accessor: 'name', // String-based value accessors!
-            Cell: props => <Link to={"protocol/" + props.value}>{props.value}</Link>// Custom cell components!
-        }, {
-            Header: 'Idade',
-            accessor: 'age',
-            Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
-        }, {
+            accessor: 'fullname',
+            Cell: props => <Link to={"protocol/" + props.original.id}>{props.value}</Link>
+        },{
             Header: 'Quarto',
             accessor: 'room',
-            Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+            Cell: props => <span className='number'>{props.value}</span>
         }];
 
-
+        console.log(this.state)
         return (
             <div className="Content">
                 <ReactTable
-                    data={data}
-                    columns={columns}/>
+                    data={this.state.patientList}
+                    columns={columns}
+                    SubComponent={row => {
+                        return (
+                          <div style={{ padding: "20px" }}>
+                              Patient Info or something else (TO DO)
+                          </div>
+                        );
+                      }}
+                />
             </div>
         );
     }

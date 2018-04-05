@@ -1,29 +1,27 @@
 import React, {Component} from 'react';
 import '../../../css/app.css';
-import API from '../../Axios.js';
+import API from '../../API.js';
 import ReactHtmlParser from 'react-html-parser';
-
-const footerURL = 'utils/footer';
 
 class Footer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            footer: ""
+            footer: undefined
         };
     }
 
     componentDidMount() {
-        API.get(footerURL)
+        API.GET("footer")
             .then(res => {
-                const footer = res.data["footer"];
-                this.setState({footer});
+                if(this.refs.footer)
+                    this.setState({footer:res.data["footer"]});
             })
     }
 
     render() {
         return (
-            <div className="Footer">
+            <div ref="footer" className="Footer">
                 <footer>
                     {ReactHtmlParser(this.state.footer)}
                 </footer>

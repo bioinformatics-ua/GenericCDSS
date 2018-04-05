@@ -1,3 +1,3 @@
-from .AssignedProtocol import AssignedProtocol
-from .Protocol import Protocol
 from .Schedule import Schedule
+from .Protocol import Protocol
+from .AssignedProtocol import AssignedProtocol

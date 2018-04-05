@@ -1,4 +1,4 @@
-import API from '../../Axios.js';
+import API from '../../API.js';
 
 const authURL = 'account';
 

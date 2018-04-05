@@ -64,7 +64,7 @@ class UserViewSet(viewsets.ModelViewSet):
         '''
         return super(UserViewSet, self).partial_update(request, *args, **kwargs)
 
-    @list_route(methods=['get', 'patch'])
+    @list_route(methods=['get', 'patch'], permission_classes=[permissions.AllowAny])
     def personalAccountDetails(self, request):
         '''
         Get personal account details, if logged in.
@@ -91,7 +91,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
             return Response(result, status=status.HTTP_200_OK)
         else:
-            return Response({'authenticated': False}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'authenticated': False})
 
     @list_route(methods=['post'], permission_classes=[permissions.AllowAny])
     def checkEmail(self, request):
@@ -278,43 +278,43 @@ class UserViewSet(viewsets.ModelViewSet):
         '''
         Logs in an user doing case insentitive validation for emails.
         '''
-        if not request.user.is_authenticated():
-            username = request.data.get('username', None)
-            password = request.data.get('password', None)
+        #if request.user.is_authenticated():
+        logout(request) #Stupid try that works
+        username = request.data.get('username', None)
+        password = request.data.get('password', None)
 
-            if request.data.get('remember', False):
-                request.session.set_expiry(sessionExpiringTime())
+        if request.data.get('remember', False):
+            request.session.set_expiry(sessionExpiringTime())
 
-            if username != None:
-                username = username.lower()
+        if username != None:
+            username = username.lower()
 
-            user = None
-            try:
-                if '@' in username:
-                    user = User.objects.get(email=username)
-                else:
-                    user = User.objects.get(username=username)
-            except:
-                return Response({
-                    'authenticated': False,
-                    'error': 'This login username and password are invalid'
-                })
+        user = None
+        try:
+            if '@' in username:
+                user = User.objects.get(email=username)
+            else:
+                user = User.objects.get(username=username)
+        except:
+            return Response({
+                'authenticated': False,
+                'error': 'This login username and password are invalid'
+            })
 
-            user = authenticate(username=username, password=password)
-            if user != None:#.check_password(password):
-                if user.is_active:
-                    login(request, user)
-                else:
-                    return Response({
-                        'authenticated': False,
-                        'error': 'This account is disabled. This may be because of you are waiting approval.If this is not the case, please contact the administrator'
-                    })
+        user = authenticate(username=username, password=password)
+        if user != None:#.check_password(password):
+            if user.is_active:
+                login(request, user)
             else:
                 return Response({
                     'authenticated': False,
-                    'error': 'This login username and password are invalid'
+                    'error': 'This account is disabled. This may be because of you are waiting approval.If this is not the case, please contact the administrator'
                 })
-
+        else:
+            return Response({
+                'authenticated': False,
+                'error': 'This login username and password are invalid'
+            })
         return self.personalAccountDetails(request)
 
     @list_route(methods=['get'])

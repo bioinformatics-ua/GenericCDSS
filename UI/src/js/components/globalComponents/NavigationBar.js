@@ -13,7 +13,7 @@ class NavigationBar extends Reflux.Component {
     logout = event => {
         event.preventDefault();
         UserActions.logout();
-    }
+    };
 
     render() {
         if(this.state.authenticated === false)

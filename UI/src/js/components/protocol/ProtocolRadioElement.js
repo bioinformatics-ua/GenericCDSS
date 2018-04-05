@@ -28,16 +28,16 @@ class ProtocolRadioElement extends Component {
             <div className="panel panel-default">
                 <form className="panel-body" onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label for="exampleInputEmail1">{this.props.label}</label>
+                        <label htmlFor="exampleInputEmail1">{this.props.label}</label>
                         <div className="form-check">
                             <div className="btn-group btn-group-toggle btn-group-justified" data-toggle="buttons">
                                 {/*options*/}
 
-                                <label class="btn btn-secondary" onClick={() => this.handleOptionChange(this.props.options[0].next)} >
+                                <label className="btn btn-secondary" onClick={() => this.handleOptionChange(this.props.options[0].next)} >
                                     <input type="radio"/> {this.props.options[0].option}
                                 </label>
 
-                                <label class="btn btn-secondary" onClick={() => this.handleOptionChange(this.props.options[1].next)} >
+                                <label className="btn btn-secondary" onClick={() => this.handleOptionChange(this.props.options[1].next)} >
                                     <input type="radio"/> {this.props.options[1].option}
                                 </label>
                             </div>

@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "font-awesome": "^4.7.0",
+    "history": "^4.7.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-cookie": "^2.1.4",

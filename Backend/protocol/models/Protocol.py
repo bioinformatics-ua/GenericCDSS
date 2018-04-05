@@ -10,3 +10,5 @@ class Protocol(models.Model):
     created_date    = models.DateTimeField(auto_now_add=True)
     removed         = models.BooleanField(default=False)
     hash            = models.CharField(max_length=50, unique=True)
+
+    #def duplicate (fork)

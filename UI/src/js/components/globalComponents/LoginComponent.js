@@ -10,19 +10,18 @@ class LoginComponent extends Reflux.Component {
         this.store = UserStore;
     }
 
-
     login = event => {
         event.preventDefault();
-        if(this.refs.usr !== "" && this.refs.pwd !== ""){
+        let self = this;
+        if (this.refs.usr !== "" && this.refs.pwd !== "") {
             let username = this.refs.usr.value.trim();
             let password = this.refs.pwd.value.trim();
             let remember = this.refs.rmb.checked;
-            UserActions.login(username, password, remember); //Falta o redirect
+            UserActions.login(username, password, remember);
         }
-    }
+    };
 
     render() {
-        console.log(window);
         return (
             <li className="dropdown">
                 <a href="#" className="dropdown-toggle boldit" data-toggle="dropdown" role="button"
