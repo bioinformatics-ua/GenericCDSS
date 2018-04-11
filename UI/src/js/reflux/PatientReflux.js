@@ -9,18 +9,23 @@ class PatientStore extends Reflux.Store {
         this.listenables = PatientActions;
         this.state = {
             patient: undefined,
-            patientList: []
+            patientList: [],
+            loading: false,
         };
     }
 
-    onLoad(){
+    onLoad() {
+        this.setState({loading: true});
         API.GET("patient")
             .then(res => {
-                this.setState({patientList: res.data["results"]});
+                this.setState({
+                    patientList: res.data["results"],
+                    loading: false
+                });
             })
     }
 
-    onLoadPatient(id){
+    onLoadPatient(id) {
         API.GET("patient", id)
             .then(res => {
                 this.setState({patient: res.data});

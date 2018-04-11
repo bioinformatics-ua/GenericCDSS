@@ -5,7 +5,8 @@ from django.db import models
 
 from patients.models import Patient, CVGroup
 
-class ClinicalVariable(models.Model):
+class CVPatient(models.Model):
+    patient         = models.ForeignKey(Patient)
     group           = models.ForeignKey(CVGroup)
     variable        = models.CharField(max_length=30)
-    description     = models.CharField(max_length=100, blank=True)
+    value           = models.CharField(max_length=30)

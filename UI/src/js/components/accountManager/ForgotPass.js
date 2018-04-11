@@ -4,7 +4,7 @@ class ForgotPassword extends Component {
     render() {
         return (
             <div>
-                Forgot password
+                Forgot password (BUILDING)
             </div>
         )
     }

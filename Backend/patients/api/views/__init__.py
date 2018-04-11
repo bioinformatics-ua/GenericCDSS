@@ -1,1 +1,2 @@
 from .PatientViewSet import PatientViewSet
+from .ClinicalVariablesViewSet import ClinicalVariablesViewSet

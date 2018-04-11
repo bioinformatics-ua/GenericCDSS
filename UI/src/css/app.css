@@ -33,6 +33,11 @@
     z-index: 100;
 }
 
+.Footer {
+    z-index: 100;
+    position: relative;
+}
+
 footer {
     position: fixed;
     bottom: 0;
@@ -66,18 +71,44 @@ footer {
     padding-bottom: 70px;
 }
 
-.user-login{
+.input-group-infos {
+    min-width: 160px;
+    text-align: left;
+}
+
+.user-login {
     min-width: 200px;
 }
-.user-details{
+
+.user-details {
     padding: 10px 10px 0 10px;
 }
-.user-details strong{
+
+.user-details strong {
     font-size: 12px;
 }
-.user-details hr{
+
+.user-details hr {
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 0;
     margin-right: 0;
+}
+
+.profile-img {
+    position: relative;
+    float: left;
+    max-width: 100%;
+    max-height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+input[readonly].enabled {
+    background-color: transparent;
+}
+
+.CVSummary{
+    padding: 20px;
 }

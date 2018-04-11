@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
 import {Route, Switch, Redirect} from "react-router-dom";
-import Content from '../Content.js';
+
 import Home from '../Home.js';
+
+import Patients from '../patient/Patients.js';
+import Patient from '../patient/Patient.js';
+import AddPatient from '../patient/AddPatient.js';
+
 import Protocol from '../protocol/Protocol.js';
+
 import Register from '../accountManager/Register.js';
 import ForgotPassword from '../accountManager/ForgotPass.js';
+
 import http404 from '../errorPages/http404.js';
 import http500 from '../errorPages/http500.js';
 import http0 from '../errorPages/http0.js';
@@ -23,10 +30,6 @@ const PrivateRoute = ({component: Component, ...rest}) => (
 );
 
 class Routes extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         if (!this.props.user)
             return (<Redirect to={{pathname: "/signinup"}}/>);
@@ -38,8 +41,11 @@ class Routes extends Component {
                 <Route path="/signinup" component={Register}/>
 
                 /*private links*/
-                <PrivateRoute authenticated={authenticated} exact path="/home" component={Content}/>
+                <PrivateRoute authenticated={authenticated} exact path="/patients" component={Patients}/>
                 <PrivateRoute authenticated={authenticated} path="/protocol/:object" component={Protocol}/>
+                <PrivateRoute authenticated={authenticated} path="/patient/:object" component={Patient}/>
+
+                <PrivateRoute authenticated={authenticated} path="/add/patient" component={AddPatient}/>
 
                 <Route path="/signinup" component={Register}/>
                 <Route path="/forgotten" component={ForgotPassword}/>

@@ -27,8 +27,8 @@ urlpatterns = [
     #url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
     #Api
-    url(r'^api/account/', include('accounts.urls')),
-    url(r'^api/patient/', include('patients.urls')),
+    url(r'^api/accounts/', include('accounts.urls')),
+    url(r'^api/patients/', include('patients.urls')),
     url(r'^api/utils/', include('utils.urls')),
     #...
 

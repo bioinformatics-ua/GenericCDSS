@@ -10,20 +10,23 @@ const API = axios.create({
 /*
  * The webservices are called using the baseURL + one of these constants
  */
-const footerURL = 'utils/footer';
-const headerURL = 'utils/header';
-const authURL = 'account';
-const patientURL = 'patient';
+const footerURL                 = 'utils/footer';
+const headerURL                 = 'utils/header';
+const authURL                   = 'accounts';
+const patientURL                = 'patients/patient';
+const clinicalvariablesURL      = 'patients/clinicalvariables';
 
 /*
  * Function to retrieve the URL from each module
  */
 const getModuleURL = function (module) {
     switch (module){
-        case "account": return authURL;
-        case "patient": return patientURL;
-        case "footer": return footerURL;
-        case "header": return headerURL;
+        case "account":             return authURL;
+        case "patient":             return patientURL;
+        case "clinicalvariables":   return clinicalvariablesURL;
+        case "footer":              return footerURL;
+        case "header":              return headerURL;
+        default:                    return "";
     }
 };
 

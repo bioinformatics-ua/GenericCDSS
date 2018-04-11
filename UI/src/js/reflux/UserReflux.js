@@ -1,6 +1,5 @@
 import Reflux from 'reflux';
 import API from '../API.js';
-import {StateActions} from './StateReflux.js';
 import History from '../components/globalComponents/History.js';
 
 const UserActions = Reflux.createActions(['login', 'logout', 'loginSuccess', 'loginFailed', 'getUserData']);
@@ -17,7 +16,6 @@ class UserStore extends Reflux.Store {
     }
 
     onLogin(user, password, remember) {
-        StateActions.loadingStart();
         API.POST("account", "login", {
             "username": user,
             "password": password,
@@ -28,7 +26,6 @@ class UserStore extends Reflux.Store {
     }
 
     onGetUserData() {
-        StateActions.loadingStart();
         API.GET("account", "personalAccountDetails")
             .then(res => {
                 this.setState({
@@ -36,7 +33,6 @@ class UserStore extends Reflux.Store {
                     user: res.data
                 });
                 this.trigger();
-                StateActions.loadingEnd();
             })
     }
 
@@ -57,10 +53,9 @@ class UserStore extends Reflux.Store {
                 failed: !authenticated,
                 user: data
             });
-            History.push('/home');
+            History.push('/patients');
         }
         this.trigger();
-        StateActions.loadingEnd();
     }
 
     onLoginFailed() {

@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Reflux from 'reflux';
 import {Link} from "react-router-dom";
-import Auth from './Auth.js';
 import {UserStore, UserActions} from '../../reflux/UserReflux.js';
 
 class LoginComponent extends Reflux.Component {
@@ -12,7 +11,6 @@ class LoginComponent extends Reflux.Component {
 
     login = event => {
         event.preventDefault();
-        let self = this;
         if (this.refs.usr !== "" && this.refs.pwd !== "") {
             let username = this.refs.usr.value.trim();
             let password = this.refs.pwd.value.trim();

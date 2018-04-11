@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Reflux from 'reflux';
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
+import DisplayField from '../reusable/DisplayField.js';
 
 class PatientInfo extends Reflux.Component {
     constructor(props) {
@@ -15,55 +16,28 @@ class PatientInfo extends Reflux.Component {
     render() {
         //Stupid fix, needs to be changed
         if (this.state.patient !== undefined)
-            return (
-                <div className="panel panel-default panel-body PatientInfo">
-                    <h2>Protocolo para o paciente e infos (to do)</h2>
-
-
-
-
-
+            return (<div className="panel panel-default panel-body PatientInfo">
                     <div className="row">
-                    <div className="col-md-6">
-                        <div className="form-group">
-                            <div className="input-group">
-                                <span className="input-group-addon">
-                                    <strong>Start Date</strong>
-                                </span>
-                                <input className="form-control" readOnly value={this.state.patient.fullname}/>
+                        <div className="col-md-2">
+                            <img className="profile-img" alt="Not found"
+                                 src="http://www.attractivepartners.co.uk/wp-content/uploads/2017/06/profile.jpg"/>
+                        </div>
+                        <div className="col-md-10">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <DisplayField label="Primeiro nome" value={this.state.patient.first_name}/>
+                                </div>
+                                <div className="col-md-6">
+                                    <DisplayField label="Último nome" value={this.state.patient.last_name}/>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-                    <div className="col-md-6">
-                        <div className="form-group">
-                            <div className="input-group">
-                                <span className="input-group-addon">
-                                    <strong>End Date</strong>
-                                </span>
-                                <input className="form-control" readOnly value={this.state.patient.fullname}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-                    <p>ID: {this.state.patient.id}</p>
-                    <p>Nome: {this.state.patient.fullname}</p>
-                    <p>Quarto: {this.state.patient.room}</p>
                 </div>
             );
         else
-            return (
-                <div className="panel panel-default panel-body PatientInfo">
-                    <h2>Protocolo para o paciente e infos (to do)</h2>
-                </div>
-            );
+            return (<div className="panel panel-default panel-body PatientInfo"></div>);
     }
 }
 

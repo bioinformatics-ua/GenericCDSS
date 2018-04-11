@@ -9,10 +9,6 @@ import {StateStore} from './reflux/StateReflux.js';
 import History from './components/globalComponents/History.js';
 
 class LoadingBar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div style={{textAlign: "center", marginTop: "50px"}}>
