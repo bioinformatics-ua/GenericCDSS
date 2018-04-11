@@ -8,8 +8,12 @@ class DisplayField extends Component {
                     <span className="input-group-addon input-group-infos">
                         <strong>{this.props.label}</strong>
                     </span>
-                    <input className="form-control enabled" readOnly
-                           value={this.props.value}/>
+                    {
+                        this.props.readOnly ?
+                            <input className="form-control enabled" readOnly value={this.props.value}/>
+                            :
+                            <input className="form-control" onChange={this.props.onChange} value={this.props.value}/>
+                    }
                 </div>
             </div>
         );

@@ -21,7 +21,7 @@ class Footer extends Component {
 
     render() {
         return (
-            <div ref="footer" className="Footer">
+            <div ref="footer" id="footer" className="Footer">
                 <footer>
                     {ReactHtmlParser(this.state.footer)}
                 </footer>

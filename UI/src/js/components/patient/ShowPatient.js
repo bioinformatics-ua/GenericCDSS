@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import PatientInfo from './PatientInfo.js';
 import ClinicalVariables from './ClinicalVariables.js';
 
-class Patient extends Component {
+class ShowPatient extends Component {
     render() {
         let patientID = this.props.match.params.object;
 
         return (
-            <div className="Protocol">
+            <div className="Patient">
                 <h2>Informação do paciente</h2>
-                <PatientInfo patientID={patientID}/>
+                <PatientInfo readOnly={true} patientID={patientID}/>
                 <h2>Dados clínicos</h2>
                 <ClinicalVariables patientID={patientID}/>
             </div>
@@ -17,4 +17,4 @@ class Patient extends Component {
     }
 }
 
-export default Patient;
+export default ShowPatient;

@@ -22,7 +22,7 @@ class Header extends Component {
 
     render() {
         return (
-            <div ref="header" className="Header">
+            <div ref="header" id="header" className="Header">
                 <nav className="navbar navbar-inverse">
                     <div className="container-fluid">
                         <div className="navbar-header">

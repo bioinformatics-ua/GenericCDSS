@@ -8,7 +8,7 @@ class PatientStore extends Reflux.Store {
         super();
         this.listenables = PatientActions;
         this.state = {
-            patient: undefined,
+            patient: {},
             patientList: [],
             loading: false,
         };

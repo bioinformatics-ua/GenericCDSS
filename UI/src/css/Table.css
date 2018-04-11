@@ -17,11 +17,18 @@
     margin: 0;
 }
 
-h3 {
+.h3-table {
     display: inline-block;
     position: absolute;
     left:0;
     right:0;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.h5-table{
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .table-button{

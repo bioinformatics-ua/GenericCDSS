@@ -4,7 +4,7 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import Home from '../Home.js';
 
 import Patients from '../patient/Patients.js';
-import Patient from '../patient/Patient.js';
+import ShowPatient from '../patient/ShowPatient.js';
 import AddPatient from '../patient/AddPatient.js';
 
 import Protocol from '../protocol/Protocol.js';
@@ -43,7 +43,7 @@ class Routes extends Component {
                 /*private links*/
                 <PrivateRoute authenticated={authenticated} exact path="/patients" component={Patients}/>
                 <PrivateRoute authenticated={authenticated} path="/protocol/:object" component={Protocol}/>
-                <PrivateRoute authenticated={authenticated} path="/patient/:object" component={Patient}/>
+                <PrivateRoute authenticated={authenticated} path="/patient/:object" component={ShowPatient}/>
 
                 <PrivateRoute authenticated={authenticated} path="/add/patient" component={AddPatient}/>
 
