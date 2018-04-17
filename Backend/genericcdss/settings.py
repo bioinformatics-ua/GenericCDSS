@@ -46,7 +46,7 @@ ADMIN_CONSOLE_NAME = SITE_NAME + " Admin"
 # Application definition
 
 INSTALLED_APPS = [
-    #'jet.dashboard',
+    'jet.dashboard',
     'jet',
 
     'django.contrib.admin',
@@ -191,7 +191,8 @@ GLOBALS = {
                     </a>""",
     'APP_SYMBOL':"""
                     <img style='margin-left:20px' src='static/NOTFOUND'>
-                 """
+                 """,
+    'LANGUAGE':"a"
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
@@ -201,11 +202,12 @@ CONSTANCE_CONFIG = {
     'copyrightsplash': ('<a target="_blank" href="http://bioinformatics.ua.pt/">Bioinformatics, UA.</a>', 'Text to show as copyright on splash screen'),
     'footer_extra': (GLOBALS['FOOTER_EXTRA'], 'Extra HTML to be shown besides the footer'),
     'app_symbol': (GLOBALS['APP_SYMBOL'], 'Image used to represent the system (Logo)'),
-    'site_name': (GLOBALS['SITE_NAME'], 'Website title')
+    'site_name': (GLOBALS['SITE_NAME'], 'Website title'),
+    'language':(GLOBALS['LANGUAGE'], 'The languge used in the GUI')
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'General Options': ('site_name', 'footer_extra', 'app_symbol', 'copyrightsplash', 'copyright'),
+    'General Options': ('site_name', 'footer_extra', 'app_symbol', 'copyrightsplash', 'copyright','language'),
 }
 
 JET_DEFAULT_THEME = 'light-blue'

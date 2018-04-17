@@ -12,9 +12,11 @@ const API = axios.create({
  */
 const footerURL                 = 'utils/footer';
 const headerURL                 = 'utils/header';
+const languageURL               = 'utils/language';
 const authURL                   = 'accounts';
 const patientURL                = 'patients/patient';
 const clinicalvariablesURL      = 'patients/clinicalvariables';
+const admissionURL      = 'patients/admission';
 
 /*
  * Function to retrieve the URL from each module
@@ -24,8 +26,10 @@ const getModuleURL = function (module) {
         case "account":             return authURL;
         case "patient":             return patientURL;
         case "clinicalvariables":   return clinicalvariablesURL;
+        case "admission":           return admissionURL;
         case "footer":              return footerURL;
         case "header":              return headerURL;
+        case "language":            return languageURL;
         default:                    return "";
     }
 };
@@ -51,6 +55,9 @@ const buildGETPath = function (globalPath, urlPath, extraPath) {
  * Function to build the post webservices path
  */
 const buildPOSTPath = function (globalPath, urlPath) {
+    if (urlPath === undefined || urlPath === null)
+        return globalPath + "/";
+
     return globalPath + "/" + urlPath + "/";
 };
 

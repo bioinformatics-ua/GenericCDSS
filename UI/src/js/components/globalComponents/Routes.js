@@ -3,11 +3,13 @@ import {Route, Switch, Redirect} from "react-router-dom";
 
 import Home from '../Home.js';
 
-import Patients from '../patient/Patients.js';
+import AdmittedPatients from '../patient/AdmittedPatients.js';
+import AllPatients from '../patient/AllPatients.js';
 import ShowPatient from '../patient/ShowPatient.js';
 import AddPatient from '../patient/AddPatient.js';
 
 import Protocol from '../protocol/Protocol.js';
+import AssignProtocolToPatient from '../protocol/AssignProtocolToPatient.js';
 
 import Register from '../accountManager/Register.js';
 import ForgotPassword from '../accountManager/ForgotPass.js';
@@ -41,11 +43,13 @@ class Routes extends Component {
                 <Route path="/signinup" component={Register}/>
 
                 /*private links*/
-                <PrivateRoute authenticated={authenticated} exact path="/patients" component={Patients}/>
+                <PrivateRoute authenticated={authenticated} path="/admittedpatients" component={AdmittedPatients}/>
+                <PrivateRoute authenticated={authenticated} path="/allpatients" component={AllPatients}/>
                 <PrivateRoute authenticated={authenticated} path="/protocol/:object" component={Protocol}/>
                 <PrivateRoute authenticated={authenticated} path="/patient/:object" component={ShowPatient}/>
 
                 <PrivateRoute authenticated={authenticated} path="/add/patient" component={AddPatient}/>
+                <PrivateRoute authenticated={authenticated} path="/assignprotocol/patient" component={AssignProtocolToPatient}/>
 
                 <Route path="/signinup" component={Register}/>
                 <Route path="/forgotten" component={ForgotPassword}/>

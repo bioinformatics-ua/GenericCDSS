@@ -6,7 +6,12 @@ class MyLink extends Component {
         return (
             <Link to={this.props.to}>
                 <i className={"fa " + this.props.icon}></i>
-                <strong>&nbsp;{this.props.label}</strong>
+                {
+                    this.props.bold ?
+                        <strong>&nbsp;{this.props.label}</strong>
+                        :
+                        <span>&nbsp;{this.props.label}</span>
+                }
             </Link>);
     }
 }

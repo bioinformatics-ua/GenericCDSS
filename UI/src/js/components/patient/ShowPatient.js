@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PatientInfo from './PatientInfo.js';
-import ClinicalVariables from './ClinicalVariables.js';
+import PatientComplementInfo from './PatientComplementInfo.js';
 
 class ShowPatient extends Component {
     render() {
@@ -9,9 +9,9 @@ class ShowPatient extends Component {
         return (
             <div className="Patient">
                 <h2>Informação do paciente</h2>
-                <PatientInfo readOnly={true} patientID={patientID}/>
-                <h2>Dados clínicos</h2>
-                <ClinicalVariables patientID={patientID}/>
+                <PatientInfo mode={"show"} patientID={patientID}/>
+                <h2>Complementos</h2>
+                <PatientComplementInfo patientID={patientID}/>
             </div>
         );
     }

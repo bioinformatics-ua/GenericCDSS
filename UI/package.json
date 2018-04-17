@@ -6,7 +6,10 @@
     "axios": "^0.18.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "jquery": "^3.3.1",
+    "rc-tabs": "^9.2.4",
     "react": "^16.2.0",
+    "react-awesome-modal": "^2.0.3",
     "react-bootstrap": "^0.32.1",
     "react-cookie": "^2.1.4",
     "react-dom": "^16.2.0",
@@ -14,8 +17,11 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "0.9.5",
+    "react-select": "^1.2.1",
     "react-table": "^6.7.6",
-    "reflux": "^6.4.1"
+    "reflux": "^6.4.1",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.79.1"
   },
   "devDependencies": {},
   "scripts": {

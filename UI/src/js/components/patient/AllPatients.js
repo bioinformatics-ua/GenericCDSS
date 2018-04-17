@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import Settings from '../../GlobalSettings.js';
 
-class Patients extends Reflux.Component {
+class AllPatients extends Reflux.Component {
     constructor(props) {
         super(props);
         this.store = PatientStore;
@@ -17,27 +17,30 @@ class Patients extends Reflux.Component {
     }
 
     render() {
+        console.log("TO DO Needs fix")
+        console.log(this.state)
         const columns = [{
             Header: () => <h5 className="h5-table">Nome</h5>,
-            accessor: 'fullname',
+            id: "fullname",
+            accessor: obj => obj.fullname,
             Cell: props => <Link to={"patient/" + props.original.id}>{props.value}</Link>
-        }, {
-            Header: <h5 className="h5-table">Quarto</h5>,
-            accessor: 'room',
-            Cell: props => <span className='number'>{props.value}</span>
-        }, {
-            Header: <h5 className="h5-table">to do Última medição</h5>,
-            accessor: 'fullname',
+        }/*,{
+            Header:() =>  <h5 className="h5-table">to do Última medição</h5>,
+            id: "doctorWRONG",
+            accessor: obj => obj.physician.user.fullname,
             Cell: props => <span>{props.value}</span>
         }, {
-            Header: <h5 className="h5-table">to do Próxima medição</h5>,
-            accessor: 'fullname',
+            Header: () => <h5 className="h5-table">to do Próxima medição</h5>,
+            id: "doctor2",
+            accessor: obj => obj.physician.user.fullname,
             Cell: props => <span>{props.value}</span>
         }, {
-            Header: <h5 className="h5-table">to do Médico responsável</h5>,
-            accessor: 'fullname',
+            Header:() =>  <h5 className="h5-table">to do Médico responsável</h5>,
+            id: "doctor",
+            accessor: obj => obj.physician.user.fullname,
             Cell: props => <span>{props.value}</span>
-        }];
+        }*/];
+
 
         return (
             <div className="Content">
@@ -66,4 +69,4 @@ class Patients extends Reflux.Component {
     }
 }
 
-export default Patients;
+export default AllPatients;

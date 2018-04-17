@@ -22,7 +22,7 @@ from history.models import History
 from utils.time import sessionExpiringTime
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.get_queryset().order_by('id')#.all()
+    queryset = User.objects.get_queryset().order_by('id')
     serializer_class = UserSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]

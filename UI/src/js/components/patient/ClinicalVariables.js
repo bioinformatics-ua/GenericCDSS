@@ -3,34 +3,60 @@ import Reflux from 'reflux';
 import {ClinicalVariablesStore, ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
 import CVRepresentationGroup from './CVRepresentationGroup.js';
 
+import Tabs, {TabPane} from 'rc-tabs';
+import TabContent from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+
 class ClinicalVariables extends Reflux.Component {
     constructor(props) {
         super(props);
         this.store = ClinicalVariablesStore;
-        this.buildDataComponents = this.buildDataComponents.bind(this);
+        this.state = {
+            patientID:this.props.patientID
+        }
     }
 
-    buildDataComponents(){
+    buildDataComponents = () => {
         let listOfComponents = [];
-        const receivedList = this.state.data;
+        let receivedList = this.state.headers;
+        receivedList.sort(function (a, b) {
+            return a.index_representation - b.index_representation;
+        });
 
-        for(let index = 0; index < receivedList.length; index++)
-            listOfComponents.push(<CVRepresentationGroup key={index} title={receivedList[index]["component_title"]} content={receivedList[index]["content"]}/>);
+        for (let index = 0; index < receivedList.length; index++) {
+            let content = this.state.data.filter(function (obj) {
+                return obj.group == receivedList[index]["title"];
+            });
+            listOfComponents.push(<TabPane tab={receivedList[index]["title"]} key={(index + 1)}><br/>
+                <CVRepresentationGroup headers={receivedList[index]["clinical_variables"]}
+                                       content={content !== undefined ? content[0].content: undefined}
+                                       title={receivedList[index]["title"]}
+                                       key={index}
+                                       patientID={this.state.patientID}/>
+            </TabPane>);
+        }
 
         return listOfComponents;
-    }
+    };
 
     componentDidMount() {
-        ClinicalVariablesActions.load(this.props.patientID);
+        ClinicalVariablesActions.load(this.state.patientID);
     }
 
     render() {
-        if (this.state.data !== undefined) { //Stupid fix, needs to be changed
-            let listOfComponents = this.buildDataComponents();
-            return (<div>{listOfComponents}</div>);
-        }
-        else
-            return (<div className="panel panel-default panel-body ClinicalVariables"></div>);
+        let listOfComponents = this.buildDataComponents();
+        return (
+            <div>
+                <Tabs
+                    defaultActiveKey="1"
+                    renderTabBar={() => <ScrollableInkTabBar />}
+                    renderTabContent={() => <TabContent />}
+                >
+                    {listOfComponents}
+                </Tabs>
+            </div>
+
+        );
     }
 }
 

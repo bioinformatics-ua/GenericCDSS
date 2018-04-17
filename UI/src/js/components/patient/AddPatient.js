@@ -2,44 +2,44 @@ import React from 'react';
 import Reflux from 'reflux';
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import PatientInfo from './PatientInfo.js';
-import DisplayField from '../reusable/DisplayField.js';
+import Select from 'react-select';
 
 class AddPatient extends Reflux.Component {
     constructor(props) {
         super(props);
         this.store = PatientStore;
-        this.state = {value: ''};
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+            selectedPatient: undefined
+        }
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    componentDidMount() {
+        PatientActions.loadDischargedPatients();
     }
 
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
-    }
+    handleChange = (selectedPatient) => {
+        if(selectedPatient === null)
+            selectedPatient = undefined;
+        this.setState({selectedPatient});
+    };
 
     render() {
+        let mode = this.state.selectedPatient === undefined ? "add": "show";
+        let patientID = this.state.selectedPatient === undefined ? undefined: this.state.selectedPatient.value;
+
         return (
             <div className="AddPatient">
                 <h2>Introduzir paciente</h2>
-
-
-
-                <PatientInfo readOnly={false}/>
-
-
-                <form onSubmit={this.handleSubmit}>
-
-                    <DisplayField readOnly={false} label={"Nome"} value={this.state.value} onChange={this.handleChange}/>
-
-                    <input type="submit" value="Submit"/>
-                </form>
-
+                <Select
+                    placeholder="Procurar pelo paciente no sistema"
+                    className="Select"
+                    name="form-field-name"
+                    value={this.state.selectedPatient}
+                    onChange={this.handleChange}
+                    options={this.state.patientListKeyValue}
+                />
+                <br/>
+                <PatientInfo patientID={patientID} mode={mode}/>
             </div>
         );
     }

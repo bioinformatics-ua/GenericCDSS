@@ -20,3 +20,10 @@ class Profile(models.Model):
 
     def __unicode__(self):
         return u"User profile for %s" % self.user
+
+    @staticmethod
+    def getAllPhysicians():
+        '''
+        Returns all the physicians
+        '''
+        return Profile.objects.all().filter(role=Profile.PHYSICIAN)

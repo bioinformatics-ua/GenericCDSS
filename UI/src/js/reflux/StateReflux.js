@@ -1,13 +1,17 @@
 import Reflux from 'reflux';
 
-const StateActions = Reflux.createActions(['loadingStart', 'loadingEnd']);
+const StateActions = Reflux.createActions(['loadingStart', 'loadingEnd', 'closeModal', 'openModal']);
 
 class StateStore extends Reflux.Store {
     constructor() {
         super();
         this.listenables = StateActions;
         this.state = {
-            loading: true
+            loading: true,
+            modalVisible: false,
+            modalHeader: undefined,
+            modalContent: undefined,
+            modalFooter: undefined,
         };
     }
 
@@ -18,6 +22,26 @@ class StateStore extends Reflux.Store {
 
     onLoadingEnd() {
         this.setState({loading: false});
+        this.trigger();
+    }
+
+    onCloseModal() {
+        this.setState({
+            modalVisible: false,
+            modalHeader: undefined,
+            modalContent: undefined,
+            modalFooter: undefined,
+        });
+        this.trigger();
+    }
+
+    onOpenModal(modalHeader, modalContent, modalFooter) {
+        this.setState({
+            modalVisible: true,
+            modalHeader:modalHeader,
+            modalContent: modalContent,
+            modalFooter:modalFooter
+        });
         this.trigger();
     }
 }
