@@ -2,6 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import PatientInfo from './PatientInfo.js';
+import PatientComplementInfo from './PatientComplementInfo.js';
 import Select from 'react-select';
 
 class AddPatient extends Reflux.Component {
@@ -18,14 +19,14 @@ class AddPatient extends Reflux.Component {
     }
 
     handleChange = (selectedPatient) => {
-        if(selectedPatient === null)
+        if (selectedPatient === null)
             selectedPatient = undefined;
         this.setState({selectedPatient});
     };
 
     render() {
-        let mode = this.state.selectedPatient === undefined ? "add": "show";
-        let patientID = this.state.selectedPatient === undefined ? undefined: this.state.selectedPatient.value;
+        let mode = this.state.selectedPatient === undefined ? "add" : "show";
+        let patientID = this.state.selectedPatient === undefined ? undefined : this.state.selectedPatient.value;
 
         return (
             <div className="AddPatient">
@@ -40,6 +41,13 @@ class AddPatient extends Reflux.Component {
                 />
                 <br/>
                 <PatientInfo patientID={patientID} mode={mode}/>
+                {
+                    this.state.selectedPatient === undefined ? '' :
+                        <span>
+                            <h2>Complementos</h2>
+                            <PatientComplementInfo patientID={patientID}/>
+                        </span>
+                }
             </div>
         );
     }

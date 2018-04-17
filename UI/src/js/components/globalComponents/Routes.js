@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Route, Switch, Redirect} from "react-router-dom";
 
-import Home from '../Home.js';
+import Home from '../dynamicPages/Home.js';
+import Help from '../dynamicPages/Help.js';
+import About from '../dynamicPages/About.js';
 
 import AdmittedPatients from '../patient/AdmittedPatients.js';
 import AllPatients from '../patient/AllPatients.js';
@@ -17,6 +19,7 @@ import ForgotPassword from '../accountManager/ForgotPass.js';
 import http404 from '../errorPages/http404.js';
 import http500 from '../errorPages/http500.js';
 import http0 from '../errorPages/http0.js';
+
 
 const PrivateRoute = ({component: Component, ...rest}) => (
     <Route {...rest} render={props => (
@@ -41,6 +44,8 @@ class Routes extends Component {
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/signinup" component={Register}/>
+                <Route path="/help" component={Help}/>
+                <Route path="/about" component={About}/>
 
                 /*private links*/
                 <PrivateRoute authenticated={authenticated} path="/admittedpatients" component={AdmittedPatients}/>

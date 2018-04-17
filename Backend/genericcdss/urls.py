@@ -24,7 +24,8 @@ urlpatterns = [
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
 
     url(r'^api-auth/', include('rest_framework.urls')),
-    #url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+
+    url(r'^pages/', include('django.contrib.flatpages.urls')),
 
     #Api
     url(r'^api/accounts/', include('accounts.urls')),

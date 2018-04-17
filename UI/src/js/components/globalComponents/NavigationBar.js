@@ -1,6 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
-import MyLink from "../globalComponents/MyLink.js";
+import MyLink from "../reusable/MyLink.js";
 import {Link} from "react-router-dom";
 import LoginComponent from './LoginComponent.js';
 import {UserStore, UserActions} from '../../reflux/UserReflux.js';
@@ -55,14 +55,17 @@ class NavigationBar extends Reflux.Component {
                             <li className="user-details">
                                 <strong>Email:</strong><br /> {this.state.user.email}
                                 <hr />
-                                <strong>Last Login:</strong><br /> {this.state.user.last_login}
+                                <strong>último login:</strong><br /> {this.state.user.last_login}
                             </li>
                             <li className="divider"></li>
                             <li>
-                                <Link to="profile"><i className="fa fa-pencil-square-o"></i> Edit Profile</Link>
+                                <Link to="/profile"><i className="fa fa-pencil-square-o"></i> Editar perfil</Link>
                             </li>
                             <li>
-                                <Link to='help'><i className="fa fa-question-circle"></i> Help</Link>
+                                <Link to='/about'><i className="fa fa-info-circle"></i> Sobre</Link>
+                            </li>
+                            <li>
+                                <Link to='/help'><i className="fa fa-question-circle"></i> Ajuda</Link>
                             </li>
                             <li className="divider"></li>
                             <li><a onClick={this.logout}><i className="fa fa-sign-out"></i>

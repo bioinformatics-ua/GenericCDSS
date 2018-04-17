@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
 from constance import config
+from django.contrib.flatpages.models import FlatPage
 
 class ConstanceView(viewsets.ViewSet):
     permission_classes = (AllowAny,)

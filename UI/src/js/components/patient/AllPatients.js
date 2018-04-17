@@ -62,7 +62,6 @@ class AllPatients extends Reflux.Component {
                             pageSizeOptions={[Settings.getPatientTableRows(), 50, 100]}/>
 
                     </div>
-
                 </div>
             </div>
         );

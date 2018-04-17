@@ -13,10 +13,13 @@ const API = axios.create({
 const footerURL                 = 'utils/footer';
 const headerURL                 = 'utils/header';
 const languageURL               = 'utils/language';
+const aboutURL                  = 'utils/about';
+const helpURL                   = 'utils/help';
+const homeURL                   = 'utils/home';
 const authURL                   = 'accounts';
 const patientURL                = 'patients/patient';
 const clinicalvariablesURL      = 'patients/clinicalvariables';
-const admissionURL      = 'patients/admission';
+const admissionURL              = 'patients/admission';
 
 /*
  * Function to retrieve the URL from each module
@@ -30,6 +33,9 @@ const getModuleURL = function (module) {
         case "footer":              return footerURL;
         case "header":              return headerURL;
         case "language":            return languageURL;
+        case "about":               return aboutURL;
+        case "help":                return helpURL;
+        case "home":                return homeURL;
         default:                    return "";
     }
 };

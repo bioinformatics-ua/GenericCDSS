@@ -67,12 +67,12 @@ INSTALLED_APPS = [
 	'constance',
     'constance.backends.database',
 
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+
     'rest_framework',
     'corsheaders',
-    'django_filters',
-    #'rest_framework_swagger',
-    #'oauth2_provider',
-    #'corsheaders'
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -84,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
     #'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -169,6 +170,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 SESSION_COOKIE_NAME = os.environ.get('SESSION_COOKIE_NAME', 'genericcdss')
 

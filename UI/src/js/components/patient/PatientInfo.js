@@ -41,11 +41,11 @@ class PatientInfo extends Reflux.Component {
         return (
             <div className="panel panel-default panel-body PatientInfo">
                 <div className="row">
-                    <div className="col-md-2">
+                    {/*<div className="col-md-2">
                         {<img className="profile-img" alt="Not found"
                               src="http://www.attractivepartners.co.uk/wp-content/uploads/2017/06/profile.jpg"/>}
-                    </div>
-                    <div className="col-md-10">
+                    </div>*/}
+                    <div className="col-md-12">
                         <div className="row">
                             <div className="col-md-6">
                                 <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Nome"}

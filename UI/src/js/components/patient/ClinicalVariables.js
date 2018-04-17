@@ -16,6 +16,13 @@ class ClinicalVariables extends Reflux.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.patientID !== this.props.patientID) {
+            ClinicalVariablesActions.load(this.props.patientID);
+            this.setState({patientID: this.props.patientID});
+        }
+    }
+
     buildDataComponents = () => {
         let listOfComponents = [];
         let receivedList = this.state.headers;
@@ -45,6 +52,7 @@ class ClinicalVariables extends Reflux.Component {
 
     render() {
         let listOfComponents = this.buildDataComponents();
+        console.log(this.state)
         return (
             <div>
                 <Tabs
