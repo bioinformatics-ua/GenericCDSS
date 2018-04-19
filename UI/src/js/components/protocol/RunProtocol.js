@@ -11,33 +11,31 @@ class Protocol extends Component {
             atualComponent: 1,
             items: []
         };
-
-        this.setAtualComponent = this.setAtualComponent.bind(this);
     }
 
-    search(nameKey, myArray){
+    search = (nameKey, myArray) => {
         for (var i=0; i < myArray.length; i++) {
             if (myArray[i].componentId === nameKey) {
                 return myArray[i];
             }
         }
-    }
+    };
 
-    setAtualComponent(componentId, componentPosition){
+    setAtualComponent = (componentId, componentPosition) => {
         this.setState({
             atualComponent: componentId,
             lastComponent:componentPosition
         });
-    }
+    };
 
-    addComponentToItems(component, items, position){
+    addComponentToItems = (component, items, position) => {
         switch(component.type)
         {
             case "choice": items.push(<ProtocolRadioElement componentPosition={position} label={component.label} options={component.options} next={this.setAtualComponent}/>); break;
             case "action": items.push(<ProtocolElement componentPosition={position}  label={component.label} options={component.next} next={this.setAtualComponent}/>); break;
             default: break;
         }
-    }
+    };
 
     render() {
         let params = this.props.match.params;

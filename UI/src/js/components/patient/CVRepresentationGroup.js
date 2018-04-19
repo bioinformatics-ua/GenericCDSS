@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Button, Checkbox, Icon, Table} from 'semantic-ui-react';
 import ReactTable from 'react-table';
 import {StateActions} from '../../reflux/StateReflux.js';
 import {ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
@@ -150,9 +149,9 @@ class CVRepresentationGroup extends Component {
                     defaultPageSize={5}
                     filterable
                     loading={this.state.loading}
-                    sorted={[{
+                    defaultSorted={[{
                         id: 'measure_date',
-                        desc: true
+                        desc: true,
                     }]}/>
 
                 <div className="CVRepresentationGroup-buttons-controler pull-right">

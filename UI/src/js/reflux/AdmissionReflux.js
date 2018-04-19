@@ -1,7 +1,11 @@
 import Reflux from 'reflux';
 import API from '../API.js';
 
-const AdmissionActions = Reflux.createActions(['load']);
+const AdmissionActions = Reflux.createActions([
+    'load',
+    'admitPatient',
+    'dischargePatient'
+]);
 
 class AdmissionStore extends Reflux.Store {
     constructor(props) {
@@ -22,6 +26,23 @@ class AdmissionStore extends Reflux.Store {
                     loading: false
                 });
             })
+    }
+
+    onDischargePatient(id) {
+        API.POST("admission", "discharge", {patientID: id});
+    }
+
+    onAdmitPatient(patientID, seletedProtocols) {
+        this.setState({loading: true});
+        API.POST("admission", "new", {
+            patientID: patientID,
+            seletedProtocols: seletedProtocols
+        }).then(res => {
+            this.setState({
+                patientList: res.data["results"],
+                loading: false
+            });
+        })
     }
 
 }

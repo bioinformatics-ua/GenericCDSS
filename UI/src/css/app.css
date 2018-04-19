@@ -33,6 +33,15 @@
     z-index: 1000;
 }
 
+.Home{
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: auto;
+    bottom: 0px;
+    height: 100%;
+}
+
 .Footer {
     z-index: 1000;
     position: relative;
@@ -149,7 +158,16 @@ input[readonly].enabled {
     background-color: #4a5758;
 }
 
+.react-date-picker__calendar,
+.react-date-picker__calendar--open,
+.react-calendar{
+    z-index: 200;
+}
 
+.btn-xxs {
+    font-size: 12px;
+    line-height: 1;
+}
 
 
 

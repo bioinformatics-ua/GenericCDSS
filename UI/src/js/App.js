@@ -5,7 +5,7 @@ import Footer from './components/globalComponents/Footer.js';
 import Routes from './components/globalComponents/Routes.js';
 import {Router} from "react-router-dom";
 import {UserStore, UserActions} from './reflux/UserReflux.js';
-import {StateStore, StateActions} from './reflux/StateReflux.js';
+import {StateStore} from './reflux/StateReflux.js';
 import History from './components/globalComponents/History.js';
 import Modal from 'react-awesome-modal';
 
@@ -47,7 +47,7 @@ class App extends Reflux.Component {
                     <Modal
                         visible={this.state.modalVisible}
                         width="50%"
-                        height="50%"
+                        height="60%"
                         effect="fadeInUp"
                         onClickAway={this.closeModal}
                     >

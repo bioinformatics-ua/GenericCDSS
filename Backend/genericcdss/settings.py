@@ -194,7 +194,7 @@ GLOBALS = {
     'APP_SYMBOL':"""
                     <img style='margin-left:20px' src='static/NOTFOUND'>
                  """,
-    'LANGUAGE':"a"
+    'LANGUAGE':"pt - to do"
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'

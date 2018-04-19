@@ -10,10 +10,13 @@ import AllPatients from '../patient/AllPatients.js';
 import ShowPatient from '../patient/ShowPatient.js';
 import AddPatient from '../patient/AddPatient.js';
 
-import Protocol from '../protocol/Protocol.js';
+import Protocols from '../protocol/Protocols.js';
+import ShowProtocol from '../protocol/ShowProtocol.js';
+import RunProtocol from '../protocol/RunProtocol.js';
 import AssignProtocolToPatient from '../protocol/AssignProtocolToPatient.js';
 
 import Register from '../accountManager/Register.js';
+import Profile from '../accountManager/Profile.js';
 import ForgotPassword from '../accountManager/ForgotPass.js';
 
 import http404 from '../errorPages/http404.js';
@@ -44,20 +47,21 @@ class Routes extends Component {
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/signinup" component={Register}/>
+                <Route path="/profile" component={Profile}/>
+                <Route path="/forgotten" component={ForgotPassword}/>
                 <Route path="/help" component={Help}/>
                 <Route path="/about" component={About}/>
 
                 /*private links*/
                 <PrivateRoute authenticated={authenticated} path="/admittedpatients" component={AdmittedPatients}/>
                 <PrivateRoute authenticated={authenticated} path="/allpatients" component={AllPatients}/>
-                <PrivateRoute authenticated={authenticated} path="/protocol/:object" component={Protocol}/>
+                <PrivateRoute authenticated={authenticated} path="/run/protocol/:object" component={RunProtocol}/>
+                <PrivateRoute authenticated={authenticated} path="/protocols" component={Protocols}/>
                 <PrivateRoute authenticated={authenticated} path="/patient/:object" component={ShowPatient}/>
+                <PrivateRoute authenticated={authenticated} path="/show/protocol/:object" component={ShowProtocol}/>
 
                 <PrivateRoute authenticated={authenticated} path="/add/patient" component={AddPatient}/>
-                <PrivateRoute authenticated={authenticated} path="/assignprotocol/patient" component={AssignProtocolToPatient}/>
-
-                <Route path="/signinup" component={Register}/>
-                <Route path="/forgotten" component={ForgotPassword}/>
+                <PrivateRoute authenticated={authenticated} path="/assignprotocol/:object" component={AssignProtocolToPatient}/>
 
                 <Route name="ConnectionRefused" path="/0" component={http0}/>
                 <Route name="InternalError" path="/500" component={http500}/>

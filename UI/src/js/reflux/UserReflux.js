@@ -53,7 +53,7 @@ class UserStore extends Reflux.Store {
                 failed: !authenticated,
                 user: data
             });
-            History.push('/patients');
+            History.push('/admittedpatients');
         }
         this.trigger();
     }

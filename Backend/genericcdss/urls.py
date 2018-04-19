@@ -30,6 +30,7 @@ urlpatterns = [
     #Api
     url(r'^api/accounts/', include('accounts.urls')),
     url(r'^api/patients/', include('patients.urls')),
+    url(r'^api/protocols/', include('protocol.urls')),
     url(r'^api/utils/', include('utils.urls')),
     #...
 

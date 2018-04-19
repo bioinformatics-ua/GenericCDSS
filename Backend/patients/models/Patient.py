@@ -43,7 +43,19 @@ class Patient(models.Model):
             return "Feminino"
 
     def discharge(self):
+        '''
+        Discharges the patient from the hospital
+        '''
+        # History to do
         self.status = Patient.DISCHARGED
+        self.save()
+
+    def admit(self):
+        '''
+        Patient admission in the hospital
+        '''
+        # History to do
+        self.status = Patient.ADMITTED
         self.save()
 
     @staticmethod

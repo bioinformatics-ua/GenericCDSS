@@ -17,29 +17,22 @@ class AllPatients extends Reflux.Component {
     }
 
     render() {
-        console.log("TO DO Needs fix")
-        console.log(this.state)
         const columns = [{
-            Header: () => <h5 className="h5-table">Nome</h5>,
+            Header: () => <h5 className="h5-table">Nome completo</h5>,
             id: "fullname",
             accessor: obj => obj.fullname,
             Cell: props => <Link to={"patient/" + props.original.id}>{props.value}</Link>
-        }/*,{
-            Header:() =>  <h5 className="h5-table">to do Última medição</h5>,
-            id: "doctorWRONG",
-            accessor: obj => obj.physician.user.fullname,
+        },{
+            Header:() =>  <h5 className="h5-table">Contacto</h5>,
+            id: "contacto",
+            accessor: obj => obj.phone,
             Cell: props => <span>{props.value}</span>
         }, {
-            Header: () => <h5 className="h5-table">to do Próxima medição</h5>,
-            id: "doctor2",
-            accessor: obj => obj.physician.user.fullname,
+            Header: () => <h5 className="h5-table">Email</h5>,
+            id: "email",
+            accessor: obj => obj.email,
             Cell: props => <span>{props.value}</span>
-        }, {
-            Header:() =>  <h5 className="h5-table">to do Médico responsável</h5>,
-            id: "doctor",
-            accessor: obj => obj.physician.user.fullname,
-            Cell: props => <span>{props.value}</span>
-        }*/];
+        }];
 
 
         return (

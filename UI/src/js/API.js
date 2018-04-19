@@ -20,6 +20,8 @@ const authURL                   = 'accounts';
 const patientURL                = 'patients/patient';
 const clinicalvariablesURL      = 'patients/clinicalvariables';
 const admissionURL              = 'patients/admission';
+const protocolURL               = 'protocols/protocol';
+const scheduleURL               = 'protocols/schedule';
 
 /*
  * Function to retrieve the URL from each module
@@ -36,6 +38,8 @@ const getModuleURL = function (module) {
         case "about":               return aboutURL;
         case "help":                return helpURL;
         case "home":                return homeURL;
+        case "protocol":            return protocolURL;
+        case "schedule":            return scheduleURL;
         default:                    return "";
     }
 };

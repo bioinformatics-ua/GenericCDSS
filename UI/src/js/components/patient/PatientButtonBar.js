@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {PatientActions} from '../../reflux/PatientReflux.js';
+import {AdmissionActions} from '../../reflux/AdmissionReflux.js';
+import {ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import History from '../globalComponents/History.js';
 import PatientStatus from './PatientStatus.js';
 
@@ -12,17 +14,19 @@ class PatientButtonBar extends Component {
 
     admitPatient = (event) => {
         event.preventDefault();
-        History.push('/assignprotocol/patient');
+        ProtocolActions.cleanSelectedProtocols();
+        History.push('/assignprotocol/' + this.props.patient.id);
     };
 
     dischargePatient = (event) => {
         event.preventDefault();
-        PatientActions.dischargePatient(this.props.patient.id);
-        History.push('/patients');
+        AdmissionActions.dischargePatient(this.props.patient.id);
+        History.push('/admittedpatients');
     };
 
     render() {
         let patientStatus = this.props.patient.status;
+
         switch (this.props.mode){
             case "show":
                 if(patientStatus === PatientStatus.DISCHARGED)
@@ -59,6 +63,7 @@ class PatientButtonBar extends Component {
                     </div>
                 );
                 //break;
+            case "admitting": return(<div></div>);
 
             default: return(<div></div>);
         }

@@ -5,9 +5,7 @@ const PatientActions = Reflux.createActions([
     'load',
     'loadPatient',
     'loadDischargedPatients',
-    'addPatient',
-    'admitPatient',
-    'dischargePatient'
+    'addPatient'
 ]);
 
 class PatientStore extends Reflux.Store {
@@ -76,15 +74,6 @@ class PatientStore extends Reflux.Store {
 
     onAddPatient() {
         API.POST("patient", null, this.state.patient);
-    }
-
-    onDischargePatient(id) {
-        API.POST("patient", "discharge", {id:id});
-    }
-
-    onAdmitPatient() {
-        console.log("TO DO: Admit Patient Reflux");
-        //API.POST("patient", null, this.state.patient);
     }
 
 }

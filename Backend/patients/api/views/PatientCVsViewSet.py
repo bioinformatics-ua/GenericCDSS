@@ -6,6 +6,7 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
 from django.db import transaction
+from django.utils import timezone
 
 from patients.api.serializers import CVPatientSerializer, CVGroupSerializer, PatientSerializer
 
@@ -14,7 +15,6 @@ from patients.models import CVPatient, CVGroup, ClinicalVariable, Patient
 from history.models import History
 
 from itertools import groupby
-import datetime
 
 class PatientCVsViewSet(viewsets.ModelViewSet):
     queryset = Patient.all(active=True)
@@ -24,8 +24,9 @@ class PatientCVsViewSet(viewsets.ModelViewSet):
         patient = self.get_object()
         return self.buildResponse(patient)
 
+    #Refactor this URGENT
     def buildResponse(self, patient):
-        headers = CVGroup.objects.all()
+        headers = CVGroup.all()
         headerSerialized = CVGroupSerializer(headers, many=True)
 
         results = []
@@ -40,7 +41,8 @@ class PatientCVsViewSet(viewsets.ModelViewSet):
             for cvsInThatDate in cvsSplitedByDate:
                 cvToAddInResponse = {"measure_date": cvsInThatDate[0]["measure_date"].strftime("%Y-%m-%d %H:%M")}
                 for cv in cvsInThatDate:
-                    cvToAddInResponse[cv["variable"]] = cv["value"]
+                    cvName = ClinicalVariable.objects.get(id=cv["variable_id"]).variable
+                    cvToAddInResponse[cvName] = cv["value"]
                 content += [cvToAddInResponse]
 
             obj["content"] = content
@@ -54,12 +56,12 @@ class PatientCVsViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'])
     @transaction.atomic
     def addVariables(self, request, *args, **kwargs):
-        measure_date  = datetime.datetime.now()
+        measure_date  = timezone.now()
         group = CVGroup.objects.get(title=request.data["group"])
         patient = Patient.objects.get(id=request.data["patient"])
 
         for cv in request.data:
-            if(cv != "group" or cv != "patient"):
+            if(cv != "group" and cv != "patient"):
                 variable = cv
                 value = request.data[cv]
                 CVPatient.new(patient, group, variable, value, measure_date)

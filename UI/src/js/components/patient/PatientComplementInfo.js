@@ -28,9 +28,9 @@ class PatientComplementInfo extends Component {
                     <TabPane tab='Dados Clínicos' key="1">
                         <ClinicalVariables patientID={this.state.patientID}/>
                     </TabPane>
-                    <TabPane tab='Tratamentos' key="2">TO DO Tratamentos</TabPane>
-                    <TabPane tab='Protocolos' key="3">TO DO Protocolos</TabPane>
-                    <TabPane tab='Histórico' key="4">TO DO Histórico</TabPane>
+                    <TabPane tab='Tratamentos' key="2">Tratamentos contem uma lista de protocolos executados</TabPane>
+                    <TabPane tab='Protocolos' key="3">Protocolos atribuidos ao paciente</TabPane>
+                    <TabPane tab='Histórico' key="4">Histórico de todas as ações (history backend)</TabPane>
                 </Tabs>
             </div>
         );

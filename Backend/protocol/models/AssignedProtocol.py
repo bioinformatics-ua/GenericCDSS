@@ -5,24 +5,43 @@ from django.db import models
 
 from patients.models import Patient
 
-from protocol.models import Protocol
+from protocol.models import Protocol, Schedule
 
 class AssignedProtocol(models.Model):
-    SIMPLE          = 1
-    MULTI           = 2
-
-    EXECUTION_TYPES = (
-        (SIMPLE,    "The assigned protocol will execute only one time"),
-        (MULTI,     "The assigned protocol will be executed multiple times")
-    )
-
     protocol        = models.ForeignKey(Protocol)
     patient         = models.ForeignKey(Patient)
-    schedule        = models.TimeField()
-    start_date      = models.DateTimeField(auto_now_add=True)
-    finish_date     = models.DateTimeField(null=True)
+    schedule        = models.ForeignKey(Schedule)
+    start_date      = models.DateField()
+    finish_date     = models.DateField(null=True)
     active          = models.BooleanField(default=True)
-    hash            = models.CharField(max_length=50, unique=True)
-    exec_type       = models.PositiveSmallIntegerField(choices=EXECUTION_TYPES, default=SIMPLE)
 
-    #def all
+    @staticmethod
+    def new(protocol, patient, schedule, start_date, end_date):
+        assignedProtocol = AssignedProtocol.objects.create(protocol=protocol,
+                                                           patient=patient,
+                                                           schedule=schedule,
+                                                           start_date=start_date,
+                                                           finish_date=end_date)
+        # History to do
+        assignedProtocol.save()
+
+    @staticmethod
+    def all(active=True, protocol=None, patient=None, schedule=None):
+        '''
+        Returns all assigned protocol instances
+        '''
+        tmpAll = AssignedProtocol.objects.all()
+
+        if active == True:
+            tmpAll = tmpAll.filter(active=True)
+
+        if protocol != True:
+            tmpAll = tmpAll.filter(protocol=protocol)
+
+        if patient != True:
+            tmpAll = tmpAll.filter(patient=patient)
+
+        if schedule != True:
+            tmpAll = tmpAll.filter(schedule=schedule)
+
+        return tmpAll.order_by('start_date')

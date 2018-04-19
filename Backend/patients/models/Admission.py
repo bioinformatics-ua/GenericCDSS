@@ -19,6 +19,14 @@ class Admission(models.Model):
         self.save()
 
     @staticmethod
+    def new(patient, physician):
+        admission = Admission.objects.create(patient=patient,
+                                             physician=physician)
+        patient.admit()
+        # History to do
+        admission.save()
+
+    @staticmethod
     def all(active=None):
         '''
         Returns all admission instances

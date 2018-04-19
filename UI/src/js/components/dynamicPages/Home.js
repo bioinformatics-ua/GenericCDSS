@@ -20,7 +20,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div ref="home" id="home" className="home">
+            <div ref="home" id="home" className="Home">
                     {ReactHtmlParser(this.state.home)}
             </div>
         );

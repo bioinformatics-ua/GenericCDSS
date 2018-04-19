@@ -32,7 +32,7 @@ class ClinicalVariables extends Reflux.Component {
 
         for (let index = 0; index < receivedList.length; index++) {
             let content = this.state.data.filter(function (obj) {
-                return obj.group == receivedList[index]["title"];
+                return obj.group === receivedList[index]["title"];
             });
             listOfComponents.push(<TabPane tab={receivedList[index]["title"]} key={(index + 1)}><br/>
                 <CVRepresentationGroup headers={receivedList[index]["clinical_variables"]}
