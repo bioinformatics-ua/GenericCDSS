@@ -11,3 +11,6 @@ class Protocol(models.Model):
     #hash            = models.CharField(max_length=50, unique=True)
 
     #def duplicate (fork)
+
+    def __unicode__(self):
+        return self.title

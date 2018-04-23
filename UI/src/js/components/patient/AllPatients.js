@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import {Link} from "react-router-dom";
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import Settings from '../../GlobalSettings.js';
+import Status from './PatientStatus.js';
 
 class AllPatients extends Reflux.Component {
     constructor(props) {
@@ -23,11 +24,16 @@ class AllPatients extends Reflux.Component {
             accessor: obj => obj.fullname,
             Cell: props => <Link to={"patient/" + props.original.id}>{props.value}</Link>
         },{
+            Header:() =>  <h5 className="h5-table">Estado</h5>,
+            id: "status",
+            accessor: obj => obj.status,
+            Cell: props => <span>{Status.toString(props.value)}</span>
+        },{
             Header:() =>  <h5 className="h5-table">Contacto</h5>,
             id: "contacto",
             accessor: obj => obj.phone,
             Cell: props => <span>{props.value}</span>
-        }, {
+        },{
             Header: () => <h5 className="h5-table">Email</h5>,
             id: "email",
             accessor: obj => obj.email,
@@ -52,7 +58,11 @@ class AllPatients extends Reflux.Component {
                             defaultPageSize={Settings.getPatientTableRows()}
                             filterable
                             loading={this.state.loading}
-                            pageSizeOptions={[Settings.getPatientTableRows(), 50, 100]}/>
+                            pageSizeOptions={[Settings.getPatientTableRows(), 50, 100]}
+                            defaultSorted={[{
+                                id: 'status',
+                                asc: true,
+                            }]}/>
 
                     </div>
                 </div>

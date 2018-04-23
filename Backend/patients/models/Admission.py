@@ -8,20 +8,45 @@ from accounts.models import Profile
 
 from patients.models import Patient
 
+from protocol.models import AssignedProtocol, ExecutedProtocol
+
 class Admission(models.Model):
     patient         = models.ForeignKey(Patient)
     physician       = models.ForeignKey(Profile, limit_choices_to={'role': Profile.PHYSICIAN})
+    room            = models.CharField(max_length=10, blank=True)
     start_date      = models.DateTimeField(auto_now_add=True)
     end_date        = models.DateTimeField(null=True, blank=True)
 
+    def __unicode__(self):
+        return u"Admission %s - %s" % (self.patient, self.room)
+
     def discharge(self):
+        '''
+        Insert the admission finished date of the patient that was discharged from the hospital
+        '''
+        self.patient.discharge()
         self.end_date = timezone.now()
         self.save()
+        # History to do
+
+    def getLastProtocolAssignedMeasure(self):
+        lastProtocolExecution = ExecutedProtocol.getLastExecution(patient=self.patient)
+        if(lastProtocolExecution):
+            return lastProtocolExecution.execution_time.strftime("%Y-%m-%d %H:%M")
+        return ""
+
+    def getNextProtocolAssignedMeasure(self):
+        #calcular proxima, ou entao pensar numa solucao
+        patientAssignedProtocols = AssignedProtocol.all(patient=self.patient)
+        print patientAssignedProtocols
+
+        return "2018-04-23 14:00"#.strftime("%Y-%m-%d %H:%M")
 
     @staticmethod
-    def new(patient, physician):
+    def new(patient, physician, room):
         admission = Admission.objects.create(patient=patient,
-                                             physician=physician)
+                                             physician=physician,
+                                             room=room)
         patient.admit()
         # History to do
         admission.save()

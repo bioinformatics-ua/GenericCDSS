@@ -32,11 +32,12 @@ class AdmissionStore extends Reflux.Store {
         API.POST("admission", "discharge", {patientID: id});
     }
 
-    onAdmitPatient(patientID, seletedProtocols) {
+    onAdmitPatient(patientID, seletedProtocols, room) {
         this.setState({loading: true});
         API.POST("admission", "new", {
             patientID: patientID,
-            seletedProtocols: seletedProtocols
+            seletedProtocols: seletedProtocols,
+            room:room
         }).then(res => {
             this.setState({
                 patientList: res.data["results"],

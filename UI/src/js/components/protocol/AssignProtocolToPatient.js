@@ -17,17 +17,17 @@ class AssignProtocolToPatient extends Reflux.Component {
         super(props);
         this.stores = [ScheduleStore, ProtocolStore, AdmissionStore];
         this.state = {
-            temporaryProtocol:{
+            temporaryProtocol: {
                 start_date: new Date(),
                 end_date: new Date(),
-                time:[]
+                time: []
             }
         };
 
         ProtocolActions.setSelectedPatient(this.props.match.params.object);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         ScheduleActions.load();
     }
 
@@ -47,10 +47,10 @@ class AssignProtocolToPatient extends Reflux.Component {
         let temporarySelectedProtocols = this.state.selectedProtocols;
         let protocolSchedules = this.state.temporaryProtocol.time;
 
-        for(let index = 0; index < protocolSchedules.length; index ++)
+        for (let index = 0; index < protocolSchedules.length; index++)
             temporarySelectedProtocols.push({
-                "id" : this.state.temporaryProtocol.id,
-                "title" : this.state.temporaryProtocol.title,
+                "id": this.state.temporaryProtocol.id,
+                "title": this.state.temporaryProtocol.title,
                 "start_date": this.state.temporaryProtocol.start_date.toLocaleDateString(),
                 "end_date": this.state.temporaryProtocol.end_date.toLocaleDateString(),
                 "schedule": protocolSchedules[index].label
@@ -76,16 +76,17 @@ class AssignProtocolToPatient extends Reflux.Component {
                                   value={this.state.temporaryProtocol.start_date}
                                   readOnly={false}
                                   onChange={this.setDate}
-                                  />
+                />
 
                 <DisplayDateField label={"Data de fim"}
                                   keydata={"end_date"}
                                   value={this.state.temporaryProtocol.end_date}
                                   readOnly={false}
-                                  onChange={this.setDate} />
+                                  onChange={this.setDate}/>
 
                 <DisplayOptionsField label={"Horário"}
                                      keydata={"time"}
+                                     placeholder={"Selecione os diferentes horários de execução do protocolo"}
                                      value={this.state.temporaryProtocol.time}
                                      multi={true}
                                      readOnly={false}
@@ -122,7 +123,8 @@ class AssignProtocolToPatient extends Reflux.Component {
     };
 
     admitPatient = () => {
-        AdmissionActions.admitPatient(this.state.patientID, this.state.selectedProtocols);
+        AdmissionActions.admitPatient(this.state.patientID, this.state.selectedProtocols, "c12");//this.state.room);
+        alert("Falta adicionar o quarto aqui num modal")
         History.push('/admittedpatients');
     };
 
@@ -142,7 +144,7 @@ class AssignProtocolToPatient extends Reflux.Component {
                         </div>
                         <div className="col-md-6">
                             <SelectedProtocols rows={10}
-                                               selectedProtocols = {this.state.selectedProtocols}/>
+                                               selectedProtocols={this.state.selectedProtocols}/>
                         </div>
                     </div>
                 </div>

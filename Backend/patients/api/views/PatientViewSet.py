@@ -20,7 +20,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filter_fields = ["first_name", "last_name", "room"]
+    filter_fields = ["first_name", "last_name"]
 
     def list(self, request, *args, **kwargs):
         '''

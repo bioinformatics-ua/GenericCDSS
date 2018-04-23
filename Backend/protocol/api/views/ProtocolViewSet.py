@@ -6,14 +6,15 @@ from rest_framework import viewsets, filters
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-from protocol.api.serializers import ProtocolSerializer
-from protocol.models import Protocol
+from protocol.api.serializers import ProtocolSerializer, AssignedProtocolSerializer
+from protocol.models import Protocol, AssignedProtocol
 
 from history.models import History
 
 class ProtocolViewSet(viewsets.ModelViewSet):
     queryset = Protocol.objects.all()
     serializer_class = ProtocolSerializer
+
 
     # {
     #     componentId: 1,

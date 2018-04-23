@@ -52,7 +52,7 @@ class ClinicalVariables extends Reflux.Component {
 
     render() {
         let listOfComponents = this.buildDataComponents();
-        console.log(this.state)
+
         return (
             <div>
                 <Tabs

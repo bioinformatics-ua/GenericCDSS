@@ -22,6 +22,8 @@ const clinicalvariablesURL      = 'patients/clinicalvariables';
 const admissionURL              = 'patients/admission';
 const protocolURL               = 'protocols/protocol';
 const scheduleURL               = 'protocols/schedule';
+const assignedprotocolsURL      = 'protocols/assignedprotocols';
+const executedprotocolsURL      = 'protocols/executedprotocols';
 
 /*
  * Function to retrieve the URL from each module
@@ -40,6 +42,8 @@ const getModuleURL = function (module) {
         case "home":                return homeURL;
         case "protocol":            return protocolURL;
         case "schedule":            return scheduleURL;
+        case "assignedprotocols":   return assignedprotocolsURL;
+        case "executedprotocols":   return executedprotocolsURL;
         default:                    return "";
     }
 };
@@ -47,18 +51,14 @@ const getModuleURL = function (module) {
 /*
  * Function to build the get webservices path
  */
-const buildGETPath = function (globalPath, urlPath, extraPath) {
+const buildGETPath = function (globalPath, urlPath, filter) {
     if (urlPath === undefined)
         return globalPath;
 
-    let path = globalPath + "/" + urlPath;
+    if (filter === undefined)
+        return globalPath + "/" + urlPath;
 
-    if(extraPath !== undefined)
-        for (let index = 0; index < extraPath.length; index++)
-            path += "/" + extraPath[index];
-
-    path += "/";
-    return path;
+    return globalPath + "/?" + filter + "=" + urlPath;
 };
 
 /*
@@ -89,9 +89,9 @@ API.POST = function (module, urlPath, parameters) {
  * utlPath: is the rest of the path
  * extraPath: is a array to have more fields in the path (maybe it is not necessary)
  * */
-API.GET = function (module, urlPath, extraPath) {
+API.GET = function (module, urlPath, filter) {
     let url = getModuleURL(module);
-    let path = buildGETPath(url, urlPath, extraPath);
+    let path = buildGETPath(url, urlPath, filter);
     return API.get(path);
 };
 

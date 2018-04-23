@@ -1,2 +1,4 @@
+from .AssignedProtocolViewSet import AssignedProtocolViewSet
+from .ExecutedProtocolViewSet import ExecutedProtocolViewSet
 from .ProtocolViewSet import ProtocolViewSet
 from .ScheduleViewSet import ScheduleViewSet

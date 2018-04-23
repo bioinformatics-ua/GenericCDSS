@@ -20,7 +20,6 @@ class Patient(models.Model):
     code            = models.CharField(max_length=20, blank=True) #To connect in the future to an EHR using HL7
     first_name      = models.CharField(max_length=50)
     last_name       = models.CharField(max_length=50)
-    room            = models.CharField(max_length=10, blank=True)
     active          = models.BooleanField(default=True)
     status          = models.PositiveSmallIntegerField(choices=STATUS, default=ADMITTED)
     gender          = models.CharField(max_length=1, choices=GENDER_OPTIONS)

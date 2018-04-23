@@ -31,7 +31,7 @@ class DisplayOptionsField extends Component {
                             <input className="form-control enabled" readOnly value={this.props.value}/>
                             :
                             <Select
-                                placeholder="Procurar pelo paciente no sistema"
+                                placeholder={this.props.placeholder}
                                 className="Select"
                                 name="form-field-name"
                                 multi={multi}

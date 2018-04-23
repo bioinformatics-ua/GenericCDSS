@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ClinicalVariables from './ClinicalVariables.js';
+import AssignedProtocols from '../protocol/AssignedProtocols.js';
+import ExecutedProtocols from '../protocol/ExecutedProtocols.js';
 
 import Tabs, {TabPane} from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
@@ -28,9 +30,16 @@ class PatientComplementInfo extends Component {
                     <TabPane tab='Dados Clínicos' key="1">
                         <ClinicalVariables patientID={this.state.patientID}/>
                     </TabPane>
-                    <TabPane tab='Tratamentos' key="2">Tratamentos contem uma lista de protocolos executados</TabPane>
-                    <TabPane tab='Protocolos' key="3">Protocolos atribuidos ao paciente</TabPane>
-                    <TabPane tab='Histórico' key="4">Histórico de todas as ações (history backend)</TabPane>
+
+                    <TabPane tab='Tratamentos' key="2">
+                        <ExecutedProtocols patientID={this.state.patientID}/>
+                    </TabPane>
+
+                    <TabPane tab='Protocolos' key="3">
+                        <AssignedProtocols patientID={this.state.patientID}/>
+                    </TabPane>
+                    {/*to do*/}
+                    {/*<TabPane tab='Histórico' key="4">Histórico de todas as ações (history backend)</TabPane>*/}
                 </Tabs>
             </div>
         );

@@ -3,7 +3,7 @@ import ProtocolElement from './ProtocolElement.js';
 import ProtocolRadioElement from './ProtocolRadioElement.js';
 import PatientInfo from '../patient/PatientInfo.js';
 
-class Protocol extends Component {
+class RunProtocol extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,6 +39,8 @@ class Protocol extends Component {
 
     render() {
         let params = this.props.match.params;
+        console.log(this.props)
+        console.log(params)
 
         let composition = [{
             componentId: 1,
@@ -175,4 +177,4 @@ class Protocol extends Component {
     }
 }
 
-export default Protocol;
+export default RunProtocol;

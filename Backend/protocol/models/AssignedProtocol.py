@@ -12,8 +12,9 @@ class AssignedProtocol(models.Model):
     patient         = models.ForeignKey(Patient)
     schedule        = models.ForeignKey(Schedule)
     start_date      = models.DateField()
-    finish_date     = models.DateField(null=True)
+    end_date        = models.DateField(null=True)
     active          = models.BooleanField(default=True)
+
 
     @staticmethod
     def new(protocol, patient, schedule, start_date, end_date):
@@ -21,7 +22,7 @@ class AssignedProtocol(models.Model):
                                                            patient=patient,
                                                            schedule=schedule,
                                                            start_date=start_date,
-                                                           finish_date=end_date)
+                                                           end_date=end_date)
         # History to do
         assignedProtocol.save()
 
@@ -35,13 +36,13 @@ class AssignedProtocol(models.Model):
         if active == True:
             tmpAll = tmpAll.filter(active=True)
 
-        if protocol != True:
+        if protocol != None:
             tmpAll = tmpAll.filter(protocol=protocol)
 
-        if patient != True:
+        if patient != None:
             tmpAll = tmpAll.filter(patient=patient)
 
-        if schedule != True:
+        if schedule != None:
             tmpAll = tmpAll.filter(schedule=schedule)
 
         return tmpAll.order_by('start_date')

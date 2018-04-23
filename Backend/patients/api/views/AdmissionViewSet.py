@@ -41,9 +41,11 @@ class AdmissionViewSet(viewsets.ModelViewSet):
         Admission of a patient registed in the system and all the assigned protocols.
         '''
         #Create admission
-        patient  = Patient.objects.get(id =request.data.get('patientID'))
+        patient  = Patient.objects.get(id=request.data.get('patientID'))
         physician = Profile.objects.get(user=request.user)
-        Admission.new(patient=patient, physician=physician)
+        Admission.new(patient=patient,
+                      physician=physician,
+                      room=request.data.get('room'))
 
         #Assign protocols
         selectedProtocols  = request.data.get('seletedProtocols')
