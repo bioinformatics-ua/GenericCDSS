@@ -101,7 +101,6 @@ class Command(BaseCommand):
             lname = random.choice(last_names)
             Patient(first_name = fname + " " + random.choice(first_names),
                     last_name = random.choice(last_names) + " " + lname,
-                    room = x,
                     status = Patient.DISCHARGED,
                     gender = "M",
                     birthdate = self.dateRandom("1960-01-01","2000-01-01",'%Y-%m-%d'),
@@ -117,7 +116,6 @@ class Command(BaseCommand):
             lname = random.choice(last_names)
             Patient(first_name = fname + " " + random.choice(first_names),
                     last_name = random.choice(last_names) + " " + lname,
-                    room = x,
                     status = Patient.DISCHARGED,
                     gender = "F",
                     birthdate = self.dateRandom("1960-01-01","2000-01-01",'%Y-%m-%d'),

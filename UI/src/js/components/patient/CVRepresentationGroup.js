@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ReactTable from 'react-table';
 import {StateActions} from '../../reflux/StateReflux.js';
-import {ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
 import $ from 'jquery';
 
@@ -67,14 +66,14 @@ class CVRepresentationGroup extends Component {
     };
 
     addCVData = () => {
-
-        let insertionData = this.state.insertionData;
-        insertionData["group"] = this.props.title;
-        insertionData["patient"] = this.props.patientID;
-
-        ClinicalVariablesActions.addCVData(insertionData);
-        StateActions.closeModal();
-        this.setState({insertionData: {}});
+        console.log("show result")
+        // let insertionData = this.state.insertionData;
+        // insertionData["group"] = this.props.title;
+        // insertionData["patient"] = this.props.patientID;
+        //
+        // ClinicalVariablesActions.addCVData(insertionData);
+        // StateActions.closeModal();
+        // this.setState({insertionData: {}});
     };
 
 
@@ -104,7 +103,8 @@ class CVRepresentationGroup extends Component {
     modalHeader = () => {
         return (
             <div className="">
-                <h1>Introduzir {this.props.title}</h1>
+                {/*<h1>Insert measurements in {this.props.title} group</h1>*/}
+                <h1>Execute Hypoglycemia protocol</h1>
             </div>
         );
     };
@@ -114,6 +114,11 @@ class CVRepresentationGroup extends Component {
         return (
             <div className="panel-body">
                 {components}
+
+                {/*<div class="panel panel-info">*/}
+                  {/*<div class="panel-heading">Actions recommended</div>*/}
+                  {/*<div class="panel-body">1 - Given half of a 30% IV glucose ampoule and glucose serum 5%</div>*/}
+                {/*</div>*/}
             </div>
         );
     };
@@ -122,11 +127,13 @@ class CVRepresentationGroup extends Component {
         return (
             <div className="">
                 <button className="btn btn-default btn-100" onClick={this.closeModal}>
-                    <i className="fa fa-ban"></i>&nbsp;Cancelar
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>
+                {/*/!* */}
                 <button className="btn btn-success btn-100" onClick={this.addCVData}>
-                    <i className="fa fa-plus"></i>&nbsp;Adicionar
+                    <i className="fa fa-plus"></i>&nbsp;Add
                 </button>
+                {/**!/*/}
             </div>
         );
     };
@@ -146,7 +153,7 @@ class CVRepresentationGroup extends Component {
                 <ReactTable
                     data={this.state.data}
                     columns={this.state.header}
-                    defaultPageSize={5}
+                    defaultPageSize={4}
                     filterable
                     loading={this.state.loading}
                     defaultSorted={[{
@@ -154,11 +161,12 @@ class CVRepresentationGroup extends Component {
                         desc: true,
                     }]}/>
 
-                <div className="CVRepresentationGroup-buttons-controler pull-right">
-                    <button className="btn btn-success btn-100" onClick={this.openModal}>
-                        <i className="fa fa-plus"></i>&nbsp;Adicionar
-                    </button>
-                </div>
+                {/* Button to add variables*/}
+                {/*<div className="CVRepresentationGroup-buttons-controler pull-right">*/}
+                    {/*<button className="btn btn-success btn-100" onClick={this.openModal}>*/}
+                        {/*<i className="fa fa-plus"></i>&nbsp;Add measurements*/}
+                    {/*</button>*/}
+                {/*</div>*/}
             </div>
         );
     }

@@ -2,7 +2,6 @@ import React from 'react';
 import Reflux from 'reflux';
 import ReactTable from 'react-table'
 import "react-table/react-table.css";
-import {Link} from "react-router-dom";
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 
 class ExecutedProtocols extends Reflux.Component {

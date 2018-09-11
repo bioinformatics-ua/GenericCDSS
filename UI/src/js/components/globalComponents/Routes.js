@@ -55,7 +55,7 @@ class Routes extends Component {
                 /*private links*/
                 <PrivateRoute authenticated={authenticated} path="/admittedpatients" component={AdmittedPatients}/>
                 <PrivateRoute authenticated={authenticated} path="/allpatients" component={AllPatients}/>
-                <PrivateRoute authenticated={authenticated} path="/run/protocol/:object" component={RunProtocol}/>
+                <PrivateRoute authenticated={authenticated} path="/run/protocol/:object/:patient" component={RunProtocol}/>
                 <PrivateRoute authenticated={authenticated} path="/protocols" component={Protocols}/>
                 <PrivateRoute authenticated={authenticated} path="/patient/:object" component={ShowPatient}/>
                 <PrivateRoute authenticated={authenticated} path="/show/protocol/:object" component={ShowProtocol}/>

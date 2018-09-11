@@ -16,11 +16,15 @@ const languageURL               = 'utils/language';
 const aboutURL                  = 'utils/about';
 const helpURL                   = 'utils/help';
 const homeURL                   = 'utils/home';
+
 const authURL                   = 'accounts';
+
 const patientURL                = 'patients/patient';
 const clinicalvariablesURL      = 'patients/clinicalvariables';
 const admissionURL              = 'patients/admission';
+
 const protocolURL               = 'protocols/protocol';
+const protocolcomponentsURL     = 'protocols/protocol/protocolInquiryComponents';
 const scheduleURL               = 'protocols/schedule';
 const assignedprotocolsURL      = 'protocols/assignedprotocols';
 const executedprotocolsURL      = 'protocols/executedprotocols';
@@ -44,6 +48,7 @@ const getModuleURL = function (module) {
         case "schedule":            return scheduleURL;
         case "assignedprotocols":   return assignedprotocolsURL;
         case "executedprotocols":   return executedprotocolsURL;
+        case "protocolcomponents":  return protocolcomponentsURL;
         default:                    return "";
     }
 };

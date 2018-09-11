@@ -2,12 +2,20 @@
 from __future__ import unicode_literals
 
 from rest_framework import viewsets, filters
+from rest_framework.decorators import api_view, list_route
+from rest_framework.response import Response
 
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db import transaction
 
 from protocol.api.serializers import ProtocolSerializer, AssignedProtocolSerializer
-from protocol.models import Protocol, AssignedProtocol
+from protocol.models import Protocol, AssignedProtocol, ExecutedProtocol
+
+from patients.models import Patient, CVPatient
+
+from protocol_element.api.serializers import ProtocolElementSerializer, PEInquirySerializer
+from protocol_element.models import ProtocolElement, PEInquiry
 
 from history.models import History
 
@@ -15,105 +23,35 @@ class ProtocolViewSet(viewsets.ModelViewSet):
     queryset = Protocol.objects.all()
     serializer_class = ProtocolSerializer
 
+    @list_route(methods=['post'])
+    @transaction.atomic
+    def run(self, request):
+        patientId = request.data.get('patientID', None)
+        protocolId = request.data.get('protocolID', None)
+        inquiryData = request.data.get('inquiryData', None)
 
-    # {
-    #     componentId: 1,
-    #     label: "Toma anti-diabéticos?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 2}, {option: "Não", next: 3}]
-    # }, {
-    #     componentId: 2,
-    #     label: "Suspender a toma de anti-diabéticos",
-    #     type: "action",
-    #     next: 3
-    # }, {
-    #     componentId: 3,
-    #     label: "Faz tratamento com insulina ao domicilio?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 4}, {option: "Não", next: 7}]
-    # }, {
-    #     componentId: 4,
-    #     label: "Regime de dieta oral?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 6}, {option: "Não", next: 5}]
-    # }, {
-    #     componentId: 5,
-    #     label: "Suspender tratamento",
-    #     type: "action",
-    #     next: 7
-    # }, {
-    #     componentId: 6,
-    #     label: "Se possivel, manter o tratamento e dieta oral",
-    #     type: "action",
-    #     next: 7
-    # }, {
-    #     componentId: 7,
-    #     label: "Calcular o tratamento adequado",
-    #     type: "action",
-    #     next: 8
-    # }, {
-    #     componentId: 8,
-    #     label: "Já tem um tratamento registado no sistema?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 9}, {option: "Não", next: 10}]
-    # }, {
-    #     componentId: 9,
-    #     label: "Verificar medições em jejum",
-    #     type: "action",
-    #     next: 15
-    # }, {
-    #     componentId: 10,
-    #     label: "Valores glicémia maiores que 180?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 12}, {option: "Não", next: 11}]
-    # }, {
-    #     componentId: 11,
-    #     label: "Não é necessário qualquer ajuste. Manter o regime de medicações",
-    #     type: "action",
-    #     next: null
-    # }, {
-    #     componentId: 12,
-    #     label: "Valores de glicémia maiores que 250?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 13}, {option: "Não", next: 14}]
-    # }, {
-    #     componentId: 13,
-    #     label: "Administrar 10U de insulina basal mais suplemento de insulina Prandial",
-    #     type: "action",
-    #     next: null
-    # }, {
-    #     componentId: 14,
-    #     label: "Administrar 0.1U por Kg de insulina basal mais suplemento de insulina Prandial",
-    #     type: "action",
-    #     next: null
-    # }, {
-    #     componentId: 15,
-    #     label: "Valores glicémia maiores que 180?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 17}, {option: "Não", next: 16}]
-    # }, {
-    #     componentId: 16,
-    #     label: "Verificar medições após as refeições",
-    #     type: "action",
-    #     next: 18
-    # }, {
-    #     componentId: 17,
-    #     label: "Aumentar a quantidade de insulina Basal em 10%",
-    #     type: "action",
-    #     next: null
-    # }, {
-    #     componentId: 18,
-    #     label: "Valores glicémia maiores que 180?",
-    #     type: "choice",
-    #     options: [{option: "Sim", next: 19}, {option: "Não", next: 20}]
-    # }, {
-    #     componentId: 19,
-    #     label: "Adicionar mais 4 unidade de insulina prandial",
-    #     type: "action",
-    #     next: null
-    # }, {
-    #     componentId: 20,
-    #     label: "Manter tratamento",
-    #     type: "action",
-    #     next: null
-    # }
+        if(patientId == None or protocolId == None or inquiryData == None):
+            return Response({
+                'error': "Invalid parameters"
+            })
+
+        patient = Patient.objects.get(id=patientId)
+        CVPatient.addCVSet(inquiryData, patient)
+
+        protocolTemplate = Protocol.objects.get(id=protocolId)
+        protocol = ExecutedProtocol.new(protocol=protocolTemplate, patient=patient)
+        result = protocol.run(inquiryData)
+
+        return Response({"results": result})
+
+
+    @list_route(methods=['get'])
+    def protocolInquiryComponents(self, request):
+        patient = Patient.objects.get(id=self.request.query_params.get('patient', None))
+        assignment = AssignedProtocol.getCurrentAssignment(patient)
+        protocol = assignment.protocol
+        elements = ProtocolElement.all(protocol=protocol, type=ProtocolElement.INQUIRY)
+
+        return Response({"results": {
+                                "Protocol": ProtocolSerializer(protocol).data,
+                                "Elements": PEInquirySerializer(elements, many=True).data}})

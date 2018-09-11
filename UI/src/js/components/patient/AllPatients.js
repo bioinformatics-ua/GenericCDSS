@@ -5,7 +5,7 @@ import "react-table/react-table.css";
 import {Link} from "react-router-dom";
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import Settings from '../../GlobalSettings.js';
-import Status from './PatientStatus.js';
+import PatientStatus from './PatientStatus.js';
 
 class AllPatients extends Reflux.Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class AllPatients extends Reflux.Component {
             Header:() =>  <h5 className="h5-table">Estado</h5>,
             id: "status",
             accessor: obj => obj.status,
-            Cell: props => <span>{Status.toString(props.value)}</span>
+            Cell: props => <span>{PatientStatus.toString(props.value)}</span>
         },{
             Header:() =>  <h5 className="h5-table">Contacto</h5>,
             id: "contacto",

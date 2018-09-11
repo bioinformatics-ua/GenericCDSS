@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
+from django.utils import timezone
 
 from patients.api.serializers import AdmissionSerializer
 from patients.models import Admission, Patient
@@ -46,17 +47,34 @@ class AdmissionViewSet(viewsets.ModelViewSet):
         Admission.new(patient=patient,
                       physician=physician,
                       room=request.data.get('room'))
-
         #Assign protocols
         selectedProtocols  = request.data.get('seletedProtocols')
         for selectedProtocol in selectedProtocols:
             protocol = Protocol.objects.get(id=selectedProtocol.get("id"))
-            schedule = Schedule.objects.get(time=selectedProtocol.get("schedule"))
+            print "SCHEDULE PODE TER UM BUG"
+            schedule = Schedule.objects.all()[0]#time=selectedProtocol.get("schedule"))
             AssignedProtocol.new(protocol=protocol,
                                  patient=patient,
                                  schedule=schedule,
-                                 start_date=dateutil.parser.parse(selectedProtocol.get("start_date")),
-                                 end_date=dateutil.parser.parse(selectedProtocol.get("end_date")))
+                                 start_date=timezone.now())
+                                 #end_date=dateutil.parser.parse(selectedProtocol.get("end_date")))
 
         self.queryset = Admission.all(active=True)
         return super(AdmissionViewSet, self).list(request, *args, **kwargs)
+
+    @list_route(methods=['post'])
+    @transaction.atomic
+    def discharge(self, request, *args, **kwargs):
+        patientID = request.data.get('patientID', None)
+
+        if patientID != None:
+            patient = Patient.objects.get(id=patientID)
+            Admission.dischargePatient(patient)
+
+            return Response({
+                'success': True
+            })
+
+        return Response({
+            'error': "The patient was not found"
+        })

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
 
 from patients.models import Patient, ClinicalVariable
 
@@ -35,3 +36,14 @@ class CVPatient(models.Model):
                                              measure_date=measure_date)
         #History to do
         cvPatient.save()
+
+    @staticmethod
+    def addCVSet(cvset, patient):
+        measure_date = timezone.now()
+        for cv in cvset:
+            clinicalVariavel = ClinicalVariable.objects.get(variable=cv)
+            cvPatient = CVPatient.objects.create(patient=patient,
+                                                 variable=clinicalVariavel,
+                                                 value=cvset[cv],
+                                                 measure_date=measure_date)
+            cvPatient.save()

@@ -5,6 +5,10 @@ class ProtocolElement extends Component {
         super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.state = {
+             value:"185"
+        };
     }
 
     handleSubmit(event) {
@@ -19,10 +23,17 @@ class ProtocolElement extends Component {
                         <label for="exampleInputEmail1">{this.props.label}</label>
                         <div className="form-check">
                             <div className="btn-group btn-group-toggle btn-group-justified" data-toggle="buttons">
-
+                                {/*
                                 <label class="btn btn-secondary" onClick={() => this.handleSubmit()} >
-                                    <input type="radio"/> Feito
-                                </label>
+                                    <input className="form-control enabled" value={this.state.value}/>
+                                </label>*/}
+
+                                <div className="input-group">
+                                    <input className="form-control enabled" value={this.state.value}/>
+                                    <span className="input-group-addon btn-success btn-100" onClick={() => this.handleSubmit()}>
+                                        <strong>Done</strong>
+                                    </span>
+                                </div>
 
                             </div>
                         </div>

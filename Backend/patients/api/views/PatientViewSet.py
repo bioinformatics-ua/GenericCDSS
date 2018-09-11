@@ -44,20 +44,3 @@ class PatientViewSet(viewsets.ModelViewSet):
         self.queryset = Patient.all(status=Patient.DISCHARGED)
         return super(PatientViewSet, self).list(request, *args, **kwargs)
 
-    @list_route(methods=['post'])
-    @transaction.atomic
-    def discharge(self, request, *args, **kwargs):
-        patientID = request.data.get('id', None)
-
-        if patientID != None:
-            patient = Patient.objects.get(id=patientID)
-            patient.discharge()
-            Admission.dischargePatient(patient)
-
-            return Response({
-                'success': True
-            })
-
-        return Response({
-            'error': "The patient was not found"
-        })

@@ -27,6 +27,7 @@ class Admission(models.Model):
         self.patient.discharge()
         self.end_date = timezone.now()
         self.save()
+        print "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         # History to do
 
     def getLastProtocolAssignedMeasure(self):
@@ -67,6 +68,8 @@ class Admission(models.Model):
     def dischargePatient(patient):
         admission = Admission.getLatestAdmission(patient)
         admission.discharge()
+        print "bbbbbbbbbbbbbbbbbbbbbbbb"
+        print admission
 
     @staticmethod
     def getLatestAdmission(patient):

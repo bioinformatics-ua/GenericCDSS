@@ -36,10 +36,10 @@ class Patient(models.Model):
 
     def get_full_gender(self): #Change this to be multilingual
         if(self.gender.lower() == 'm'):
-            return "Masculino"
+            return "Male"
 
         if(self.gender.lower() == 'f'):
-            return "Feminino"
+            return "Female"
 
     def discharge(self):
         '''

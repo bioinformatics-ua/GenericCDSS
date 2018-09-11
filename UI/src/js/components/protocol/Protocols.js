@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import {Link} from "react-router-dom";
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import Settings from '../../GlobalSettings.js';
+import ProtocolType from "./ProtocolType.js";
 
 class Protocols extends Reflux.Component {
     constructor(props) {
@@ -31,16 +32,22 @@ class Protocols extends Reflux.Component {
             });
 
         columns.push({
-            Header: () => <h5 className="h5-table">Título</h5>,
+            Header: () => <h5 className="h5-table">Title</h5>,
             id: "title",
             accessor: obj => obj.title,
             Cell: props => <Link to={"/show/protocol/" + props.original.id}>{props.value}</Link>
         });
         columns.push({
-            Header: () => <h5 className="h5-table">Descrição</h5>,
+            Header: () => <h5 className="h5-table">Description</h5>,
             id: "description",
             accessor: obj => obj.description,
             Cell: props => <span>{props.value}</span>
+        });
+        columns.push({
+            Header: () => <h5 className="h5-table">Type</h5>,
+            id: "type",
+            accessor: obj => obj.type,
+            Cell: props => <span>{ProtocolType.toString(props.value)}</span>
         });
 
         return (
@@ -48,7 +55,7 @@ class Protocols extends Reflux.Component {
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <i className="fa fa-users pull-left"></i>
-                        <h3 className="text-center panel-title h3-table">Protocolos</h3>
+                        <h3 className="text-center panel-title h3-table">Protocols</h3>
                     </div>
                     <div className="panel-content">
                         <ReactTable

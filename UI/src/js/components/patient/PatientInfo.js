@@ -40,46 +40,42 @@ class PatientInfo extends Reflux.Component {
         let readOnly = this.state.mode === "show" || this.state.mode === "admitting";
         return (
             <div className="panel panel-default panel-body PatientInfo">
-                <div className="row">
-                    {/*<div className="col-md-2">
-                        {<img className="profile-img" alt="Not found"
-                              src="http://www.attractivepartners.co.uk/wp-content/uploads/2017/06/profile.jpg"/>}
-                    </div>*/}
-                    <div className="col-md-12">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Nome"}
-                                              keydata={"first_name"} value={this.state.patient.first_name}/>
-                            </div>
-                            <div className="col-md-6">
-                                <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Apelido"}
-                                              keydata={"last_name"} value={this.state.patient.last_name}/>
-                            </div>
+                <div className="col-md-12">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"First Name"}
+                                          keydata={"first_name"} value={this.state.patient.first_name}/>
                         </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Género"}
-                                              keydata={"gender"} value={this.state.patient.fullgender}/>
-                            </div>
-                            <div className="col-md-6">
-                                <DisplayField readOnly={readOnly} onChange={this.handleChange}
-                                              label={"Data de Nascimento"}
-                                              keydata={"birthdate"} value={this.state.patient.birthdate}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Contacto"}
-                                              keydata={"phone"} value={this.state.patient.phone}/>
-                            </div>
-                            <div className="col-md-6">
-                                <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Email"}
-                                              keydata={"email"} value={this.state.patient.email}/>
-                            </div>
+                        <div className="col-md-6">
+                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Last Name"}
+                                          keydata={"last_name"} value={this.state.patient.last_name}/>
                         </div>
                     </div>
-                </div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Gender"}
+                                          keydata={"gender"} value={this.state.patient.fullgender}/>
+                        </div>
+                        <div className="col-md-6">
+                            <DisplayField readOnly={readOnly} onChange={this.handleChange}
+                                          label={"Birthdate"}
+                                          keydata={"birthdate"} value={this.state.patient.birthdate}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Phone"}
+                                          keydata={"phone"} value={this.state.patient.phone}/>
+                        </div>
+                        <div className="col-md-6">
+                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Email"}
+                                          keydata={"email"} value={this.state.patient.email}/>
+                        </div>
+                    </div>
+
                 <PatientButtonBar mode={this.state.mode} patient={this.state.patient}/>
+
+                </div>
             </div>
         );
     }

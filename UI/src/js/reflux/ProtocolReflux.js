@@ -8,7 +8,9 @@ const ProtocolActions = Reflux.createActions([
     'loadExecutedProtocols',
     'updateSelectedProtocols',
     'cleanSelectedProtocols',
-    'setSelectedPatient'
+    'setSelectedPatient',
+    'loadInquiryActions',
+    'runProtocol'
 ]);
 
 class ProtocolStore extends Reflux.Store {
@@ -17,16 +19,23 @@ class ProtocolStore extends Reflux.Store {
         this.listenables = ProtocolActions;
         this.state = {
             protocolList: [],
+            protocolListKeyValue: [],
             protocol: {
                 created_date: undefined,
                 description: undefined,
                 title: undefined
             },
-            selectedProtocols: [],
             assignedProtocols: [],
             executedProtocols: [],
             patientID: undefined,
             loading: false,
+
+            selectedProtocols: [],
+
+            protocolData:[],
+
+            protocolInquiryData:[],
+            actions: undefined
         };
     }
 
@@ -34,7 +43,14 @@ class ProtocolStore extends Reflux.Store {
         this.setState({loading: true});
         API.GET("protocol")
             .then(res => {
+                let protocolMap = res.data["results"].map(entry => {
+                    return {
+                        value: entry.id,
+                        label: entry.title
+                    }
+                });
                 this.setState({
+                    protocolListKeyValue: protocolMap,
                     protocolList: res.data["results"],
                     loading: false
                 });
@@ -45,7 +61,22 @@ class ProtocolStore extends Reflux.Store {
         if (id !== undefined)
             API.GET("protocol", id)
                 .then(res => {
+                    console.log(res.data)
                     this.setState({protocol: res.data});
+                    this.setState({protocolData: res.data.elements});
+                });
+    }
+
+    onLoadInquiryActions(patientID){
+        this.setState({loading: true});
+        if (patientID !== undefined)
+            API.GET("protocolcomponents", patientID, "patient")
+                .then(res => {
+                    this.setState({
+                        patientID: patientID,
+                        protocolInquiryData: res.data["results"],
+                        loading: false
+                    });
                 });
     }
 
@@ -83,8 +114,8 @@ class ProtocolStore extends Reflux.Store {
             });
     }
 
-    onUpdateSelectedProtocols(selectedProtocols) {
-        this.setState({selectedProtocols});
+    onUpdateSelectedProtocols(selectedProtocol) {
+        this.setState({selectedProtocol});
     }
 
     onSetSelectedPatient(patientID) {
@@ -93,9 +124,23 @@ class ProtocolStore extends Reflux.Store {
 
     onCleanSelectedProtocols() {
         this.setState({
-            selectedProtocols: [],
+            selectedProtocol: undefined,
             patientID: undefined
         });
+    }
+
+    onRunProtocol(patientID, protocolID, inquiryData){
+        this.setState({loading: true});
+        API.POST("protocol", "run", {
+            patientID: patientID,
+            protocolID: protocolID,
+            inquiryData: inquiryData
+        }).then(res => {
+            this.setState({
+                actions: res.data["results"],
+                loading: false
+            });
+        })
     }
 
 }

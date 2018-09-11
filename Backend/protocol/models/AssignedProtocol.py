@@ -17,15 +17,22 @@ class AssignedProtocol(models.Model):
 
 
     @staticmethod
-    def new(protocol, patient, schedule, start_date, end_date):
+    def new(protocol, patient, schedule, start_date):
         assignedProtocol = AssignedProtocol.objects.create(protocol=protocol,
                                                            patient=patient,
                                                            schedule=schedule,
-                                                           start_date=start_date,
-                                                           end_date=end_date)
+                                                           start_date=start_date)
         # History to do
         assignedProtocol.save()
 
+    @staticmethod
+    def getCurrentAssignment(patient):
+        tmpAll = AssignedProtocol.all(patient=patient).filter(end_date__isnull=True)
+
+        #Calculate which is the next protocol consedering the schedule
+        #to do, only necessary when exist more than one protocol assigned to a patient
+
+        return tmpAll.order_by('start_date')[0]
     @staticmethod
     def all(active=True, protocol=None, patient=None, schedule=None):
         '''

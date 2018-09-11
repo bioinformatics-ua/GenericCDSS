@@ -1,6 +1,6 @@
 import Reflux from 'reflux';
 
-const StateActions = Reflux.createActions(['loadingStart', 'loadingEnd', 'closeModal', 'openModal']);
+const StateActions = Reflux.createActions(['loadingStart', 'loadingEnd', 'closeModal', 'openModal', 'updateModal']);
 
 class StateStore extends Reflux.Store {
     constructor() {
@@ -36,6 +36,16 @@ class StateStore extends Reflux.Store {
     }
 
     onOpenModal(modalHeader, modalContent, modalFooter) {
+        this.setState({
+            modalVisible: true,
+            modalHeader:modalHeader,
+            modalContent: modalContent,
+            modalFooter:modalFooter
+        });
+        this.trigger();
+    }
+
+    onUpdateModal(modalHeader, modalContent, modalFooter) {
         this.setState({
             modalVisible: true,
             modalHeader:modalHeader,

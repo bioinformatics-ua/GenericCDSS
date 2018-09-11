@@ -33,7 +33,7 @@ class PatientButtonBar extends Component {
                     return(
                         <div>
                             <div className="PatientInfo-buttons-controler pull-right">
-                                <button className="btn btn-success btn-100" onClick={this.admitPatient}>Dar entrada no hospital</button>
+                                <button className="btn btn-success btn-100" onClick={this.admitPatient}>Admit</button>
                             </div>
                         </div>
                     );
@@ -41,7 +41,7 @@ class PatientButtonBar extends Component {
                     return(
                         <div>
                             <div className="PatientInfo-buttons-controler pull-right">
-                                <button className="btn btn-success btn-100" onClick={this.dischargePatient}>Dar alta</button>
+                                <button className="btn btn-success btn-100" onClick={this.dischargePatient}>Dismiss</button>
                             </div>
                         </div>
                     );
@@ -51,7 +51,7 @@ class PatientButtonBar extends Component {
                 return(
                     <div>
                         <div className="PatientInfo-buttons-controler pull-right">
-                            <button className="btn btn-success btn-100" onClick={this.addPatient}>Adicionar</button>
+                            <button className="btn btn-success btn-100" onClick={this.addPatient}>Add</button>
                         </div>
                     </div>
                 );

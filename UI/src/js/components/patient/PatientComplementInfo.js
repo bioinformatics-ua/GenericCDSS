@@ -27,15 +27,15 @@ class PatientComplementInfo extends Component {
                     renderTabBar={() => <ScrollableInkTabBar />}
                     renderTabContent={() => <TabContent />}
                 >
-                    <TabPane tab='Dados Clínicos' key="1">
+                    <TabPane tab='Clinical Data' key="1">
                         <ClinicalVariables patientID={this.state.patientID}/>
                     </TabPane>
 
-                    <TabPane tab='Tratamentos' key="2">
+                    <TabPane tab='Treatments' key="2">
                         <ExecutedProtocols patientID={this.state.patientID}/>
                     </TabPane>
 
-                    <TabPane tab='Protocolos' key="3">
+                    <TabPane tab='Protocols' key="3">
                         <AssignedProtocols patientID={this.state.patientID}/>
                     </TabPane>
                     {/*to do*/}

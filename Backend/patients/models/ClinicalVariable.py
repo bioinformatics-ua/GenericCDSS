@@ -9,6 +9,7 @@ from patients.models import Patient, CVGroup
 class ClinicalVariable(models.Model):
     group                       = models.ForeignKey(CVGroup)
     variable                    = models.CharField(max_length=30)
+    type                        = models.CharField(max_length=30)
     description                 = models.CharField(max_length=100, blank=True)
     index_representation        = models.IntegerField()
     display                     = models.BooleanField(default=True)

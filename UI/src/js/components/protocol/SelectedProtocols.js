@@ -40,22 +40,22 @@ class SelectedProtocols extends Component {
             Cell: props => <button className="btn btn-xxs btn-xs btn-quit btn-danger" onClick={this.removeSelectedProtocol}>
                 <i className="fa fa-times"></i></button>
         }, {
-            Header: () => <h5 className="h5-table">Título</h5>,
+            Header: () => <h5 className="h5-table">Title</h5>,
             id: "title",
             accessor: obj => obj.title,
             Cell: props => <Link to={"/show/protocol/" + props.original.id}>{props.value}</Link>
         }, {
-            Header: () => <h5 className="h5-table">Inicio</h5>,
+            Header: () => <h5 className="h5-table">Start</h5>,
             id: "start_date",
             accessor: obj => obj.start_date,
             Cell: props => <span>{props.value}</span>
         }, {
-            Header: () => <h5 className="h5-table">Fim</h5>,
+            Header: () => <h5 className="h5-table">End</h5>,
             id: "end_date",
             accessor: obj => obj.end_date,
             Cell: props => <span>{props.value}</span>
         }, {
-            Header: () => <h5 className="h5-table">Hora</h5>,
+            Header: () => <h5 className="h5-table">Schedule</h5>,
             id: "schedule",
             accessor: obj => obj.schedule,
             Cell: props => <span>{props.value}</span>
@@ -66,7 +66,7 @@ class SelectedProtocols extends Component {
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <i className="fa fa-users pull-left"></i>
-                        <h3 className="text-center panel-title h3-table">Protocolos selecionados</h3>
+                        <h3 className="text-center panel-title h3-table">Selected protocols</h3>
                     </div>
                     <div className="panel-content">
                         <ReactTable

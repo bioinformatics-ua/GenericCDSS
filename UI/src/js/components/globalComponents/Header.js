@@ -32,7 +32,7 @@ class Header extends Component {
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            <Link className="navbar-brand" to="/">{ReactHtmlParser(this.state.appSymbol)}</Link>
+                            <Link className="navbar-brand" to="/"><strong>{ReactHtmlParser(this.state.appSymbol)}</strong></Link>
                         </div>
                         <NavigationBar/>
                     </div>

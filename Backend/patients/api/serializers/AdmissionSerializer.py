@@ -14,6 +14,7 @@ class AdmissionSerializer(serializers.ModelSerializer):
     physician       = serializers.SerializerMethodField(required=False)
     next_measure    = serializers.SerializerMethodField(required=False)
     last_measure    = serializers.SerializerMethodField(required=False)
+    protocol_id     = serializers.SerializerMethodField(required=False)
     patient         = PatientSerializer()
 
     class Meta:
@@ -29,3 +30,7 @@ class AdmissionSerializer(serializers.ModelSerializer):
 
     def get_last_measure(self, obj):
         return obj.getLastProtocolAssignedMeasure()
+
+    def get_protocol_id(self, obj):
+        print "TO DO"
+        return 1#obj.getLastProtocolAssignedMeasure()

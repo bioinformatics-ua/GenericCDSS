@@ -27,24 +27,24 @@ class NavigationBar extends Reflux.Component {
 
         return (
             <div className="collapse navbar-collapse" id="myNavbar">
-                <ul className="nav navbar-nav navbar-right">
+                <ul  className="nav navbar-nav navbar-right">
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i className="fa fa-users"></i><strong>&nbsp;PACIENTES&nbsp;</strong><span
+                            <i className="fa fa-users"></i><strong>&nbsp;PATIENTS&nbsp;</strong><span
                             className="caret"></span>
                         </a>
                         <ul className="dropdown-menu user-login" role="menu">
                             <li>
-                                <MyLink to="/allpatients" icon="fa-users" label="Todos"/>
+                                <MyLink to="/allpatients" icon="fa-users" label="All"/>
                             </li>
                             <li>
-                                <MyLink to="/admittedpatients" icon="fa-users" label="Internados"/>
+                                <MyLink to="/admittedpatients" icon="fa-users" label="Admitted"/>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <MyLink to="/protocols" icon="fa-file" bold={true} label="PROTOCOLOS"/>
+                        <MyLink to="/protocols" icon="fa-file" bold={true} label="PROTOCOLS"/>
                     </li>
                     <li className="dropdown">
                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"

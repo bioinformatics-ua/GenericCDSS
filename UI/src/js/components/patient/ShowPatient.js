@@ -8,9 +8,9 @@ class ShowPatient extends Component {
 
         return (
             <div className="Patient">
-                <h2>Informação do paciente</h2>
+                <h2>Patient information</h2>
                 <PatientInfo mode={"show"} patientID={patientID}/>
-                <h2>Complementos</h2>
+                <h2>Additional Information</h2>
                 <PatientComplementInfo patientID={patientID}/>
             </div>
         );

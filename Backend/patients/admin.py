@@ -8,11 +8,11 @@ from models import Patient, ClinicalVariable, CVGroup, CVPatient, Admission
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ("id", "first_name", "last_name", "active")
+    list_display = ("id", "first_name", "last_name", "active", "status")
 
 @admin.register(ClinicalVariable)
 class ClinicalVariableAdmin(admin.ModelAdmin):
-    list_display = ("group", "variable", "description", "index_representation")
+    list_display = ("group", "variable", "type", "description", "index_representation")
 
 @admin.register(CVGroup)
 class CVGroupAdmin(admin.ModelAdmin):
