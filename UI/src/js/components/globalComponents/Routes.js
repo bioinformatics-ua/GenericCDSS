@@ -11,6 +11,7 @@ import ShowPatient from '../patient/ShowPatient.js';
 import AddPatient from '../patient/AddPatient.js';
 
 import Protocols from '../protocol/Protocols.js';
+import AddProtocol from '../protocol/AddProtocol.js';
 import ShowProtocol from '../protocol/ShowProtocol.js';
 import RunProtocol from '../protocol/RunProtocol.js';
 import AssignProtocolToPatient from '../protocol/AssignProtocolToPatient.js';
@@ -61,6 +62,7 @@ class Routes extends Component {
                 <PrivateRoute authenticated={authenticated} path="/show/protocol/:object" component={ShowProtocol}/>
 
                 <PrivateRoute authenticated={authenticated} path="/add/patient" component={AddPatient}/>
+                <PrivateRoute authenticated={authenticated} path="/add/protocol" component={AddProtocol}/>
                 <PrivateRoute authenticated={authenticated} path="/assignprotocol/:object" component={AssignProtocolToPatient}/>
 
                 <Route name="ConnectionRefused" path="/0" component={http0}/>

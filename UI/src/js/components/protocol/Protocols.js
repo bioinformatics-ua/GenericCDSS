@@ -54,8 +54,10 @@ class Protocols extends Reflux.Component {
             <div className="Content">
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        <i className="fa fa-users pull-left"></i>
+                        <i className="fa fa-sitemap pull-left"></i>
                         <h3 className="text-center panel-title h3-table">Protocols</h3>
+                        <Link to="/add/protocol" className="pull-right btn btn-xs btn-success table-button">
+                             <i className="fa fa-plus"></i></Link>
                     </div>
                     <div className="panel-content">
                         <ReactTable
