@@ -1,23 +1,25 @@
-#.gitignore
+.gitignore
 .idea/*
-node_modules/*
+UI/node_modules/*
 env/*
 
 #Put this files in somewhere private
 docker-compose.yml
 
 #Ignore migrations
-genericcdss/accounts/migrations/*
-genericcdss/history/migrations/*
-genericcdss/patients/migrations/*
-genericcdss/protocol/migrations/*
-genericcdss/protocol_element/migrations/*
-genericcdss/utils/migrations/*
+Backend/accounts/migrations/*
+Backend/history/migrations/*
+Backend/patients/migrations/*
+Backend/protocol/migrations/*
+Backend/protocol_element/migrations/*
+Backend/utils/migrations/*
 
 #Don't ignore migrations the __init__.py
-!genericcdss/accounts/migrations/__init__.py
-!genericcdss/history/migrations/__init__.py
-!genericcdss/patients/migrations/__init__.py
-!genericcdss/protocol/migrations/__init__.py
-!genericcdss/protocol_element/migrations/__init__.py
-!genericcdss/utils/migrations/__init__.py
+!Backend/accounts/migrations/__init__.py
+!Backend/history/migrations/__init__.py
+!Backend/patients/migrations/__init__.py
+!Backend/protocol/migrations/__init__.py
+!Backend/protocol_element/migrations/__init__.py
+!Backend/utils/migrations/__init__.py
+
+UI/package-lock.json

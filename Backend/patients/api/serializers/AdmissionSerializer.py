@@ -14,7 +14,7 @@ class AdmissionSerializer(serializers.ModelSerializer):
     physician       = serializers.SerializerMethodField(required=False)
     next_measure    = serializers.SerializerMethodField(required=False)
     last_measure    = serializers.SerializerMethodField(required=False)
-    protocol_id     = serializers.SerializerMethodField(required=False)
+    #protocol_id     = serializers.SerializerMethodField(required=False)
     patient         = PatientSerializer()
 
     class Meta:

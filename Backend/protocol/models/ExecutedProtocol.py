@@ -67,7 +67,7 @@ class ExecutedProtocol(models.Model):
         if patient != None:
             tmpAll = tmpAll.filter(patient=patient)
 
-        return tmpAll.order_by('execution_time').first()
+        return tmpAll.order_by('-execution_time').first()
 
     @staticmethod
     def all(protocol=None, patient=None):
