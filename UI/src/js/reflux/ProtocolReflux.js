@@ -21,8 +21,8 @@ class ProtocolStore extends Reflux.Store {
             protocolList: [],
             protocolListKeyValue: [],
             protocol: {
-                created_date: undefined,
-                description: undefined,
+                // created_date: undefined,
+                // description: undefined,
                 title: undefined
             },
             assignedProtocols: [],
@@ -61,10 +61,13 @@ class ProtocolStore extends Reflux.Store {
         if (id !== undefined)
             API.GET("protocol", id)
                 .then(res => {
-                    console.log(res.data)
-                    this.setState({protocol: res.data});
-                    this.setState({protocolData: res.data.elements});
+                    this.setState({protocol: res.data, protocolData: res.data.elements});
                 });
+        else
+            this.setState({protocol: {
+                               title: undefined
+                           },
+                           protocolData: []});
     }
 
     onLoadInquiryActions(patientID){

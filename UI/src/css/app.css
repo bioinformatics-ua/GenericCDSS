@@ -126,6 +126,11 @@ input[readonly].enabled {
     min-width:100px;
 }
 
+.btn-150{
+    min-width:150px;
+}
+
+
 .Select{
     z-index: 100;
 }

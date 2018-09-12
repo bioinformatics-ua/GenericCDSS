@@ -1,5 +1,5 @@
 
-const getPatientTableRows = function() {
+const getPatientTableRows = function(extraSize=0) {
     let headerSize = 72;
     let footerSize = 60 ;
     let tableHeaderSize = 39 + 26 + 40 + 46;
@@ -8,7 +8,7 @@ const getPatientTableRows = function() {
     if(document.getElementById('header') !== null)
         headerSize = document.getElementById('header').clientHeight;
 
-    return  Math.floor((window.innerHeight - headerSize - footerSize - tableHeaderSize)/rowSize);
+    return  Math.floor((window.innerHeight - headerSize - footerSize - tableHeaderSize - extraSize)/rowSize);
 };
 
 

@@ -11,8 +11,8 @@ import ShowPatient from '../patient/ShowPatient.js';
 import AddPatient from '../patient/AddPatient.js';
 
 import Protocols from '../protocol/Protocols.js';
-import AddProtocol from '../protocol/AddProtocol.js';
-import ShowProtocol from '../protocol/ShowProtocol.js';
+import AddProtocol from '../protocol/CRUDProtocol.js';
+import ShowProtocol from '../protocol/CRUDProtocol.js';
 import RunProtocol from '../protocol/RunProtocol.js';
 import AssignProtocolToPatient from '../protocol/AssignProtocolToPatient.js';
 
