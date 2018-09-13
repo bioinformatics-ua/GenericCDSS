@@ -90,8 +90,7 @@ class CVRepresentationGroup extends Component {
         let headers = this.state.header;
         for (let index in headers)
             if (headers[index].id !== 'measure_date')//Because measure date will be the time that this enter in the system (if doctor wants to insert manually, deal with that here
-                items.push(<DisplayField readOnly={false}
-                                         onChange={this.handleChange}
+                items.push(<DisplayField onChange={this.handleChange}
                                          label={headers[index].id}
                                          keydata={headers[index].id}
                                          value={this.state.insertionData[headers[index].id]}

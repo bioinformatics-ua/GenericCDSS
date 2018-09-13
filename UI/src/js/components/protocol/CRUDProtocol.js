@@ -41,6 +41,10 @@ class ShowProtocol extends Reflux.Component {
          * */
     };
 
+    saveProtocol = () => {
+        console.log("saveProtocol");
+    };
+
     render() {
         const columns = [{
             Header: () => <h5 className="h5-table">ID</h5>,
@@ -75,7 +79,7 @@ class ShowProtocol extends Reflux.Component {
         }];
 
         let extraObjectsSize = 160;
-        console.log(this.state);
+
         //duplicar, editar, eliminar e tornar publico
         return (
             <div className="ShowProtocol">
@@ -89,26 +93,27 @@ class ShowProtocol extends Reflux.Component {
 
                     </div>
                     {this.state.mode === "show" ?
-                    <div className="row">
-                        {/*This 2 displays are not doing nothing for now*/}
-                        <div className="col-md-4">
-                            <DisplayField readOnly={true} onChange={this.handleChange} label={"Type"}
-                                          keydata={"last_name"} value={"Simple"}/>
-                        </div>
-                        <div className="col-md-4">
-                            <DisplayField readOnly={true} onChange={this.handleChange} label={"Permissions"}
-                                          keydata={"first_name"} value={"Public"}/>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="btn-group PatientInfo-buttons-controler pull-right">
-                                {/*<button className="btn btn-sm btn-info btn-100" onClick={this.handleChange}><strong><i className="fa fa-code-fork"></i>&nbsp;Fork</strong></button>*/}
-                                <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
-                                    <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong></button>
-                                <button className="btn btn-sm btn-danger btn-150" onClick={this.removeProtocol}><strong><i
-                                    className="fa fa-times"></i>&nbsp;Remove</strong></button>
+                        <div className="row">
+                            {/*This 2 displays are not doing nothing for now*/}
+                            <div className="col-md-4">
+                                <DisplayField readOnly={true} onChange={this.handleChange} label={"Type"}
+                                              keydata={"last_name"} value={"Simple"}/>
                             </div>
-                        </div>
-                    </div> : ''}
+                            <div className="col-md-4">
+                                <DisplayField readOnly={true} onChange={this.handleChange} label={"Permissions"}
+                                              keydata={"first_name"} value={"Public"}/>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="btn-group pull-right">
+                                    {/*<button className="btn btn-sm btn-info btn-100" onClick={this.handleChange}><strong><i className="fa fa-code-fork"></i>&nbsp;Fork</strong></button>*/}
+                                    <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
+                                        <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong></button>
+                                    <button className="btn btn-sm btn-danger btn-150" onClick={this.removeProtocol}>
+                                        <strong><i
+                                            className="fa fa-times"></i>&nbsp;Remove</strong></button>
+                                </div>
+                            </div>
+                        </div> : ''}
                 </div>
 
                 <div className="panel panel-default">
@@ -124,7 +129,13 @@ class ShowProtocol extends Reflux.Component {
                                 asc: true,
                             }]}/>
 
-                        {this.state.mode !== "show" ? <AddProtocolElement /> : ''}
+                        {this.state.mode !== "show" ?
+                            <div className="btn-group CRUDProtocol-buttons-controler pull-right">
+                                <AddProtocolElement btnClass={"btn-150"}/>
+                                <button className="btn btn-primary btn-150" onClick={this.saveProtocol}>
+                                    <i className="fa fa-save"></i>&nbsp;Save
+                                </button>
+                            </div> : ''}
                     </div>
                 </div>
             </div>

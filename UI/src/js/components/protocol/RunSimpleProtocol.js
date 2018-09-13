@@ -27,34 +27,36 @@ class RunSimpleProtocol extends Reflux.Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevState.protocolInquiryData !== this.state.protocolInquiryData){
+        if (prevState.protocolInquiryData !== this.state.protocolInquiryData) {
             let inquiryElements = [];
             for (let cvIndex in this.state.protocolInquiryData.Elements) {
                 let cv = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"]["variable"];
-                inquiryElements.push(<DisplayField readOnly={false}
-                                         onChange={this.handleChange}
-                                         label={cv}
-                                         keydata={cv}
-                                         value={this.state.insertionData[cv]}
-                                         key={cvIndex}/>);
+                inquiryElements.push(<DisplayField onChange={this.handleChange}
+                                                   label={cv}
+                                                   keydata={cv}
+                                                   value={this.state.insertionData[cv]}
+                                                   key={cvIndex}/>);
             }
 
-            this.setState({inquiryElements: inquiryElements,
-                           protocolTitle: this.state.protocolInquiryData.Protocol.title});
+            this.setState({
+                inquiryElements: inquiryElements,
+                protocolTitle: this.state.protocolInquiryData.Protocol.title
+            });
         }
 
-        if(prevState.actions !== this.state.actions){
+        if (prevState.actions !== this.state.actions) {
             let resultActions = [];
             for (let actionIndex in this.state.actions)
-                resultActions.push(<p>{this.state.actions[actionIndex][0] + " - " + this.state.actions[actionIndex][1]}</p>);
+                resultActions.push(
+                    <p>{this.state.actions[actionIndex][0] + " - " + this.state.actions[actionIndex][1]}</p>);
 
-            this.setState({resultActions: resultActions, protocolExecuted:true});
+            this.setState({resultActions: resultActions, protocolExecuted: true});
         }
 
-        if(prevState.resultActions !== this.state.resultActions)
+        if (prevState.resultActions !== this.state.resultActions)
             StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
 
-        if(prevState.protocolTitle !== this.state.protocolTitle && this.state.protocolTitle !== "")
+        if (prevState.protocolTitle !== this.state.protocolTitle && this.state.protocolTitle !== "")
             StateActions.openModal(this.modalHeader(), this.modalContent(), this.modalFooter());
     }
 
@@ -77,7 +79,7 @@ class RunSimpleProtocol extends Reflux.Component {
                     <div className="panel panel-info">
                         <div className="panel-heading">Actions recommended</div>
                         <div className="panel-body">{this.state.resultActions}</div>
-                    </div>: ''}
+                    </div> : ''}
             </div>
         );
     };
@@ -97,23 +99,23 @@ class RunSimpleProtocol extends Reflux.Component {
 
     modalFooter = () => {
         /*
-        .* Verify if run is pressed or not and show run or only cancel
+         .* Verify if run is pressed or not and show run or only cancel
          * */
-        if(!this.state.protocolExecuted)
+        if (!this.state.protocolExecuted)
             return (<div className="">
-                        <button className="btn btn-default btn-100" onClick={this.closeModal}>
-                            <i className="fa fa-ban"></i>&nbsp;Cancel
-                        </button>
-                        <button className="btn btn-success btn-100" onClick={this.runProtocol}>
-                            <i className="fa fa-play"></i>&nbsp;Run
-                        </button>
-                    </div>);
+                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
+                </button>
+                <button className="btn btn-success btn-100" onClick={this.runProtocol}>
+                    <i className="fa fa-play"></i>&nbsp;Run
+                </button>
+            </div>);
         else
             return (<div className="">
-                        <button className="btn btn-default btn-100" onClick={this.closeModal}>
-                            <i className="fa fa-ban"></i>&nbsp;Cancel
-                        </button>
-                    </div>);
+                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
+                </button>
+            </div>);
     };
 
     openModal = (event) => {
@@ -131,7 +133,8 @@ class RunSimpleProtocol extends Reflux.Component {
 
     render() {
         return (
-            <button data-patientid={this.props.patientID} className="btn btn-xxs btn-xs btn-primary" onClick={this.openModal}>
+            <button data-patientid={this.props.patientID} className="btn btn-xxs btn-xs btn-primary"
+                    onClick={this.openModal}>
                 <i data-patientid={this.props.patientID} className="fa fa-play"></i>&nbsp;Run protocol
             </button>
         );

@@ -140,6 +140,11 @@ input[readonly].enabled {
     margin-bottom: 7px;
 }
 
+.CRUDProtocol-buttons-controler{
+    margin-top: 13px;
+    margin-bottom: 7px;
+}
+
 .modal-content{
     height: 70%;
     overflow-y: scroll;
