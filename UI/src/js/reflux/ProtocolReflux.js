@@ -23,7 +23,7 @@ class ProtocolStore extends Reflux.Store {
             protocol: {
                 // created_date: undefined,
                 // description: undefined,
-                title: undefined
+                title: ""
             },
             assignedProtocols: [],
             executedProtocols: [],
@@ -65,7 +65,7 @@ class ProtocolStore extends Reflux.Store {
                 });
         else
             this.setState({protocol: {
-                               title: undefined
+                               title: ""
                            },
                            protocolData: []});
     }

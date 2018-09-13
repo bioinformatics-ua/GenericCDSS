@@ -14,11 +14,13 @@ class ActionElement extends Reflux.Component {
 
     actionHandleChange  = (event) => {
         event.preventDefault();
+        this.props.addElementConfigurations("action", event.target.value);
         this.setState({action: event.target.value});
     };
 
     nextElementIdHandleChange = (event) => {
         event.preventDefault();
+        this.props.addElementConfigurations("nextElement", event.target.value);
         this.setState({nextElementId: event.target.value});
     };
 
@@ -42,6 +44,13 @@ class ActionElement extends Reflux.Component {
          * Next element id
          * */
         nextElementId: PropTypes.number,
+        /**
+         * Send the protocol configurations to the parent
+         *
+         * @param key
+         * @param value
+         * */
+        addElementConfigurations: PropTypes.func
     };
 }
 

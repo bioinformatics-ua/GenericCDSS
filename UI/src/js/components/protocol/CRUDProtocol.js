@@ -3,6 +3,7 @@ import Reflux from 'reflux';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
 import Settings from '../../GlobalSettings.js';
+import $ from 'jquery';
 
 import ReactTable from 'react-table'
 import "react-table/react-table.css";
@@ -18,7 +19,8 @@ class ShowProtocol extends Reflux.Component {
         this.store = ProtocolStore;
         this.state = {
             protocolID: this.props.match.params.object,
-            mode: this.getMode()
+            mode: this.getMode(),
+            biggestElementId: 1
         };
     }
 
@@ -43,6 +45,24 @@ class ShowProtocol extends Reflux.Component {
 
     saveProtocol = () => {
         console.log("saveProtocol");
+    };
+
+    handleChange = (event) => {
+        event.preventDefault();
+        let key = $(event.target).data("keydata");
+        let protocol = this.state.protocol;
+        protocol[key] = event.target.value;
+        this.setState({protocol: protocol});
+    };
+
+    addElement = (element) => {
+        let protocolData = this.state.protocolData;
+        protocolData.push(element);
+        console.log(protocolData);
+        this.setState({
+            protocolData: protocolData,
+            biggestElementId: parseInt(protocolData["internalId"]) + 1
+        });
     };
 
     render() {
@@ -87,8 +107,11 @@ class ShowProtocol extends Reflux.Component {
                 <div className="panel panel-default panel-body PatientInfo">
                     <div className="row">
                         <div className="col-md-12">
-                            <DisplayField readOnly={true} onChange={this.handleChange} label={"Title"}
-                                          keydata={"title"} value={this.state.protocol.title}/>
+                            <DisplayField label={"Title"}
+                                          keydata={"title"}
+                                          onChange={this.handleChange}
+                                          value={this.state.protocol.title}
+                                          readOnly={this.state.mode === "show"} />
                         </div>
 
                     </div>
@@ -97,11 +120,11 @@ class ShowProtocol extends Reflux.Component {
                             {/*This 2 displays are not doing nothing for now*/}
                             <div className="col-md-4">
                                 <DisplayField readOnly={true} onChange={this.handleChange} label={"Type"}
-                                              keydata={"last_name"} value={"Simple"}/>
+                                              keydata={"type"} value={"Simple"}/>
                             </div>
                             <div className="col-md-4">
                                 <DisplayField readOnly={true} onChange={this.handleChange} label={"Permissions"}
-                                              keydata={"first_name"} value={"Public"}/>
+                                              keydata={"permissions"} value={"Public"}/>
                             </div>
                             <div className="col-md-4">
                                 <div className="btn-group pull-right">
@@ -131,7 +154,9 @@ class ShowProtocol extends Reflux.Component {
 
                         {this.state.mode !== "show" ?
                             <div className="btn-group CRUDProtocol-buttons-controler pull-right">
-                                <AddProtocolElement btnClass={"btn-150"}/>
+                                <AddProtocolElement btnClass={"btn-150"}
+                                                    addElement={this.addElement}
+                                                    elementID={this.state.biggestElementId} />
                                 <button className="btn btn-primary btn-150" onClick={this.saveProtocol}>
                                     <i className="fa fa-save"></i>&nbsp;Save
                                 </button>

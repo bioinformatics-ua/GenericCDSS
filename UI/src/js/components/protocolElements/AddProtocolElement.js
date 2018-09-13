@@ -13,13 +13,15 @@ class AddProtocolElement extends Reflux.Component {
         super(props);
         this.state = {
             internalId: this.props.elementID.toString(),
-            selectionType: undefined
+            selectionType: undefined,
+            elementConfigurations: {}
         };
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState !== this.state)
+        if (prevState !== this.state && this.state.internalId !== undefined)
             StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
+
     }
 
     modalHeader = () => {
@@ -68,19 +70,25 @@ class AddProtocolElement extends Reflux.Component {
             switch (this.state.selectionType) {
                 case 'inquiry':
                     return (
-                        <InquiryElement />
+                        <InquiryElement addElementConfigurations={this.addElementConfigurations}/>
                     );
                 case 'decision':
                     return (
-                        <DecisionElement />
+                        <DecisionElement addElementConfigurations={this.addElementConfigurations}/>
                     );
                 case 'action':
                     return (
-                        <ActionElement />
+                        <ActionElement addElementConfigurations={this.addElementConfigurations}/>
                     );
                 default:
                     break;
             }
+    };
+
+    addElementConfigurations = (key, value) => {
+        let elementConfigurations = this.state.elementConfigurations;
+        elementConfigurations[key] = value;
+        this.setState({elementConfigurations: elementConfigurations});
     };
 
     modalFooter = () => {
@@ -98,12 +106,28 @@ class AddProtocolElement extends Reflux.Component {
 
     addElement = () => {
         /**
-         * todo
-         * Perform some validations
-         * add in the protocol list (only front end)
-         * close modal
+         * todo: Perform some validations
          * */
+        let element = this.buildElementObject();
+        this.setState({
+            internalId: undefined,
+            elementConfigurations: {}
+        });
+        this.props.addElement(element);
         StateActions.closeModal();
+    };
+
+    buildElementObject = () => {
+        let element = {
+            internalId: this.state.internalId,
+            type: this.state.selectionType
+        };
+
+        for (let key in this.state.elementConfigurations)
+            if (this.state.elementConfigurations.hasOwnProperty(key))
+                element[key] = this.state.elementConfigurations[key];
+
+        return element;
     };
 
     openModal = (event) => {
@@ -128,6 +152,12 @@ class AddProtocolElement extends Reflux.Component {
          * Element id given by the protocol (auto-increment)
          * */
         elementID: PropTypes.number,
+        /**
+         * Function to add element to the protocol
+         *
+         * @param element
+         * */
+        addElement: PropTypes.func
     };
 }
 

@@ -23,6 +23,7 @@ class DecisionElement extends Reflux.Component {
     }
 
     cvSelectHandleChange = (selection) => {
+        this.props.addElementConfigurations("clinicalVariable", selection.value);
         this.setState({cv: selection.value});
     };
 
@@ -32,16 +33,22 @@ class DecisionElement extends Reflux.Component {
 
     nextElementIdWhenTrueHandleChange = (event) => {
         event.preventDefault();
-        this.setState({nextElementId: event.target.value});
+        let nextElement = "False:" + this.state.nextElementIdFalse + ";True:" + event.target.value;
+        this.props.addElementConfigurations("nextElement", nextElement);
+        this.setState({nextElementIdTrue: event.target.value});
     };
 
     nextElementIdWhenFalseHandleChange = (event) => {
         event.preventDefault();
-        this.setState({nextElementId: event.target.value});
+        let nextElement = "False:" + event.target.value + ";True:" + this.state.nextElementIdTrue;
+        this.props.addElementConfigurations("nextElement", nextElement);
+        this.setState({nextElementIdFalse: event.target.value});
     };
 
     valueInConditionHandleChange = (event) => {
         event.preventDefault();
+        let condition = this.state.condition + event.target.value;
+        this.props.addElementConfigurations("condition", condition);
         this.setState({value: event.target.value});
     };
 
@@ -84,6 +91,13 @@ class DecisionElement extends Reflux.Component {
          * Next element id
          * */
         nextElementId: PropTypes.number,
+        /**
+         * Send the protocol configurations to the parent
+         *
+         * @param key
+         * @param value
+         * */
+        addElementConfigurations: PropTypes.func
     };
 }
 

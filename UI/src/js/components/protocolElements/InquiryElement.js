@@ -20,11 +20,13 @@ class InquiryElement extends Reflux.Component {
     }
 
     cvSelectHandleChange = (selection) => {
+        this.props.addElementConfigurations("clinicalVariable", selection.value);
         this.setState({cv: selection.value});
     };
 
     nextElementIdHandleChange = (event) => {
         event.preventDefault();
+        this.props.addElementConfigurations("nextElement", event.target.value);
         this.setState({nextElementId: event.target.value});
     };
 
@@ -49,6 +51,13 @@ class InquiryElement extends Reflux.Component {
          * Next element id
          * */
         nextElementId: PropTypes.number,
+        /**
+         * Send the protocol configurations to the parent
+         *
+         * @param key
+         * @param value
+         * */
+        addElementConfigurations: PropTypes.func
     };
 }
 
