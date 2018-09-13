@@ -1,23 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Reflux from 'reflux';
 import {StateActions} from '../../reflux/StateReflux.js';
-import Select from 'react-select';
 import InquiryElement from '../protocolElements/InquiryElement.js';
 import ActionElement from '../protocolElements/ActionElement.js';
 import DecisionElement from '../protocolElements/DecisionElement.js';
 import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
+import DisplayField from '../reusable/DisplayField.js';
 
 class AddProtocolElement extends Reflux.Component {
     constructor(props) {
         super(props);
-        //this.store = ProtocolStore;
         this.state = {
+            internalId: this.props.elementID.toString(),
             selectionType: undefined
         };
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.selectionType !== this.state.selectionType)
+        if (prevState !== this.state)
             StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
     }
 
@@ -39,17 +40,11 @@ class AddProtocolElement extends Reflux.Component {
 
         return (
             <div className="panel-body">
-                {/*Internal id*/}
-                {/*mudar o select para um diplay options field*/}
-
-                {/*<Select*/}
-                    {/*placeholder={"Please chose the protocol element type"}*/}
-                    {/*className="Select"*/}
-                    {/*name="form-field-name"*/}
-                    {/*value={this.state.selectionType}*/}
-                    {/*onChange={this.typeSelectHandleChange}*/}
-                    {/*options={typeOptions}/>*/}
-
+                <DisplayField onChange={this.handleInternalIdChange}
+                              label={"Element id"}
+                              value={this.state.internalId}
+                              type={"number"}
+                              min={"0"}/>
                 <DisplayOptionsField label={"Element type"}
                                      options={typeOptions}
                                      onChange={this.typeSelectHandleChange}/>
@@ -58,14 +53,16 @@ class AddProtocolElement extends Reflux.Component {
         );
     };
 
+    handleInternalIdChange = (event) => {
+        event.preventDefault();
+        this.setState({internalId: event.target.value});
+    };
+
     typeSelectHandleChange = (selection) => {
         this.setState({selectionType: selection.value});
     };
 
     protocolElementConfigurations = () => {
-        /**
-         * Switch depois do lanche com os 3 protocol types
-         */
         if (this.state.selectionType)
             switch (this.state.selectionType) {
                 case 'inquiry':
@@ -86,11 +83,26 @@ class AddProtocolElement extends Reflux.Component {
     };
 
     modalFooter = () => {
-        return (<div>
-            <button className="btn btn-default btn-100" onClick={this.closeModal}>
-                <i className="fa fa-ban"></i>&nbsp;Cancel
-            </button>
-        </div>);
+        return (
+            <div>
+                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
+                </button>
+                <button className="btn btn-success btn-100" onClick={this.addElement}>
+                    <i className="fa fa-plus"></i>&nbsp;Add
+                </button>
+            </div>
+        );
+    };
+
+    addElement = () => {
+        /**
+         * todo
+         * Perform some validations
+         * add in the protocol list (only front end)
+         * close modal
+         * */
+        StateActions.closeModal();
     };
 
     openModal = (event) => {
@@ -109,6 +121,17 @@ class AddProtocolElement extends Reflux.Component {
             </button>
         );
     }
+
+    static propTypes = {
+        /**
+         * Element id given by the protocol (auto-increment)
+         * */
+        elementID: PropTypes.number,
+    };
 }
+
+AddProtocolElement.defaultProps = {
+    elementID: 1
+};
 
 export default AddProtocolElement;

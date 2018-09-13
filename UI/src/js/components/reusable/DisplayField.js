@@ -16,7 +16,13 @@ class DisplayField extends Component {
                          this.props.readOnly ?
                             <input className="form-control enabled" readOnly value={this.props.value}/>
                             :
-                            <input data-keydata={this.props.keydata} className="form-control" onChange={this.props.onChange} value={this.props.value}/>
+                            <input type={this.props.type}
+                                   data-keydata={this.props.keydata}
+                                   className="form-control"
+                                   onChange={this.props.onChange}
+                                   value={this.props.value}
+                                   min={this.props.min}
+                                   max={this.props.max}/>
                     }
                 </div>
             </div>
@@ -45,13 +51,26 @@ class DisplayField extends Component {
         /**
          * Boolean to block the display to only show data (as a normal input)
          * */
-        readOnly: PropTypes.bool
+        readOnly: PropTypes.bool,
+        /**
+         * Input type
+         * */
+        type: PropTypes.string,
+        /**
+         * Input min when number
+         * */
+        min: PropTypes.string,
+        /**
+         * Input max when number
+         * */
+        max:  PropTypes.string
     };
 
 }
 
 DisplayField.defaultProps = {
-    readOnly: false
+    readOnly: false,
+    type: "text"
 };
 
 export default DisplayField;

@@ -160,7 +160,7 @@ class CVRepresentationGroup extends Component {
                         desc: true,
                     }]}/>
 
-                {/* Button to add variables*/}
+                 {/*Button to add variables*/}
                 {/*<div className="CVRepresentationGroup-buttons-controler pull-right">*/}
                     {/*<button className="btn btn-success btn-100" onClick={this.openModal}>*/}
                         {/*<i className="fa fa-plus"></i>&nbsp;Add measurements*/}
