@@ -11,7 +11,6 @@ class InquiryElement extends Reflux.Component {
         this.store = ClinicalVariablesStore;
         this.state = {
             nextElementId: (this.props.elementID + 1).toString(),
-            cvInSystem: [],
             cv: undefined
         };
     }
@@ -19,13 +18,6 @@ class InquiryElement extends Reflux.Component {
     componentDidMount() {
         ClinicalVariablesActions.loadCVHeaders();
     }
-
-
-    //Testing if this will be needed
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (prevState !== this.state)
-    //         this.props.updateModal();
-    // }
 
     cvSelectHandleChange = (selection) => {
         this.setState({cv: selection.value});
@@ -35,13 +27,14 @@ class InquiryElement extends Reflux.Component {
         event.preventDefault();
         this.setState({nextElementId: event.target.value});
     };
-    
+
+
     render() {
         return (
             <div>
                 <DisplayOptionsField label={"Clinical variable"}
-                                     options={this.state.cvInSystem}
-                                     onChange={this.cvSelectHandleChange}/>
+                                     options={this.state.headers}
+                                     onChange={this.cvSelectHandleChange} />
                 <DisplayField label={"Next element"}
                               onChange={this.nextElementIdHandleChange}
                               value={this.state.nextElementId}

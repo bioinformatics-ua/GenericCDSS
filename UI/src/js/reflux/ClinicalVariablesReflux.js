@@ -8,7 +8,6 @@ class ClinicalVariablesStore extends Reflux.Store {
         super();
         this.listenables = ClinicalVariablesActions;
         this.state = {
-            data: [],
             headers: []
         };
     }
@@ -16,10 +15,15 @@ class ClinicalVariablesStore extends Reflux.Store {
     onLoadCVHeaders(){
         API.GET("clinicalvariables")
             .then(res => {
-                console.log(res);
+                let headersMap = res.data["results"].map(entry => {
+                    return {
+                        value: entry.variable,
+                        label: entry.variable
+                    }
+                });
+
                 this.setState({
-                    headers: res.data["headers"],
-                    data: res.data["results"]
+                    headers: headersMap
                 });
             })
     }

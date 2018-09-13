@@ -47,7 +47,8 @@ class AddProtocolElement extends Reflux.Component {
                               min={"0"}/>
                 <DisplayOptionsField label={"Element type"}
                                      options={typeOptions}
-                                     onChange={this.typeSelectHandleChange}/>
+                                     onChange={this.typeSelectHandleChange}
+                                     className={"Selectx3"}/>
                 {this.protocolElementConfigurations()}
             </div>
         );

@@ -135,6 +135,14 @@ input[readonly].enabled {
     z-index: 100;
 }
 
+.Selectx2{
+    z-index: 200;
+}
+
+.Selectx3{
+    z-index: 300;
+}
+
 .CVRepresentationGroup-buttons-controler{
     margin-top: 7px;
     margin-bottom: 7px;

@@ -41,7 +41,7 @@ class DisplayOptionsField extends Component {
                             :
                             <Select
                                 placeholder={this.props.placeholder}
-                                className="Select"
+                                className={this.props.className}
                                 name="form-field-name"
                                 multi={this.props.multi}
                                 value={this.state.selection}
@@ -79,14 +79,19 @@ class DisplayOptionsField extends Component {
         /**
          * Boolean to allow multiple selections
          * */
-        multi: PropTypes.bool
+        multi: PropTypes.bool,
+        /**
+         * Class for the select component only
+         * */
+        className: PropTypes.string
     };
 }
 
 DisplayOptionsField.defaultProps = {
     multi: false,
     readOnly: false,
-    placeholder: ""
+    placeholder: "",
+    className: "Select"
 };
 
 export default DisplayOptionsField;
