@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 
+/**
+ * Select component for input/output data
+ * */
 class DisplayOptionsField extends Component {
     constructor(props) {
         super(props);
@@ -11,15 +15,20 @@ class DisplayOptionsField extends Component {
 
     handleChange = (selection) => {
         if (selection === null)
+        {
             selection = undefined;
-        this.props.onChange(this.props.keydata, selection);
+
+            if(this.props.multi)
+                this.props.onChange([]);
+            else
+                this.props.onChange({value:undefined, label:undefined});
+        }
+        else
+            this.props.onChange(selection);
         this.setState({selection});
     };
 
     render() {
-        let readOnly = this.props.readOnly === undefined ? true: this.props.readOnly;
-        let multi = this.props.multi === undefined ? false: this.props.multi;
-
         return (
             <div className="form-group">
                 <div className="input-group">
@@ -27,14 +36,14 @@ class DisplayOptionsField extends Component {
                         <strong>{this.props.label}</strong>
                     </span>
                     {
-                         readOnly ?
+                        this.props.readOnly ?
                             <input className="form-control enabled" readOnly value={this.props.value}/>
                             :
                             <Select
                                 placeholder={this.props.placeholder}
                                 className="Select"
                                 name="form-field-name"
-                                multi={multi}
+                                multi={this.props.multi}
                                 value={this.state.selection}
                                 onChange={this.handleChange}
                                 options={this.props.options}/>
@@ -43,7 +52,42 @@ class DisplayOptionsField extends Component {
             </div>
         );
     }
+
+    static propTypes = {
+        /**
+         * Label of the grey box
+         * */
+        label: PropTypes.string.isRequired,
+        /**
+         * Options for the selection
+         * */
+        options: PropTypes.array.isRequired,
+        /**
+         * Function comming for the parent component to handle with the selecting change
+         *
+         * @param Selected value (object {value, label}) or values (array of objects)
+         * */
+        onChange: PropTypes.func,
+        /**
+         * Key of the data that will receive the seletec data from the component
+         * */
+        placeholder: PropTypes.string,
+        /**
+         * Boolean to block the display to only show data (as a normal input)
+         * */
+        readOnly: PropTypes.bool,
+        /**
+         * Boolean to allow multiple selections
+         * */
+        multi: PropTypes.bool
+    };
 }
+
+DisplayOptionsField.defaultProps = {
+    multi: false,
+    readOnly: false,
+    placeholder: ""
+};
 
 export default DisplayOptionsField;
 
