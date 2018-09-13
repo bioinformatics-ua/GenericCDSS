@@ -1,6 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
-import {ClinicalVariablesStore, ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
+import {PatientClinicalVariablesStore, PatientClinicalVariablesActions} from '../../reflux/PatientClinicalVariablesReflux.js';
 import CVRepresentationGroup from './CVRepresentationGroup.js';
 
 import Tabs, {TabPane} from 'rc-tabs';
@@ -10,7 +10,7 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 class ClinicalVariables extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.store = ClinicalVariablesStore;
+        this.store = PatientClinicalVariablesStore;
         this.state = {
             patientID:this.props.patientID
         }
@@ -18,7 +18,7 @@ class ClinicalVariables extends Reflux.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.patientID !== this.props.patientID) {
-            ClinicalVariablesActions.load(this.props.patientID);
+            PatientClinicalVariablesActions.load(this.props.patientID);
             this.setState({patientID: this.props.patientID});
         }
     }
@@ -47,7 +47,7 @@ class ClinicalVariables extends Reflux.Component {
     };
 
     componentDidMount() {
-        ClinicalVariablesActions.load(this.state.patientID);
+        PatientClinicalVariablesActions.load(this.state.patientID);
     }
 
     render() {

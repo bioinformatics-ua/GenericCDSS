@@ -1,7 +1,7 @@
 import Reflux from 'reflux';
 import API from '../API.js';
 
-const ClinicalVariablesActions = Reflux.createActions(['load', 'refresh', 'addCVData']);
+const ClinicalVariablesActions = Reflux.createActions(['loadCVHeaders']);
 
 class ClinicalVariablesStore extends Reflux.Store {
     constructor() {
@@ -13,25 +13,15 @@ class ClinicalVariablesStore extends Reflux.Store {
         };
     }
 
-    onLoad(id){
-        API.GET("clinicalvariables", id)
+    onLoadCVHeaders(){
+        API.GET("clinicalvariables")
             .then(res => {
+                console.log(res);
                 this.setState({
                     headers: res.data["headers"],
                     data: res.data["results"]
                 });
             })
-    }
-
-    onAddCVData(data){
-        API.POST("clinicalvariables", "addVariables", data)
-            .then(res => {
-                this.setState({
-                    headers: res.data["headers"],
-                    data: res.data["results"]
-                });
-                this.trigger();
-            });
     }
 }
 

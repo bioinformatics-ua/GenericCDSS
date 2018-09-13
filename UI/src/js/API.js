@@ -20,6 +20,7 @@ const homeURL                   = 'utils/home';
 const authURL                   = 'accounts';
 
 const patientURL                = 'patients/patient';
+const patientclinicalvariablesURL      = 'patients/patientclinicalvariables';
 const clinicalvariablesURL      = 'patients/clinicalvariables';
 const admissionURL              = 'patients/admission';
 
@@ -34,22 +35,23 @@ const executedprotocolsURL      = 'protocols/executedprotocols';
  */
 const getModuleURL = function (module) {
     switch (module){
-        case "account":             return authURL;
-        case "patient":             return patientURL;
-        case "clinicalvariables":   return clinicalvariablesURL;
-        case "admission":           return admissionURL;
-        case "footer":              return footerURL;
-        case "header":              return headerURL;
-        case "language":            return languageURL;
-        case "about":               return aboutURL;
-        case "help":                return helpURL;
-        case "home":                return homeURL;
-        case "protocol":            return protocolURL;
-        case "schedule":            return scheduleURL;
-        case "assignedprotocols":   return assignedprotocolsURL;
-        case "executedprotocols":   return executedprotocolsURL;
-        case "protocolcomponents":  return protocolcomponentsURL;
-        default:                    return "";
+        case "account":                     return authURL;
+        case "patient":                     return patientURL;
+        case "patientclinicalvariables":    return patientclinicalvariablesURL;
+        case "clinicalvariables":           return clinicalvariablesURL;
+        case "admission":                   return admissionURL;
+        case "footer":                      return footerURL;
+        case "header":                      return headerURL;
+        case "language":                    return languageURL;
+        case "about":                       return aboutURL;
+        case "help":                        return helpURL;
+        case "home":                        return homeURL;
+        case "protocol":                    return protocolURL;
+        case "schedule":                    return scheduleURL;
+        case "assignedprotocols":           return assignedprotocolsURL;
+        case "executedprotocols":           return executedprotocolsURL;
+        case "protocolcomponents":          return protocolcomponentsURL;
+        default:                            return "";
     }
 };
 

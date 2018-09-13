@@ -40,7 +40,7 @@ class AddProtocolElement extends Reflux.Component {
 
         return (
             <div className="panel-body">
-                <DisplayField onChange={this.handleInternalIdChange}
+                <DisplayField onChange={this.internalIdHandleChange}
                               label={"Element id"}
                               value={this.state.internalId}
                               type={"number"}
@@ -53,7 +53,7 @@ class AddProtocolElement extends Reflux.Component {
         );
     };
 
-    handleInternalIdChange = (event) => {
+    internalIdHandleChange = (event) => {
         event.preventDefault();
         this.setState({internalId: event.target.value});
     };
