@@ -10,7 +10,7 @@ class ScheduleStore extends Reflux.Store {
         super(props);
         this.listenables = ScheduleActions;
         this.state = {
-            scheduleList: [],
+            schedulesOptions:[],
             loading: false
         };
     }
@@ -27,7 +27,7 @@ class ScheduleStore extends Reflux.Store {
                 });
 
                 this.setState({
-                    scheduleList: scheduleMap,
+                    schedulesOptions: scheduleMap,
                     loading: false
                 });
             })

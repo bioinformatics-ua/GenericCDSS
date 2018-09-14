@@ -10,7 +10,8 @@ const ProtocolActions = Reflux.createActions([
     'cleanSelectedProtocols',
     'setSelectedPatient',
     'loadInquiryActions',
-    'runProtocol'
+    'runProtocol',
+    'createProtocol'
 ]);
 
 class ProtocolStore extends Reflux.Store {
@@ -144,6 +145,10 @@ class ProtocolStore extends Reflux.Store {
                 loading: false
             });
         })
+    }
+
+    onCreateProtocol(schedules){
+        //todo
     }
 
 }

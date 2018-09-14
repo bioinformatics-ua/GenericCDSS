@@ -5,6 +5,12 @@ import {StateActions} from '../../reflux/StateReflux.js';
 
 /**
  * Component to manage the protocol schedules
+ *
+ * todo finish the creation of this componenet.
+ * The idea is to show all the schedules for the protocol, i. e.,
+ * when a task action to schedule the protocol is created, in this modal
+ * will be shown the decision elements and and the condition that led to the
+ * new scheduling.
  * */
 class Schedules extends Reflux.Component {
     constructor(props) {

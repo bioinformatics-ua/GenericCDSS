@@ -1,8 +1,9 @@
 import React from 'react';
 import Reflux from 'reflux';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
+import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
-import Schedules from './Schedules.js';
+//import Schedules from './Schedules.js';
 import Settings from '../../GlobalSettings.js';
 import $ from 'jquery';
 
@@ -13,15 +14,17 @@ import "react-table/react-table.css";
 //import Settings from '../../GlobalSettings.js';
 
 import DisplayField from '../reusable/DisplayField.js';
+import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 
 class ShowProtocol extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.store = ProtocolStore;
+        this.stores = [ProtocolStore, ScheduleStore];
         this.state = {
             protocolID: this.props.match.params.object,
             mode: this.getMode(),
-            biggestElementId: 1
+            biggestElementId: 1,
+            schedules: undefined
         };
     }
 
@@ -31,6 +34,7 @@ class ShowProtocol extends Reflux.Component {
 
     componentDidMount() {
         ProtocolActions.loadProtocol(this.state.protocolID);
+        ScheduleActions.load();
     }
 
     editProtocol = () => {
@@ -50,6 +54,8 @@ class ShowProtocol extends Reflux.Component {
          * call the post service and send the data
          * */
         console.log("saveProtocol");
+        let protocolSchedules = [];//todo
+        ProtocolActions.createProtocol(protocolSchedules);
     };
 
     handleChange = (event) => {
@@ -67,6 +73,10 @@ class ShowProtocol extends Reflux.Component {
             protocolData: protocolData,
             biggestElementId: parseInt(protocolData["internalId"], 10) + 1
         });
+    };
+
+    schedulesSelectHandleChange = (selection) => {
+        this.setState({schedules: selection});
     };
 
     render() {
@@ -102,21 +112,29 @@ class ShowProtocol extends Reflux.Component {
             Cell: props => <span>{props.value}</span>
         }];
 
-        let extraObjectsSize = 160;
+        let extraObjectsSize = this.state.mode === "show" ? 160 : 200;
 
-        //duplicar, editar, eliminar e tornar publico
         return (
             <div className="ShowProtocol">
                 <h2>Protocol</h2>
                 <div className="panel panel-default panel-body PatientInfo">
                     <div className="row">
-
-                        <div className={this.state.mode === "show" ? "col-md-8" : "col-md-12"}>
+                        <div className="col-md-12">
                             <DisplayField label={"Title"}
                                           keydata={"title"}
                                           onChange={this.handleChange}
                                           value={this.state.protocol.title}
                                           readOnly={this.state.mode === "show"} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className={this.state.mode === "show" ? "col-md-8" : "col-md-12"}>
+                            <DisplayOptionsField label={"Schedules"}
+                                                 options={this.state.schedulesOptions}
+                                                 onChange={this.schedulesSelectHandleChange}
+                                                 readOnly={this.state.mode === "show"}
+                                                 selection={this.state.schedules}
+                                                 multi={true} />
                         </div>
                         {this.state.mode === "show" ?
                             <div className="col-md-4">
@@ -146,9 +164,9 @@ class ShowProtocol extends Reflux.Component {
                                 asc: true,
                             }]}/>
 
-                        <div className="btn-group CRUDProtocol-buttons-controler pull-left">
-                            <Schedules btnClass={"btn-150"}/>
-                        </div>
+                        {/*<div className="btn-group CRUDProtocol-buttons-controler pull-left">*/}
+                            {/*<Schedules btnClass={"btn-150"}/>*/}
+                        {/*</div>*/}
 
                         {this.state.mode !== "show" ?
                             <div className="btn-group CRUDProtocol-buttons-controler pull-right">
