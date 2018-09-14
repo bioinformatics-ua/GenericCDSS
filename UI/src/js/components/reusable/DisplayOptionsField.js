@@ -9,7 +9,7 @@ class DisplayOptionsField extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selection: undefined
+            selection: this.props.selection
         }
     }
 
@@ -59,6 +59,10 @@ class DisplayOptionsField extends Component {
          * */
         label: PropTypes.string.isRequired,
         /**
+         * Selection objects
+         * */
+        selection: PropTypes.object,
+        /**
          * Options for the selection
          * */
         options: PropTypes.array.isRequired,
@@ -91,7 +95,8 @@ DisplayOptionsField.defaultProps = {
     multi: false,
     readOnly: false,
     placeholder: "",
-    className: "Select"
+    className: "Select",
+    selection: undefined
 };
 
 export default DisplayOptionsField;

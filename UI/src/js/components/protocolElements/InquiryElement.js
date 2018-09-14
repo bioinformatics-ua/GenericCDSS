@@ -10,7 +10,7 @@ class InquiryElement extends Reflux.Component {
         super(props);
         this.store = ClinicalVariablesStore;
         this.state = {
-            nextElementId: (this.props.elementID + 1).toString(),
+            nextElementId: "", //(this.props.elementID + 1).toString(),
             cv: undefined
         };
     }
@@ -20,7 +20,7 @@ class InquiryElement extends Reflux.Component {
     }
 
     cvSelectHandleChange = (selection) => {
-        this.props.addElementConfigurations("clinicalVariable", selection.value);
+        this.props.addElementConfigurations("clinicalVariable", {variable: selection.value});
         this.setState({cv: selection.value});
     };
 

@@ -47,7 +47,6 @@ class StateStore extends Reflux.Store {
 
     onUpdateModal(modalHeader, modalContent, modalFooter) {
         this.setState({
-            modalVisible: true,
             modalHeader:modalHeader,
             modalContent: modalContent,
             modalFooter:modalFooter

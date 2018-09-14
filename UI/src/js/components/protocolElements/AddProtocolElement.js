@@ -19,9 +19,8 @@ class AddProtocolElement extends Reflux.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState !== this.state && this.state.internalId !== undefined)
+        if (prevState !== this.state)
             StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
-
     }
 
     modalHeader = () => {
@@ -50,6 +49,7 @@ class AddProtocolElement extends Reflux.Component {
                 <DisplayOptionsField label={"Element type"}
                                      options={typeOptions}
                                      onChange={this.typeSelectHandleChange}
+                                     selection={this.state.selectionType}
                                      className={"Selectx3"}/>
                 {this.protocolElementConfigurations()}
             </div>
@@ -109,12 +109,8 @@ class AddProtocolElement extends Reflux.Component {
          * todo: Perform some validations
          * */
         let element = this.buildElementObject();
-        this.setState({
-            internalId: undefined,
-            elementConfigurations: {}
-        });
+        this.closeModal();
         this.props.addElement(element);
-        StateActions.closeModal();
     };
 
     buildElementObject = () => {
@@ -136,6 +132,11 @@ class AddProtocolElement extends Reflux.Component {
     };
 
     closeModal = () => {
+        this.setState({
+            internalId: undefined,
+            elementConfigurations: {},
+            selectionType: undefined
+        });
         StateActions.closeModal();
     };
 

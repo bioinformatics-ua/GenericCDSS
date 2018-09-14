@@ -58,10 +58,9 @@ class ShowProtocol extends Reflux.Component {
     addElement = (element) => {
         let protocolData = this.state.protocolData;
         protocolData.push(element);
-        console.log(protocolData);
         this.setState({
             protocolData: protocolData,
-            biggestElementId: parseInt(protocolData["internalId"]) + 1
+            biggestElementId: parseInt(protocolData["internalId"], 10) + 1
         });
     };
 

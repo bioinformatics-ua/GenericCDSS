@@ -7,7 +7,7 @@ class ActionElement extends Reflux.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nextElementId: (this.props.elementID + 1).toString(),
+            nextElementId: "",//(this.props.elementID + 1).toString(),
             action: ""
         };
     }
