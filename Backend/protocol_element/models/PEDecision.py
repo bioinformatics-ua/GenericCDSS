@@ -50,6 +50,7 @@ class PEDecision(ProtocolElement):
             conditions = conditionString.split(";")
             for condition in conditions:
                 splitedCondition = condition.split(":")
+                print splitedCondition
                 nextElementOptions[splitedCondition[0] == True] = splitedCondition[1]
         #elif switch todo
         return nextElementOptions

@@ -43,11 +43,13 @@ class ProtocolViewSet(viewsets.ModelViewSet):
                                 type=element["type"],
                                 elementData=element)
         #Create elements relations
-        #todo
-
-
-        # fix this with a serializer
-        return Response({"results": protocol})
+        for element in protocolElements:
+            if "nextElement" in element:
+                ProtocolElement.createConnectionsBetweenElements(internalId=element["internalId"],
+                                                                 protocol=protocol,
+                                                                 type=element["type"],
+                                                                 elementData=element)
+        return Response({"results": ProtocolSerializer(protocol).data})
 
     @list_route(methods=['post'])
     @transaction.atomic

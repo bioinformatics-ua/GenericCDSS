@@ -39,23 +39,34 @@ class ProtocolElement(models.Model):
                 PEInquiry.new(id=internalId,
                               clinicalVariable=elementData["clinicalVariable"]["variable"],
                               protocol=protocol)
-
-                PEInquiry.addNextElement(id=internalId,
-                                         protocol=protocol,
-                                         nextElementId=elementData["nextElement"])
             if type == "decision":
                 PEDecision.new(id=internalId,
                                clinicalVariable=elementData["clinicalVariable"]["variable"],
                                condition=elementData["condition"],
                                protocol=protocol)
-                PEDecision.addNextElements(id=internalId,
-                                           protocol=protocol,
-                                           nextElements=PEDecision.dealWithOptions(conditionString=elementData["condition"],
-                                                                                   conditionType=elementData["condition"]))
             if type == "action":
                 PEAction.new(id=internalId,
                              action=elementData["action"],
                              protocol=protocol)
+    @staticmethod
+    def createConnectionsBetweenElements(internalId, protocol, type, elementData):
+        '''
+        Creates the connections between the protocol elements
+        '''
+        from protocol_element.models import PEInquiry, PEAction, PEDecision
+
+        if type != None:
+            # History todo
+            if type == "inquiry":
+                PEInquiry.addNextElement(id=internalId,
+                                         protocol=protocol,
+                                         nextElementId=elementData["nextElement"])
+            if type == "decision":
+                PEDecision.addNextElements(id=internalId,
+                                           protocol=protocol,
+                                           nextElements=PEDecision.dealWithOptions(conditionString=elementData["nextElement"],
+                                                                                   conditionType=elementData["condition"]))
+            if type == "action":
                 PEAction.addNextElement(id=internalId,
                                         protocol=protocol,
                                         nextElementId=elementData["nextElement"])
