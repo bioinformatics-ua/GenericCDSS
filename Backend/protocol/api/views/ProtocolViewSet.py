@@ -25,6 +25,32 @@ class ProtocolViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['post'])
     @transaction.atomic
+    def createProtocol(self, request):
+        title = request.data.get('title', None)
+        protocolElements = request.data.get('protocolElements', None)
+        schedules = request.data.get('schedules', None)
+
+        if (title == None or protocolElements == None or schedules == None):
+            return Response({
+                'error': "Invalid parameters"
+            })
+
+        protocol = Protocol.new(title=title, schedules=schedules)
+        #Create elements
+        for element in protocolElements:
+            ProtocolElement.new(internalId=element["internalId"],
+                                protocol=protocol,
+                                type=element["type"],
+                                elementData=element)
+        #Create elements relations
+        #todo
+
+
+        # fix this with a serializer
+        return Response({"results": protocol})
+
+    @list_route(methods=['post'])
+    @transaction.atomic
     def run(self, request):
         patientId = request.data.get('patientID', None)
         protocolId = request.data.get('protocolID', None)

@@ -18,12 +18,12 @@ class PEInquiry(ProtocolElement):
     @staticmethod
     def new(id, clinicalVariable, protocol):
         cv = ClinicalVariable.objects.get(variable=clinicalVariable)
-        PEInquiry.objects.create(clinicalVariable=cv, internalId=id, protocol=protocol).save()
+        return PEInquiry.objects.create(clinicalVariable=cv, internalId=id, protocol=protocol).save()
 
     @staticmethod
     def addNextElement(id, protocol, nextElementId):
-        pe = PEInquiry.objects.get(internalId=id, protocol=protocol)
-        nextElement = PENextElements.new(nextElementId=nextElementId, protocol=protocol)
+        pe = PEInquiry.objects.get(internalId=int(id), protocol=protocol)
+        nextElement = PENextElements.new(nextElementId=int(nextElementId), protocol=protocol)
         pe.nextElement = nextElement
         pe.save()
 

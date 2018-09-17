@@ -148,7 +148,17 @@ class ProtocolStore extends Reflux.Store {
     }
 
     onCreateProtocol(schedules){
-        //todo
+        this.setState({loading: true});
+        API.POST("protocol", "createProtocol", {
+            protocolElements: this.state.protocolData,
+            title: this.state.protocol.title,
+            schedules: schedules
+        }).then(res => {
+            this.setState({
+                actions: res.data["results"],
+                loading: false
+            });
+        })
     }
 
 }

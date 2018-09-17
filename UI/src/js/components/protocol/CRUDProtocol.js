@@ -53,9 +53,20 @@ class ShowProtocol extends Reflux.Component {
          * todo validations
          * call the post service and send the data
          * */
-        console.log("saveProtocol");
-        let protocolSchedules = [];//todo
+        let protocolSchedules = this.getSchedules();
         ProtocolActions.createProtocol(protocolSchedules);
+    };
+
+    getSchedules = () => {
+        /**
+         * Get the labels from the schedules selected and returns an array
+         *
+         * @return array of schedules (strings)
+         * */
+        let protocolSchedules = [];
+        for (let scheduleIndex in this.state.schedules)
+            protocolSchedules.push(this.state.schedules[scheduleIndex].label);
+        return protocolSchedules;
     };
 
     handleChange = (event) => {

@@ -27,6 +27,40 @@ class ProtocolElement(models.Model):
         unique_together = (('internalId', 'protocol'),)
 
     @staticmethod
+    def new(internalId, protocol, type, elementData):
+        '''
+        Creates a new protocol element depending of its type
+        '''
+        from protocol_element.models import PEInquiry, PEAction, PEDecision
+
+        if type != None:
+            # History todo
+            if type == "inquiry":
+                PEInquiry.new(id=internalId,
+                              clinicalVariable=elementData["clinicalVariable"]["variable"],
+                              protocol=protocol)
+
+                PEInquiry.addNextElement(id=internalId,
+                                         protocol=protocol,
+                                         nextElementId=elementData["nextElement"])
+            if type == "decision":
+                PEDecision.new(id=internalId,
+                               clinicalVariable=elementData["clinicalVariable"]["variable"],
+                               condition=elementData["condition"],
+                               protocol=protocol)
+                PEDecision.addNextElements(id=internalId,
+                                           protocol=protocol,
+                                           nextElements=PEDecision.dealWithOptions(conditionString=elementData["condition"],
+                                                                                   conditionType=elementData["condition"]))
+            if type == "action":
+                PEAction.new(id=internalId,
+                             action=elementData["action"],
+                             protocol=protocol)
+                PEAction.addNextElement(id=internalId,
+                                        protocol=protocol,
+                                        nextElementId=elementData["nextElement"])
+
+    @staticmethod
     def all(protocol=None, type=None):
         '''
         Returns all protocol elements

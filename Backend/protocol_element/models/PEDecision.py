@@ -32,15 +32,27 @@ class PEDecision(ProtocolElement):
     def new(id, clinicalVariable, protocol, condition):
         cv = ClinicalVariable.objects.get(variable=clinicalVariable)
         decision = PEDecision.objects.create(clinicalVariable=cv, condition=condition, internalId=id, protocol=protocol)
-        decision.save()
+        return decision.save()
 
     @staticmethod
     def addNextElements(id, protocol, nextElements):
-        pe = PEDecision.objects.get(internalId=id, protocol=protocol)
+        pe = PEDecision.objects.get(internalId=int(id), protocol=protocol)
         for option, id in nextElements.iteritems():
-            nextElement = PENextElements.new(option=option, nextElementId=id, protocol=protocol)
+            nextElement = PENextElements.new(option=option, nextElementId=int(id), protocol=protocol)
             pe.nextElement.add(nextElement)
         pe.save()
+
+    @staticmethod
+    def dealWithOptions(conditionString, conditionType):
+        nextElementOptions = {}
+        #Condition with true or false output
+        if(conditionType[0] in PEDecision.operation):
+            conditions = conditionString.split(";")
+            for condition in conditions:
+                splitedCondition = condition.split(":")
+                nextElementOptions[splitedCondition[0] == True] = splitedCondition[1]
+        #elif switch todo
+        return nextElementOptions
 
     @staticmethod
     def all():

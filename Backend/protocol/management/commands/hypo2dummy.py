@@ -80,8 +80,8 @@ class Command(BaseCommand):
                                    protocol=protocol,
                                    nextElements={True:4,False:7})
         PEInquiry.addNextElement(id=2,
-                                   protocol=protocol,
+                                 protocol=protocol,
                                  nextElementId=3)
         PEInquiry.addNextElement(id=1,
-                                   protocol=protocol,
+                                 protocol=protocol,
                                  nextElementId=2)

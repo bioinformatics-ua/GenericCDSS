@@ -16,12 +16,12 @@ class PEAction(ProtocolElement):
 
     @staticmethod
     def new(id, action, protocol):
-        PEAction.objects.create(action=action, internalId=id, protocol=protocol).save()
+        return PEAction.objects.create(action=action, internalId=id, protocol=protocol).save()
 
     @staticmethod
     def addNextElement(id, protocol, nextElementId):
-        pe = PEAction.objects.get(internalId=id, protocol=protocol)
-        nextElement = PENextElements.new(nextElementId=nextElementId, protocol=protocol)
+        pe = PEAction.objects.get(internalId=int(id), protocol=protocol)
+        nextElement = PENextElements.new(nextElementId=int(nextElementId), protocol=protocol)
         pe.nextElement = nextElement
         pe.save()
 

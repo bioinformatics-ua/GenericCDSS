@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from protocol.models import Schedule
+
 class Protocol(models.Model):
     SIMPLE          = 1
     COMPLEX         = 2
@@ -18,7 +20,21 @@ class Protocol(models.Model):
     removed         = models.BooleanField(default=False)
     type            = models.PositiveSmallIntegerField(choices=TYPES, default=SIMPLE)
     public          = models.BooleanField(default=False)
+    schedules       = models.ManyToManyField(Schedule)
 
     def __unicode__(self):
         return self.title
 
+    @staticmethod
+    def new(title, schedules):#, description, type, public):
+        protocol = Protocol.objects.create(title=title)
+                                                   # description=description,
+                                                   # type=type,
+                                                   # public=public)
+        protocol.save()
+        # History todo
+        for schedule in schedules:
+            scheduleObj = Schedule.objects.get(time=schedule)
+            protocol.schedules.add(scheduleObj)
+        protocol.save()
+        return protocol
