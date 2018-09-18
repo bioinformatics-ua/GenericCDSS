@@ -33,7 +33,7 @@ class Schedules extends Reflux.Component {
 
     modalContent = () => {
         return (
-            <div className="panel-body">
+            <div className="card-body">
                 Schedules thinking how to solve the problem about the hours vs before bed/meals time
             </div>
         );

@@ -63,15 +63,15 @@ class AdmittedPatients extends Reflux.Component {
 
         return (
             <div className="Content">
-                <div className="panel panel-default">
-                    <div className="panel-heading">
+                <div className="card">
+                    <div className="card-header">
                         <i className="fa fa-users pull-left"></i>
-                        <h3 className="text-center panel-title h3-table">Admitted Patients</h3>
+                        <h3 className="text-center card-title h3-table">Admitted Patients</h3>
 
-                        <Link to="/add/patient" className="pull-right btn btn-xs btn-success table-button">
+                        <Link to="/add/patient" className="pull-right btn btn-sm btn-success table-button">
                              <i className="fa fa-plus"></i></Link>
                     </div>
-                    <div className="panel-content">
+                    <div className="card-content">
                         <ReactTable
                             data={this.state.patientList}
                             columns={columns}

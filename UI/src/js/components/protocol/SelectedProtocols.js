@@ -37,7 +37,7 @@ class SelectedProtocols extends Component {
             maxWidth: 33,
             filterable: false,
             accessor: obj => obj.id,
-            Cell: props => <button className="btn btn-xxs btn-xs btn-quit btn-danger" onClick={this.removeSelectedProtocol}>
+            Cell: props => <button className="btn btn-xxs btn-sm btn-quit btn-danger" onClick={this.removeSelectedProtocol}>
                 <i className="fa fa-times"></i></button>
         }, {
             Header: () => <h5 className="h5-table">Title</h5>,
@@ -63,12 +63,12 @@ class SelectedProtocols extends Component {
 
         return (
             <div className="Content">
-                <div className="panel panel-default">
-                    <div className="panel-heading">
+                <div className="card">
+                    <div className="card-header">
                         <i className="fa fa-users pull-left"></i>
-                        <h3 className="text-center panel-title h3-table">Selected protocols</h3>
+                        <h3 className="text-center card-title h3-table">Selected protocols</h3>
                     </div>
-                    <div className="panel-content">
+                    <div className="card-content">
                         <ReactTable
                             getTdProps={this.removeSelectedProtocol}
                             data={this.state.selectedProtocols}

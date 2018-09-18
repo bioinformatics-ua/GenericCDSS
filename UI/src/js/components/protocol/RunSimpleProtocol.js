@@ -73,12 +73,12 @@ class RunSimpleProtocol extends Reflux.Component {
          * ask for the cvs
          * */
         return (
-            <div className="panel-body">
+            <div className="card-body">
                 {this.state.inquiryElements}
                 {this.state.resultActions.length !== 0 ?
-                    <div className="panel panel-info">
-                        <div className="panel-heading">Actions recommended</div>
-                        <div className="panel-body">{this.state.resultActions}</div>
+                    <div className="card panel-info">
+                        <div className="card-header">Actions recommended</div>
+                        <div className="card-body">{this.state.resultActions}</div>
                     </div> : ''}
             </div>
         );
@@ -133,7 +133,7 @@ class RunSimpleProtocol extends Reflux.Component {
 
     render() {
         return (
-            <button data-patientid={this.props.patientID} className="btn btn-xxs btn-xs btn-primary"
+            <button data-patientid={this.props.patientID} className="btn btn-xxs btn-sm btn-primary"
                     onClick={this.openModal}>
                 <i data-patientid={this.props.patientID} className="fa fa-play"></i>&nbsp;Run protocol
             </button>

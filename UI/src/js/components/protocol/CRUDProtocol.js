@@ -53,8 +53,13 @@ class ShowProtocol extends Reflux.Component {
          * todo validations
          * call the post service and send the data
          * */
-        let protocolSchedules = this.getSchedules();
-        ProtocolActions.createProtocol(protocolSchedules);
+        if(this.protocolIsValid()){
+            let protocolSchedules = this.getSchedules();
+            ProtocolActions.createProtocol(protocolSchedules);
+        }
+        else
+            this.openModal();
+
     };
 
     getSchedules = () => {
@@ -123,18 +128,27 @@ class ShowProtocol extends Reflux.Component {
             Cell: props => <span>{props.value}</span>
         }];
 
-        let extraObjectsSize = this.state.mode === "show" ? 160 : 200;
+        let extraObjectsSize = this.state.mode === "show" ? 200 : 245;
 
         return (
             <div className="ShowProtocol">
                 <h2>Protocol</h2>
-                <div className="panel panel-default panel-body PatientInfo">
+                <div className="card card-body PatientInfo">
                     <div className="row">
                         <div className="col-md-12">
                             <DisplayField label={"Title"}
                                           keydata={"title"}
                                           onChange={this.handleChange}
                                           value={this.state.protocol.title}
+                                          readOnly={this.state.mode === "show"} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <DisplayField label={"Description"}
+                                          keydata={"description"}
+                                          onChange={this.handleChange}
+                                          value={this.state.protocol.description}
                                           readOnly={this.state.mode === "show"} />
                         </div>
                     </div>
@@ -162,8 +176,8 @@ class ShowProtocol extends Reflux.Component {
                     </div>
                 </div>
 
-                <div className="panel panel-default">
-                    <div className="panel-content">
+                <div className="card">
+                    <div className="card-content">
                         <ReactTable
                             data={this.state.protocolData}
                             columns={columns}

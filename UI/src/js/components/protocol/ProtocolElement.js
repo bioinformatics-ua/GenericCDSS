@@ -17,8 +17,8 @@ class ProtocolElement extends Component {
 
     render() {
         return (
-            <div class="panel panel-default">
-                <form class="panel-body" >
+            <div class="card">
+                <form class="card-body" >
                     <div class="form-group">
                         <label for="exampleInputEmail1">{this.props.label}</label>
                         <div className="form-check">

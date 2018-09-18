@@ -29,7 +29,8 @@ class ExecutedProtocols extends Reflux.Component {
         }];
 
         return (
-            <div className="AssignedProtocols">
+            <div className="card-content">
+                <br/>
                 <ReactTable
                     data={this.state.executedProtocols}
                     columns={columns}

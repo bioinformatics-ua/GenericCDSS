@@ -25,8 +25,8 @@ class ProtocolRadioElement extends Component {
         }*/
 
         return (
-            <div className="panel panel-default">
-                <form className="panel-body" onSubmit={this.handleSubmit}>
+            <div className="card">
+                <form className="card-body" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">{this.props.label}</label>
                         <div className="form-check">

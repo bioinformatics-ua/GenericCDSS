@@ -111,7 +111,7 @@ class CVRepresentationGroup extends Component {
     modalContent = () => {
         let components = this.buildInsertionFields();
         return (
-            <div className="panel-body">
+            <div className="card-body">
                 {components}
 
                 {/*<div class="panel panel-info">*/}
@@ -148,7 +148,7 @@ class CVRepresentationGroup extends Component {
 
     render() {
         return (
-            <div className="panel-content">
+            <div className="card-content">
                 <ReactTable
                     data={this.state.data}
                     columns={this.state.header}

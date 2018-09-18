@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 class MyLink extends Component {
     render() {
         return (
-            <Link to={this.props.to}>
+            <Link to={this.props.to} className={this.props.className}>
                 <i className={"fa " + this.props.icon}></i>
                 {
                     this.props.bold ?

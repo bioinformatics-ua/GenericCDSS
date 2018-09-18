@@ -22,8 +22,7 @@ class ProtocolStore extends Reflux.Store {
             protocolList: [],
             protocolListKeyValue: [],
             protocol: {
-                // created_date: undefined,
-                // description: undefined,
+                description: "",
                 title: ""
             },
             assignedProtocols: [],
@@ -66,7 +65,8 @@ class ProtocolStore extends Reflux.Store {
                 });
         else
             this.setState({protocol: {
-                               title: ""
+                               title: "",
+                               description: "",
                            },
                            protocolData: []});
     }
@@ -152,6 +152,7 @@ class ProtocolStore extends Reflux.Store {
         API.POST("protocol", "createProtocol", {
             protocolElements: this.state.protocolData,
             title: this.state.protocol.title,
+            description: this.state.protocol.description,
             schedules: schedules
         }).then(res => {
             this.setState({

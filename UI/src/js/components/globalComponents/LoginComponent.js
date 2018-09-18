@@ -21,19 +21,19 @@ class LoginComponent extends Reflux.Component {
 
     render() {
         return (
-            <li className="dropdown">
-                <a href="#" className="dropdown-toggle boldit" data-toggle="dropdown" role="button"
+            <div className="nav-item dropdown">
+                <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                    aria-expanded="false">
                     <i className="fa fa-user"></i> LOGIN <span className="caret"></span>
                 </a>
-                <ul className="dropdown-menu" role="menu">
-                    <li className="li-login">
+                <div className="dropdown-menu dropdown-menu-right">
+                    <div className="li-login">
                         <form className="form-signin" onSubmit={this.login}>
 
                             <input name="username" ref="usr" type="text" className="form-control"
-                                   placeholder="Email" required autoFocus/>
+                                   placeholder="Email" required autoFocus />
                             <input name="password" ref="pwd" type="password" className="form-control"
-                                   placeholder="Password" required/>
+                                   placeholder="Password" required />
 
                             {this.state.failed ? (
                                 <div className="alert alert-danger" role="alert">Login failed</div>) : ''}
@@ -42,17 +42,20 @@ class LoginComponent extends Reflux.Component {
                                 className="btn btn-sm btn-primary btn-block"
                                 type="submit"><i className="fa fa-sign-in"></i> &nbsp;Sign in
                             </button>
-                            <label className="checkbox pull-left">
-                                <input defaultChecked="true" ref="rmb" name="remember_me" type="checkbox"
-                                       value="remember-me"/>
-                                Remember me
-                            </label>
-                            <Link className="pull-right need-help" to="forgotten">Forgot password ?</Link>
+                            <div className="need-help">
+                                <label className="pull-left">
+                                    <input defaultChecked="true" ref="rmb" name="remember_me" type="checkbox"
+                                           value="remember-me"/>
+                                    Remember me
+                                </label>
+                                <Link className="pull-right" to="forgotten">Forgot password ?</Link>
+                            </div>
                         </form>
-                        <Link to="signinup" className="text-center new-account">Create an account </Link>
-                    </li>
-                </ul>
-            </li>
+                        <br/>
+                        <Link to="signinup" className="btn btn-outline-link btn-block"> Create an account </Link>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

@@ -21,7 +21,7 @@ class PatientComplementInfo extends Component {
 
     render() {
         return (
-            <div className="panel panel-default panel-body CVRepresentationGroup">
+            <div className="card card-body CVRepresentationGroup">
                 <Tabs
                     defaultActiveKey="1"
                     renderTabBar={() => <ScrollableInkTabBar />}

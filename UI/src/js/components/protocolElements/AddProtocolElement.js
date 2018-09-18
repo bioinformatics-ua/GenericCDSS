@@ -40,7 +40,7 @@ class AddProtocolElement extends Reflux.Component {
         ];
 
         return (
-            <div className="panel-body">
+            <div className="card-body">
                 <DisplayField onChange={this.internalIdHandleChange}
                               label={"Element id"}
                               value={this.state.internalId}

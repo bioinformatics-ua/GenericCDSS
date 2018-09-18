@@ -19,63 +19,71 @@ class NavigationBar extends Reflux.Component {
     render() {
         if (this.state.authenticated === false)
             return (
-                <div className="collapse navbar-collapse" id="myNavbar">
-                    <ul className="nav navbar-nav navbar-right">
+                <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                    </ul>
+
+                    <ul className="navbar-nav my-2 my-lg-0">
                         <LoginComponent/>
                     </ul>
                 </div>);
-
         return (
-            <div className="collapse navbar-collapse" id="myNavbar">
-                <ul  className="nav navbar-nav navbar-right">
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                </ul>
+
+                <ul class="navbar-nav my-2 my-lg-0">
+                    <li class="nav-item my-2 my-sm-0">
+                    </li>
+
                     <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="fa fa-users"></i><strong>&nbsp;PATIENTS&nbsp;</strong><span
                             className="caret"></span>
                         </a>
-                        <ul className="dropdown-menu user-login" role="menu">
-                            <li>
-                                <MyLink to="/allpatients" icon="fa-users" label="All"/>
-                            </li>
-                            <li>
-                                <MyLink to="/admittedpatients" icon="fa-users" label="Admitted"/>
-                            </li>
-                        </ul>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            <MyLink to="/allpatients" icon="fa-users" label="All"
+                                    className="dropdown-item navbar-dropdown-width"/>
+                            <MyLink to="/admittedpatients" icon="fa-users" label="Admitted" className="dropdown-item"/>
+                        </div>
                     </li>
-                    <li>
-                        <MyLink to="/protocols" icon="fa-file" bold={true} label="PROTOCOLS"/>
+
+                    <li className="nav-item dropdown">
+                        <MyLink to="/protocols" icon="fa-file" bold={true} label="PROTOCOLS" className="nav-link"/>
                     </li>
-                    <li className="dropdown">
-                        <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-expanded="false">
+
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="fa fa-user"></i> {this.state.user.fullname} <span className="caret"></span>
                         </a>
-                        <ul className="dropdown-menu user-login" role="menu">
-                            <li className="user-details">
+                        <div className="dropdown-menu dropdown-menu-right user-login">
+                            <div className="dropdown-item user-details">
                                 <strong>Email:</strong><br /> {this.state.user.email}
                                 <hr />
-                                <strong>último login:</strong><br /> {this.state.user.last_login}
-                            </li>
-                            <li className="divider"></li>
-                            <li>
-                                <Link to="/profile"><i className="fa fa-pencil-square-o"></i> Editar perfil</Link>
-                            </li>
-                            <li>
-                                <Link to='/about'><i className="fa fa-info-circle"></i> Sobre</Link>
-                            </li>
-                            <li>
-                                <Link to='/help'><i className="fa fa-question-circle"></i> Ajuda</Link>
-                            </li>
-                            <li className="divider"></li>
-                            <li><a onClick={this.logout}><i className="fa fa-sign-out"></i>
-                                Logout</a></li>
-                        </ul>
+                                <strong>Last login:</strong><br /> {this.state.user.last_login}
+                            </div>
+                            <div class="dropdown-divider"></div>
+
+                            <Link to="/profile" className="dropdown-item"><i className="fa fa-pencil-square-o"></i> Edit
+                                profile</Link>
+
+                            <Link to='/about' className="dropdown-item"><i className="fa fa-info-circle"></i>
+                                About</Link>
+
+                            <Link to='/help' className="dropdown-item"><i className="fa fa-question-circle"></i>
+                                Help</Link>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a className="dropdown-item" onClick={this.logout}><i className="fa fa-sign-out"></i>
+                                Logout</a>
+                        </div>
                     </li>
                 </ul>
             </div>
-
-        )
+        );
     }
 }
 

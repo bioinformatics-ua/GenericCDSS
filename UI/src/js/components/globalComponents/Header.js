@@ -23,19 +23,13 @@ class Header extends Component {
     render() {
         return (
             <div ref="header" id="header" className="Header">
-                <nav className="navbar navbar-inverse">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle" data-toggle="collapse"
-                                    data-target="#myNavbar">
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            <Link className="navbar-brand" to="/"><strong>{ReactHtmlParser(this.state.appSymbol)}</strong></Link>
-                        </div>
-                        <NavigationBar/>
-                    </div>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <Link className="navbar-brand" to="/"><strong>{ReactHtmlParser(this.state.appSymbol)}</strong></Link>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <NavigationBar/>
                 </nav>
             </div>
         );

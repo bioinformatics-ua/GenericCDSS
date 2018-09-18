@@ -46,7 +46,7 @@ class AssignProtocolToPatient extends Reflux.Component {
 
     modalContent = () => {
         return (
-            <div className="panel-body">
+            <div className="card-body">
                 <DisplayField onChange={this.handleChange} label={"Quarto"}
                               keydata={"room"} value={this.state.room}/>
             </div>

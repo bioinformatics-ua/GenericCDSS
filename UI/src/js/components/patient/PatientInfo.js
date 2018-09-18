@@ -39,7 +39,7 @@ class PatientInfo extends Reflux.Component {
     render() {
         let readOnly = this.state.mode === "show" || this.state.mode === "admitting";
         return (
-            <div className="panel panel-default panel-body PatientInfo">
+            <div className="card card-body PatientInfo">
                 <div className="col-md-12">
                     <div className="row">
                         <div className="col-md-6">
