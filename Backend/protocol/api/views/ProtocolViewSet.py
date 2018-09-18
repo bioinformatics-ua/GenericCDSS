@@ -27,15 +27,16 @@ class ProtocolViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     def createProtocol(self, request):
         title = request.data.get('title', None)
+        description = request.data.get('description', None)
         protocolElements = request.data.get('protocolElements', None)
         schedules = request.data.get('schedules', None)
 
-        if (title == None or protocolElements == None or schedules == None):
+        if (title == None or protocolElements == None or schedules == None or description == None):
             return Response({
                 'error': "Invalid parameters"
             })
 
-        protocol = Protocol.new(title=title, schedules=schedules)
+        protocol = Protocol.new(title=title, description=description, schedules=schedules)
         #Create elements
         for element in protocolElements:
             ProtocolElement.new(internalId=element["internalId"],

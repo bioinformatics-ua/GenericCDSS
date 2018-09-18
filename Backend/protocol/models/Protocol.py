@@ -26,9 +26,9 @@ class Protocol(models.Model):
         return self.title
 
     @staticmethod
-    def new(title, schedules):#, description, type, public):
-        protocol = Protocol.objects.create(title=title)
-                                                   # description=description,
+    def new(title, description, schedules):#, type, public):
+        protocol = Protocol.objects.create(title=title,
+                                           description=description)
                                                    # type=type,
                                                    # public=public)
         protocol.save()

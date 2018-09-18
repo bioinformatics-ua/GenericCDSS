@@ -8,9 +8,9 @@ from model_utils.managers import InheritanceManager
 from protocol.models import Protocol
 
 class ProtocolElement(models.Model):
-    INQUIRY         = 1
-    ACTION          = 2
-    DECISION        = 3
+    INQUIRY         = "inquiry"
+    ACTION          = "action"
+    DECISION        = "decision"
 
     TYPES = (
         (INQUIRY, 'Inquiry protocol element'),
@@ -35,16 +35,16 @@ class ProtocolElement(models.Model):
 
         if type != None:
             # History todo
-            if type == "inquiry":
+            if type == ProtocolElement.INQUIRY:
                 PEInquiry.new(id=internalId,
                               clinicalVariable=elementData["clinicalVariable"]["variable"],
                               protocol=protocol)
-            if type == "decision":
+            if type == ProtocolElement.DECISION:
                 PEDecision.new(id=internalId,
                                clinicalVariable=elementData["clinicalVariable"]["variable"],
                                condition=elementData["condition"],
                                protocol=protocol)
-            if type == "action":
+            if type == ProtocolElement.ACTION:
                 PEAction.new(id=internalId,
                              action=elementData["action"],
                              protocol=protocol)
@@ -57,16 +57,16 @@ class ProtocolElement(models.Model):
 
         if type != None:
             # History todo
-            if type == "inquiry":
+            if type == ProtocolElement.INQUIRY:
                 PEInquiry.addNextElement(id=internalId,
                                          protocol=protocol,
                                          nextElementId=elementData["nextElement"])
-            if type == "decision":
+            if type == ProtocolElement.DECISION:
                 PEDecision.addNextElements(id=internalId,
                                            protocol=protocol,
                                            nextElements=PEDecision.dealWithOptions(conditionString=elementData["nextElement"],
                                                                                    conditionType=elementData["condition"]))
-            if type == "action":
+            if type == ProtocolElement.ACTION:
                 PEAction.addNextElement(id=internalId,
                                         protocol=protocol,
                                         nextElementId=elementData["nextElement"])
