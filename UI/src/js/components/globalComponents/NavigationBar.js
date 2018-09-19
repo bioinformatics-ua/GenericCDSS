@@ -32,8 +32,8 @@ class NavigationBar extends Reflux.Component {
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                 </ul>
 
-                <ul class="navbar-nav my-2 my-lg-0">
-                    <li class="nav-item my-2 my-sm-0">
+                <ul className="navbar-nav my-2 my-lg-0">
+                    <li className="nav-item my-2 my-sm-0">
                     </li>
 
                     <li className="nav-item dropdown">
@@ -64,7 +64,7 @@ class NavigationBar extends Reflux.Component {
                                 <hr />
                                 <strong>Last login:</strong><br /> {this.state.user.last_login}
                             </div>
-                            <div class="dropdown-divider"></div>
+                            <div className="dropdown-divider"></div>
 
                             <Link to="/profile" className="dropdown-item"><i className="fa fa-pencil-square-o"></i> Edit
                                 profile</Link>
@@ -75,7 +75,7 @@ class NavigationBar extends Reflux.Component {
                             <Link to='/help' className="dropdown-item"><i className="fa fa-question-circle"></i>
                                 Help</Link>
 
-                            <div class="dropdown-divider"></div>
+                            <div className="dropdown-divider"></div>
 
                             <a className="dropdown-item" onClick={this.logout}><i className="fa fa-sign-out"></i>
                                 Logout</a>

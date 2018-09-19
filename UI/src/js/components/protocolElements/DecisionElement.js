@@ -65,23 +65,28 @@ class DecisionElement extends Reflux.Component {
                 <DisplayOptionsField label={"Clinical variable"}
                                      options={this.state.headers}
                                      onChange={this.cvSelectHandleChange}
-                                     className={"Selectx2"}/>
+                                     selectClassName={"Selectx2"}
+                                     className={"mb-3"}/>
                 <DisplayOptionsField label={"Condition"}
                                      options={conditionOptions}
-                                     onChange={this.conditionHandleChange}/>
+                                     onChange={this.conditionHandleChange}
+                                     className={"mb-3"}/>
                 <DisplayField label={"Value"}
                               onChange={this.valueInConditionHandleChange}
-                              value={this.state.value}/>
+                              value={this.state.value}
+                              className={"mb-3"}/>
                 <DisplayField label={"Next element - True"}
                               onChange={this.nextElementIdWhenTrueHandleChange}
                               value={this.state.nextElementIdTrue}
                               type={"number"}
-                              min={"0"}/>
+                              min={"0"}
+                              className={"mb-3"}/>
                 <DisplayField label={"Next element - False"}
                               onChange={this.nextElementIdWhenFalseHandleChange}
                               value={this.state.nextElementIdFalse}
                               type={"number"}
-                              min={"0"}/>
+                              min={"0"}
+                              className={"mb-3"}/>
             </div>
         );
     }

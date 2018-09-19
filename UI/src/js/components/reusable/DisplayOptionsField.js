@@ -29,7 +29,7 @@ class DisplayOptionsField extends Component {
 
     render() {
         return (
-            <div className="input-group">
+            <div className={"input-group " + this.props.className}>
                 <div className="input-group-prepend d-flex">
                     <span className="input-group-text input-group-addon input-group-infos">
                                         <strong>{this.props.label}</strong>
@@ -42,7 +42,7 @@ class DisplayOptionsField extends Component {
                         :
                         <Select
                             placeholder={this.props.placeholder}
-                            className={"flex-fill " + this.props.className}
+                            className={"flex-fill " + this.props.selectClassName}
                             name="form-field-name"
                             multi={this.props.multi}
                             value={this.state.selection}
@@ -86,9 +86,13 @@ class DisplayOptionsField extends Component {
          * */
         multi: PropTypes.bool,
         /**
+         * Class for the component in general
+         * */
+        className: PropTypes.string,
+        /**
          * Class for the select component only
          * */
-        className: PropTypes.string
+        selectClassName: PropTypes.string
     };
 }
 
@@ -96,7 +100,8 @@ DisplayOptionsField.defaultProps = {
     multi: false,
     readOnly: false,
     placeholder: "",
-    className: "Select",
+    selectClassName: "Select",
+    className: "",
     selection: undefined
 };
 

@@ -31,13 +31,12 @@ class RunSimpleProtocol extends Reflux.Component {
             let inquiryElements = [];
             for (let cvIndex in this.state.protocolInquiryData.Elements) {
                 let cv = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"]["variable"];
-                inquiryElements.push(<div className="mb-3">
-                                        <DisplayField onChange={this.handleChange}
-                                                      label={cv}
-                                                      keydata={cv}
-                                                      value={this.state.insertionData[cv]}
-                                                      key={cvIndex}/>
-                                     </div>);
+                inquiryElements.push(<DisplayField onChange={this.handleChange}
+                                                   label={cv}
+                                                   keydata={cv}
+                                                   value={this.state.insertionData[cv]}
+                                                   key={cvIndex}
+                                                   className={"mb-3"}/>);
             }
 
             this.setState({

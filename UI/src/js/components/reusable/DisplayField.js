@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 class DisplayField extends Component {
     render() {
         return (
-            <div className="input-group">
+            <div className={"input-group " + this.props.className}>
                 <div className="input-group-prepend">
                     <span className="input-group-text input-group-addon input-group-infos">
                         <strong>{this.props.label}</strong>
@@ -63,14 +63,19 @@ class DisplayField extends Component {
         /**
          * Input max when number
          * */
-        max: PropTypes.string
+        max: PropTypes.string,
+        /**
+         * Class for the component in general
+         * */
+        className: PropTypes.string
     };
 
 }
 
 DisplayField.defaultProps = {
     readOnly: false,
-    type: "text"
+    type: "text",
+    className: ""
 };
 
 export default DisplayField;

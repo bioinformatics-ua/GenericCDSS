@@ -45,12 +45,14 @@ class AddProtocolElement extends Reflux.Component {
                               label={"Element id"}
                               value={this.state.internalId}
                               type={"number"}
-                              min={"0"}/>
+                              min={"0"}
+                              className={"mb-3"}/>
                 <DisplayOptionsField label={"Element type"}
                                      options={typeOptions}
                                      onChange={this.typeSelectHandleChange}
                                      selection={this.state.selectionType}
-                                     className={"Selectx3"}/>
+                                     className={"mb-3"}
+                                     selectClassName={"Selectx3"}/>
                 {this.protocolElementConfigurations()}
             </div>
         );
@@ -62,12 +64,12 @@ class AddProtocolElement extends Reflux.Component {
     };
 
     typeSelectHandleChange = (selection) => {
-        this.setState({selectionType: selection.value});
+        this.setState({selectionType: selection});
     };
 
     protocolElementConfigurations = () => {
         if (this.state.selectionType)
-            switch (this.state.selectionType) {
+            switch (this.state.selectionType.value) {
                 case 'inquiry':
                     return (
                         <InquiryElement addElementConfigurations={this.addElementConfigurations}/>
@@ -116,7 +118,7 @@ class AddProtocolElement extends Reflux.Component {
     buildElementObject = () => {
         let element = {
             internalId: this.state.internalId,
-            type: this.state.selectionType
+            type: this.state.selectionType.value
         };
 
         for (let key in this.state.elementConfigurations)

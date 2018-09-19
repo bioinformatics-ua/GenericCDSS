@@ -12,7 +12,7 @@ class ActionElement extends Reflux.Component {
         };
     }
 
-    actionHandleChange  = (event) => {
+    actionHandleChange = (event) => {
         event.preventDefault();
         this.props.addElementConfigurations("action", event.target.value);
         this.setState({action: event.target.value});
@@ -29,12 +29,14 @@ class ActionElement extends Reflux.Component {
             <div>
                 <DisplayField label={"Action"}
                               onChange={this.actionHandleChange}
-                              value={this.state.action}/>
+                              value={this.state.action}
+                              className={"mb-3"}/>
                 <DisplayField label={"Next element"}
                               onChange={this.nextElementIdHandleChange}
                               value={this.state.nextElementId}
                               type={"number"}
-                              min={"0"}/>
+                              min={"0"}
+                              className={"mb-3"}/>
             </div>
         );
     }
