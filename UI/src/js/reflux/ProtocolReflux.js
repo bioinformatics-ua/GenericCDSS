@@ -1,5 +1,6 @@
 import Reflux from 'reflux';
 import API from '../API.js';
+import History from '../components/globalComponents/History.js';
 
 const ProtocolActions = Reflux.createActions([
     'load',
@@ -156,9 +157,11 @@ class ProtocolStore extends Reflux.Store {
             schedules: schedules
         }).then(res => {
             this.setState({
-                actions: res.data["results"],
+                protocol: res.data["results"], protocolData: res.data["results"].elements,
                 loading: false
             });
+            History.push('/show/protocol/' + res.data["results"]["id"]);
+            window.location.reload();
         })
     }
 

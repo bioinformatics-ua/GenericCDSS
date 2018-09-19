@@ -24,7 +24,8 @@ class ShowProtocol extends Reflux.Component {
             protocolID: this.props.match.params.object,
             mode: this.getMode(),
             biggestElementId: 1,
-            schedules: undefined
+            schedules: undefined,
+            validated: false
         };
     }
 
@@ -53,18 +54,18 @@ class ShowProtocol extends Reflux.Component {
     };
 
     saveProtocol = () => {
-        /**
-         * todo validations
-         * call the post service and send the data
-         * */
         if (this.protocolIsValid()) {
             let protocolSchedules = this.getSchedules();
             ProtocolActions.createProtocol(protocolSchedules);
+            //redirect
         }
-        else
-            this.openModal();
-
     };
+
+    protocolIsValid = () => {
+        this.setState({validated:true});
+        return (this.state.protocol.title !== "" && this.state.protocol.description !== "" && this.state.schedules !== undefined);
+    };
+
 
     getSchedules = () => {
         /**
@@ -144,7 +145,9 @@ class ShowProtocol extends Reflux.Component {
                                           keydata={"title"}
                                           onChange={this.handleChange}
                                           value={this.state.protocol.title}
-                                          readOnly={this.state.mode === "show"}/>
+                                          readOnly={this.state.mode === "show"}
+                                          isInvalid={this.state.protocol.title === "" && this.state.validated}
+                                          invalidMessage={"The title field is empty"}/>
                         </div>
                     </div>
                     <div className="row">
@@ -153,7 +156,9 @@ class ShowProtocol extends Reflux.Component {
                                           keydata={"description"}
                                           onChange={this.handleChange}
                                           value={this.state.protocol.description}
-                                          readOnly={this.state.mode === "show"}/>
+                                          readOnly={this.state.mode === "show"}
+                                          isInvalid={this.state.protocol.description === "" && this.state.validated}
+                                          invalidMessage={"The description field is empty"}/>
                         </div>
                     </div>
                     <div className="row">
@@ -163,7 +168,9 @@ class ShowProtocol extends Reflux.Component {
                                                  onChange={this.schedulesSelectHandleChange}
                                                  readOnly={this.state.mode === "show"}
                                                  selection={this.state.schedules}
-                                                 multi={true}/>
+                                                 multi={true}
+                                                 isInvalid={this.state.schedules === undefined && this.state.validated}
+                                                 invalidMessage={"There is no selected schedules"}/>
                         </div>
                         {this.state.mode === "show" ?
                             <div className="col-md-5 align-self-center">

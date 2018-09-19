@@ -19,11 +19,18 @@ class DisplayField extends Component {
                         :
                         <input type={this.props.type}
                                data-keydata={this.props.keydata}
-                               className="form-control"
+                               className={"form-control " + (this.props.isInvalid ? "is-invalid": "")}
                                onChange={this.props.onChange}
                                value={this.props.value}
                                min={this.props.min}
                                max={this.props.max}/>
+
+                }
+                {
+                    this.props.isInvalid ?
+                        <div className="invalid-feedback">
+                            {this.props.invalidMessage}
+                        </div> : ''
                 }
             </div>
         );
@@ -67,7 +74,15 @@ class DisplayField extends Component {
         /**
          * Class for the component in general
          * */
-        className: PropTypes.string
+        className: PropTypes.string,
+        /**
+         * Message to show if the message is valid
+         * */
+        invalidMessage: PropTypes.string,
+        /**
+         * Boolean to trigger the invalid message
+         * */
+        isInvalid: PropTypes.bool,
     };
 
 }
@@ -75,7 +90,9 @@ class DisplayField extends Component {
 DisplayField.defaultProps = {
     readOnly: false,
     type: "text",
-    className: ""
+    className: "",
+    invalidMessage: "",
+    isInvalid: false
 };
 
 export default DisplayField;
