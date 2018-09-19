@@ -14,14 +14,13 @@ class DisplayOptionsField extends Component {
     }
 
     handleChange = (selection) => {
-        if (selection === null)
-        {
+        if (selection === null) {
             selection = undefined;
 
-            if(this.props.multi)
+            if (this.props.multi)
                 this.props.onChange([]);
             else
-                this.props.onChange({value:undefined, label:undefined});
+                this.props.onChange({value: undefined, label: undefined});
         }
         else
             this.props.onChange(selection);
@@ -30,25 +29,27 @@ class DisplayOptionsField extends Component {
 
     render() {
         return (
-            <div className="form-group">
-                <div className="input-group">
-                    <span className="input-group-addon input-group-infos">
-                        <strong>{this.props.label}</strong>
-                    </span>
-                    {
-                        this.props.readOnly ?
-                            <input className="form-control enabled" readOnly value={this.props.value}/>
-                            :
-                            <Select
-                                placeholder={this.props.placeholder}
-                                className={this.props.className}
-                                name="form-field-name"
-                                multi={this.props.multi}
-                                value={this.state.selection}
-                                onChange={this.handleChange}
-                                options={this.props.options}/>
-                    }
+            <div className="input-group">
+                <div className="input-group-prepend d-flex">
+                    <span className="input-group-text input-group-addon input-group-infos">
+                                        <strong>{this.props.label}</strong>
+                                    </span>
                 </div>
+
+                {
+                    this.props.readOnly ?
+                        <input className="form-control enabled" readOnly value={this.props.value}/>
+                        :
+                        <Select
+                            placeholder={this.props.placeholder}
+                            className={"flex-fill " + this.props.className}
+                            name="form-field-name"
+                            multi={this.props.multi}
+                            value={this.state.selection}
+                            onChange={this.handleChange}
+                            options={this.props.options}/>
+                }
+
             </div>
         );
     }

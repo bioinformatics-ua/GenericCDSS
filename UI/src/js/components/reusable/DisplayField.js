@@ -7,24 +7,24 @@ import PropTypes from 'prop-types';
 class DisplayField extends Component {
     render() {
         return (
-            <div className="form-group">
-                <div className="input-group">
-                    <span className="input-group-addon input-group-infos">
+            <div className="input-group">
+                <div className="input-group-prepend">
+                    <span className="input-group-text input-group-addon input-group-infos">
                         <strong>{this.props.label}</strong>
                     </span>
-                    {
-                         this.props.readOnly ?
-                            <input className="form-control enabled" readOnly value={this.props.value}/>
-                            :
-                            <input type={this.props.type}
-                                   data-keydata={this.props.keydata}
-                                   className="form-control"
-                                   onChange={this.props.onChange}
-                                   value={this.props.value}
-                                   min={this.props.min}
-                                   max={this.props.max}/>
-                    }
                 </div>
+                {
+                    this.props.readOnly ?
+                        <input className="form-control enabled" readOnly value={this.props.value}/>
+                        :
+                        <input type={this.props.type}
+                               data-keydata={this.props.keydata}
+                               className="form-control"
+                               onChange={this.props.onChange}
+                               value={this.props.value}
+                               min={this.props.min}
+                               max={this.props.max}/>
+                }
             </div>
         );
     }
@@ -63,7 +63,7 @@ class DisplayField extends Component {
         /**
          * Input max when number
          * */
-        max:  PropTypes.string
+        max: PropTypes.string
     };
 
 }

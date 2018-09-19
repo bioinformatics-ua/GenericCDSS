@@ -19,17 +19,17 @@ class AllPatients extends Reflux.Component {
 
     render() {
         const columns = [{
-            Header: () => <h5 className="h5-table">Nome completo</h5>,
+            Header: () => <h5 className="h5-table">Name</h5>,
             id: "fullname",
             accessor: obj => obj.fullname,
             Cell: props => <Link to={"patient/" + props.original.id}>{props.value}</Link>
         },{
-            Header:() =>  <h5 className="h5-table">Estado</h5>,
+            Header:() =>  <h5 className="h5-table">Condition</h5>,
             id: "status",
             accessor: obj => obj.status,
             Cell: props => <span>{PatientStatus.toString(props.value)}</span>
         },{
-            Header:() =>  <h5 className="h5-table">Contacto</h5>,
+            Header:() =>  <h5 className="h5-table">Contact</h5>,
             id: "contacto",
             accessor: obj => obj.phone,
             Cell: props => <span>{props.value}</span>
@@ -46,9 +46,9 @@ class AllPatients extends Reflux.Component {
                 <div className="card">
                     <div className="card-header">
                         <i className="fa fa-users pull-left"></i>
-                        <h3 className="text-center card-title h3-table">Pacientes</h3>
+                        <h3 className="text-center card-title h3-table">Patients</h3>
 
-                        <Link to="/add/patient" className="pull-right btn btn-sm btn-success table-button">
+                        <Link to="/add/patient" className="pull-right btn btn-sm btn-success table-button my-auto">
                              <i className="fa fa-plus"></i></Link>
                     </div>
                     <div className="card-content">

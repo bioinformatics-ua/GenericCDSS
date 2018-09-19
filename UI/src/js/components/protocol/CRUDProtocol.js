@@ -41,6 +41,10 @@ class ShowProtocol extends Reflux.Component {
         console.log("editProtocol");
     };
 
+    runProtocolExample = () => {
+        console.log("runProtocolExample");
+    };
+
     removeProtocol = () => {
         console.log("removeProtocol");
         /**
@@ -53,7 +57,7 @@ class ShowProtocol extends Reflux.Component {
          * todo validations
          * call the post service and send the data
          * */
-        if(this.protocolIsValid()){
+        if (this.protocolIsValid()) {
             let protocolSchedules = this.getSchedules();
             ProtocolActions.createProtocol(protocolSchedules);
         }
@@ -133,38 +137,41 @@ class ShowProtocol extends Reflux.Component {
         return (
             <div className="ShowProtocol">
                 <h2>Protocol</h2>
-                <div className="card card-body PatientInfo">
+                <div className="card card-body PatientInfo mb-3">
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 mb-3">
                             <DisplayField label={"Title"}
                                           keydata={"title"}
                                           onChange={this.handleChange}
                                           value={this.state.protocol.title}
-                                          readOnly={this.state.mode === "show"} />
+                                          readOnly={this.state.mode === "show"}/>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 mb-3">
                             <DisplayField label={"Description"}
                                           keydata={"description"}
                                           onChange={this.handleChange}
                                           value={this.state.protocol.description}
-                                          readOnly={this.state.mode === "show"} />
+                                          readOnly={this.state.mode === "show"}/>
                         </div>
                     </div>
                     <div className="row">
-                        <div className={this.state.mode === "show" ? "col-md-8" : "col-md-12"}>
+                        <div className={this.state.mode === "show" ? "col-md-7" : "col-md-12"}>
                             <DisplayOptionsField label={"Schedules"}
                                                  options={this.state.schedulesOptions}
                                                  onChange={this.schedulesSelectHandleChange}
                                                  readOnly={this.state.mode === "show"}
                                                  selection={this.state.schedules}
-                                                 multi={true} />
+                                                 multi={true}/>
                         </div>
                         {this.state.mode === "show" ?
-                            <div className="col-md-4">
+                            <div className="col-md-5 align-self-center">
                                 <div className="btn-group pull-right">
                                     {/*<button className="btn btn-sm btn-info btn-100" onClick={this.handleChange}><strong><i className="fa fa-code-fork"></i>&nbsp;Fork</strong></button>*/}
+                                    <button className="btn btn-sm btn-primary btn-150" onClick={this.runProtocolExample}>
+                                        <strong><i className="fa fa-play"></i>&nbsp;Run example</strong>
+                                    </button>
                                     <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>
@@ -172,11 +179,11 @@ class ShowProtocol extends Reflux.Component {
                                         <strong><i className="fa fa-times"></i>&nbsp;Remove</strong>
                                     </button>
                                 </div>
-                            </div>: ''}
+                            </div> : ''}
                     </div>
                 </div>
 
-                <div className="card">
+                <div className="card ">
                     <div className="card-content">
                         <ReactTable
                             data={this.state.protocolData}
@@ -188,22 +195,19 @@ class ShowProtocol extends Reflux.Component {
                                 id: 'id',
                                 asc: true,
                             }]}/>
-
-                        {/*<div className="btn-group CRUDProtocol-buttons-controler pull-left">*/}
-                            {/*<Schedules btnClass={"btn-150"}/>*/}
-                        {/*</div>*/}
-
-                        {this.state.mode !== "show" ?
-                            <div className="btn-group CRUDProtocol-buttons-controler pull-right">
-                                <AddProtocolElement btnClass={"btn-150"}
-                                                    addElement={this.addElement}
-                                                    elementID={this.state.biggestElementId} />
-                                <button className="btn btn-primary btn-150" onClick={this.saveProtocol}>
-                                    <i className="fa fa-calendar-alt"></i>&nbsp;Save
-                                </button>
-                            </div> : ''}
                     </div>
                 </div>
+                {
+                    this.state.mode !== "show" ?
+                        <div className="btn-group CRUDProtocol-buttons-controler pull-right mb-3">
+                            <AddProtocolElement btnClass={"btn-150"}
+                                                addElement={this.addElement}
+                                                elementID={this.state.biggestElementId}/>
+                            <button className="btn btn-primary btn-150" onClick={this.saveProtocol}>
+                                <i className="fa fa-calendar-alt"></i>&nbsp;Save
+                            </button>
+                        </div> : ''
+                }
             </div>
         );
     }

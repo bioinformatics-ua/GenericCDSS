@@ -1,5 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
+import PropTypes from 'prop-types';
 import ReactTable from 'react-table'
 import "react-table/react-table.css";
 import {Link} from "react-router-dom";
@@ -26,7 +27,7 @@ class Protocols extends Reflux.Component {
                 maxWidth: 33,
                 filterable: false,
                 accessor: obj => obj.id,
-                Cell: props =>  <button data-protocolid={props.value} data-protocoltitle={props.original.title} className="btn btn-xxs btn-xs btn-success" onClick={this.props.openModal}>
+                Cell: props =>  <button data-protocolid={props.value} data-protocoltitle={props.original.title} className="btn btn-xxs btn-sm btn-success" onClick={this.props.openModal}>
                                     <i data-protocolid={props.value} data-protocoltitle={props.original.title} className="fa fa-plus"></i>
                                 </button>
             });
@@ -63,16 +64,28 @@ class Protocols extends Reflux.Component {
                         <ReactTable
                             data={this.state.protocolList}
                             columns={columns}
-                            defaultPageSize={this.props.rows === undefined ? Settings.getPatientTableRows() : this.props.rows}
+                            defaultPageSize={this.props.rows}
                             filterable
                             loading={this.state.loading}
-                            pageSizeOptions={[this.props.rows === undefined ? Settings.getPatientTableRows() : this.props.rows, 50, 100]}/>
+                            pageSizeOptions={[this.props.rows, 50, 100]}/>
 
                     </div>
                 </div>
             </div>
         );
     }
+
+    static propTypes = {
+        /**
+         *  Number of row in the table
+         * */
+        rows: PropTypes.number
+    };
 }
+
+
+Protocols.defaultProps = {
+    rows: Settings.getPatientTableRows()
+};
 
 export default Protocols;

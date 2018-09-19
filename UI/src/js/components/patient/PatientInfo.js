@@ -39,9 +39,9 @@ class PatientInfo extends Reflux.Component {
     render() {
         let readOnly = this.state.mode === "show" || this.state.mode === "admitting";
         return (
-            <div className="card card-body PatientInfo">
+            <div className="card card-body PatientInfo mb-3">
                 <div className="col-md-12">
-                    <div className="row">
+                    <div className="row mb-3">
                         <div className="col-md-6">
                             <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"First Name"}
                                           keydata={"first_name"} value={this.state.patient.first_name}/>
@@ -51,7 +51,7 @@ class PatientInfo extends Reflux.Component {
                                           keydata={"last_name"} value={this.state.patient.last_name}/>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-3">
                         <div className="col-md-6">
                             <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Gender"}
                                           keydata={"gender"} value={this.state.patient.fullgender}/>
@@ -62,7 +62,7 @@ class PatientInfo extends Reflux.Component {
                                           keydata={"birthdate"} value={this.state.patient.birthdate}/>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-3">
                         <div className="col-md-6">
                             <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Phone"}
                                           keydata={"phone"} value={this.state.patient.phone}/>

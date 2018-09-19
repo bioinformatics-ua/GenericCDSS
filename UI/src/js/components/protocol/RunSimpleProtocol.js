@@ -31,11 +31,13 @@ class RunSimpleProtocol extends Reflux.Component {
             let inquiryElements = [];
             for (let cvIndex in this.state.protocolInquiryData.Elements) {
                 let cv = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"]["variable"];
-                inquiryElements.push(<DisplayField onChange={this.handleChange}
-                                                   label={cv}
-                                                   keydata={cv}
-                                                   value={this.state.insertionData[cv]}
-                                                   key={cvIndex}/>);
+                inquiryElements.push(<div className="mb-3">
+                                        <DisplayField onChange={this.handleChange}
+                                                      label={cv}
+                                                      keydata={cv}
+                                                      value={this.state.insertionData[cv]}
+                                                      key={cvIndex}/>
+                                     </div>);
             }
 
             this.setState({
@@ -102,7 +104,7 @@ class RunSimpleProtocol extends Reflux.Component {
          .* Verify if run is pressed or not and show run or only cancel
          * */
         if (!this.state.protocolExecuted)
-            return (<div className="">
+            return (<div className="btn-group">
                 <button className="btn btn-default btn-100" onClick={this.closeModal}>
                     <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>

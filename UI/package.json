@@ -11,7 +11,7 @@
     "rc-tabs": "^9.2.4",
     "react": "^16.2.0",
     "react-awesome-modal": "^2.0.3",
-    "react-bootstrap": "^0.32.1",
+    "react-bootstrap": "^0.32.4",
     "react-cookie": "^2.1.4",
     "react-date-picker": "^6.10.1",
     "react-dom": "^16.2.0",

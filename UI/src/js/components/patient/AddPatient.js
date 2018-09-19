@@ -30,7 +30,7 @@ class AddPatient extends Reflux.Component {
 
         return (
             <div className="AddPatient">
-                <h2>Introduzir paciente</h2>
+                <h2>Insert patient</h2>
                 <Select
                     placeholder="Procurar pelo paciente no sistema"
                     className="Select"
@@ -44,7 +44,7 @@ class AddPatient extends Reflux.Component {
                 {
                     this.state.selectedPatient === undefined ? '' :
                         <span>
-                            <h2>Complementos</h2>
+                            <h2>Additional information</h2>
                             <PatientComplementInfo patientID={patientID}/>
                         </span>
                 }
