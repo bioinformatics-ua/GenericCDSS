@@ -14,7 +14,8 @@ const ProtocolActions = Reflux.createActions([
     'runProtocol',
     'createProtocol',
     'loadProtocolInquiryActions',
-    'runProtocolTest'
+    'runProtocolTest',
+    'removeProtocol'
 ]);
 
 class ProtocolStore extends Reflux.Store {
@@ -192,6 +193,19 @@ class ProtocolStore extends Reflux.Store {
             History.push('/show/protocol/' + res.data["results"]["id"]);
             window.location.reload();
         })
+    }
+
+    onRemoveProtocol(protocolID){
+        if (protocolID !== undefined) {
+            this.setState({loading: true});
+            API.POST("protocol", "remove",{
+                    protocolID: protocolID
+                }).then(res => {
+                    this.setState({
+                        loading: false
+                    });
+                });
+        }
     }
 
 }

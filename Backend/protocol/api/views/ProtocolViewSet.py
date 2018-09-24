@@ -20,7 +20,7 @@ from protocol_element.models import ProtocolElement, PEInquiry
 from history.models import History
 
 class ProtocolViewSet(viewsets.ModelViewSet):
-    queryset = Protocol.objects.all()
+    queryset = Protocol.all()
     serializer_class = ProtocolSerializer
 
     @list_route(methods=['post'])
@@ -110,3 +110,18 @@ class ProtocolViewSet(viewsets.ModelViewSet):
         return Response({"results": {
                                 "Protocol": ProtocolSerializer(protocol).data,
                                 "Elements": PEInquirySerializer(elements, many=True).data}})
+
+    @list_route(methods=['post'])
+    @transaction.atomic
+    def remove(self, request):
+        protocolId = request.data.get('protocolID', None)
+
+        if (protocolId):
+            protocol = Protocol.objects.get(id=protocolId)
+            protocol.remove()
+        else:
+            return Response({
+                'error': "Invalid parameters"
+            })
+
+        return Response({"results": "ok"})

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 /**
  * Component to run protocols
  * */
-class RunProtocol  extends Reflux.Component {
+class RunProtocol extends Reflux.Component {
     constructor(props) {
         super(props);
         this.stores = [ProtocolStore];
@@ -89,7 +89,7 @@ class RunProtocol  extends Reflux.Component {
         let protocolId = this.state.protocolInquiryData.Protocol.id;
         let patientId = this.state.patientID;
 
-        if(this.props.testMode)
+        if (this.props.testMode)
             ProtocolActions.runProtocolTest(protocolId, insertionData);
         else
             ProtocolActions.runProtocol(patientId, protocolId, insertionData);
@@ -148,12 +148,12 @@ class RunProtocol  extends Reflux.Component {
         /**
          * Load the inquiry actions from protocol
          **/
-        if(this.props.patientID !== undefined){
+        if (this.props.patientID !== undefined) {
             let patientId = this.props.patientID;
             ProtocolActions.loadInquiryActions(patientId);
         }
 
-        if(this.props.protocolID !== undefined){
+        if (this.props.protocolID !== undefined) {
             let protocolId = this.props.protocolID;
             ProtocolActions.loadProtocolInquiryActions(protocolId);
         }
@@ -173,7 +173,7 @@ class RunProtocol  extends Reflux.Component {
     render() {
         return (
             <button data-patientid={this.props.patientID} className={this.props.className} onClick={this.openModal}>
-                 <span><i data-patientid={this.props.patientID} className={this.props.icon}></i>&nbsp;{this.props.label}</span>
+                <span><i data-patientid={this.props.patientID} className={this.props.icon}></i>&nbsp;{this.props.label}</span>
             </button>
         );
     }
@@ -190,15 +190,24 @@ class RunProtocol  extends Reflux.Component {
         /**
          * Button label
          * */
-        label: PropTypes.object,
+        label: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ]),
         /**
          * Patient id, somethimes it is necessary
          * */
-        protocolID: PropTypes.number,
+        protocolID: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
         /**
          * Protocol id, somethimes it is necessary
          * */
-        patientID: PropTypes.number
+        patientID: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     }
 }
 

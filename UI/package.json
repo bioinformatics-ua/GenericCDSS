@@ -12,6 +12,7 @@
     "react": "^16.2.0",
     "react-awesome-modal": "^2.0.3",
     "react-bootstrap": "^0.32.4",
+    "react-bootstrap-sweetalert": "^4.4.1",
     "react-cookie": "^2.1.4",
     "react-date-picker": "^6.10.1",
     "react-dom": "^16.2.0",

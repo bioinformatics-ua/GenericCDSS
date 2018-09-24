@@ -2,7 +2,6 @@ import React from 'react';
 import Reflux from 'reflux';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
-import {StateActions} from '../../reflux/StateReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
 import RunProtocol from './RunProtocol.js';
 import Settings from '../../GlobalSettings.js';
@@ -11,6 +10,8 @@ import ReactTable from 'react-table'
 import "react-table/react-table.css";
 import DisplayField from '../reusable/DisplayField.js';
 import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
+
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 class ShowProtocol extends Reflux.Component {
     constructor(props) {
@@ -21,7 +22,8 @@ class ShowProtocol extends Reflux.Component {
             mode: this.getMode(),
             biggestElementId: 1,
             schedules: undefined,
-            validated: false
+            validated: false,
+            showRemoveMessage: false
         };
     }
 
@@ -82,18 +84,23 @@ class ShowProtocol extends Reflux.Component {
         console.log("editProtocol");
     };
 
+    askForRemoveProtocol = () => {
+        this.setState({showRemoveMessage:true});
+    };
+
     removeProtocol = () => {
-        console.log("removeProtocol");
-        /**
-         * Shows a modal asking if the user is sure about it, if yes call a web service and destivate protocol only todo
-         * */
+        ProtocolActions.removeProtocol(this.state.protocolID);
+        this.setState({showRemoveMessage:false});
+    };
+
+    cancelRemoveProtocol = () => {
+        this.setState({showRemoveMessage:false});
     };
 
     saveProtocol = () => {
         if (this.protocolIsValid()) {
             let protocolSchedules = this.getSchedules();
             ProtocolActions.createProtocol(protocolSchedules);
-            //redirect
         }
     };
 
@@ -180,15 +187,28 @@ class ShowProtocol extends Reflux.Component {
                                                  testMode={true}/>
 
                                     {/*<button className="btn btn-sm btn-primary btn-150"*/}
-                                            {/*onClick={this.runProtocolExample}>*/}
-                                        {/*<strong><i className="fa fa-play"></i>&nbsp;Run example</strong>*/}
+                                    {/*onClick={this.runProtocolExample}>*/}
+                                    {/*<strong><i className="fa fa-play"></i>&nbsp;Run example</strong>*/}
                                     {/*</button>*/}
                                     <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>
-                                    <button className="btn btn-sm btn-danger btn-150" onClick={this.removeProtocol}>
+                                    <button className="btn btn-sm btn-danger btn-150" onClick={this.askForRemoveProtocol}>
                                         <strong><i className="fa fa-times"></i>&nbsp;Remove</strong>
                                     </button>
+                                    {this.state.showRemoveMessage ?
+                                        <SweetAlert warning
+                                                    showCancel
+                                                    confirmBtnText="Yes, remove it!"
+                                                    confirmBtnBsStyle="danger"
+                                                    cancelBtnBsStyle="default"
+                                                    title="Are you sure?"
+                                                    onConfirm={this.removeProtocol}
+                                                    onCancel={this.cancelRemoveProtocol}
+                                                    >
+                                                    You will not be able to recover this protocol!
+                                                    </SweetAlert>:''
+                                    }
                                 </div>
                             </div> : ''}
                     </div>

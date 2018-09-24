@@ -39,6 +39,15 @@ class Protocol(models.Model):
         protocol.save()
         return protocol
 
+    @staticmethod
+    def all():
+        '''
+        Returns all executed protocol instances
+        '''
+        tmpAll = Protocol.objects.all().filter(removed=False)
+
+        return tmpAll.order_by('title')
+
     def run(self, inquiryData):
         from protocol_element.models import ProtocolElement, PEDecision, PEAction
 
@@ -68,3 +77,7 @@ class Protocol(models.Model):
                 counter += 1
 
         return (elementsExecuted, actionsResult)
+
+    def remove(self):
+        self.removed = True
+        self.save()
