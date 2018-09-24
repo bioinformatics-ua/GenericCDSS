@@ -7,7 +7,7 @@ import History from '../globalComponents/History.js';
 /**
  * Component to remove protocols
  * */
-class RemoveProtocol extends Component {
+class RemoveProtocolButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,7 +78,7 @@ class RemoveProtocol extends Component {
     };
 }
 
-export default RemoveProtocol;
+export default RemoveProtocolButton;
 
 
 

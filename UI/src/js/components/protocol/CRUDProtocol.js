@@ -3,8 +3,8 @@ import Reflux from 'reflux';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
-import RunProtocol from './RunProtocol.js';
-import RemoveProtocol from './RemoveProtocol.js';
+import RunProtocolButton from './RunProtocolButton.js';
+import RemoveProtocolButton from './RemoveProtocolButton.js';
 import Settings from '../../GlobalSettings.js';
 import $ from 'jquery';
 import ReactTable from 'react-table'
@@ -167,14 +167,14 @@ class ShowProtocol extends Reflux.Component {
                                 <div className="btn-group pull-right">
                                     {/*<button className="btn btn-sm btn-info btn-100" onClick={this.handleChange}><strong><i className="fa fa-code-fork"></i>&nbsp;Fork</strong></button>*/}
 
-                                    <RunProtocol className={"btn btn-sm btn-primary btn-150"}
+                                    <RunProtocolButton className={"btn btn-sm btn-primary btn-150"}
                                                  label={<strong>Run example</strong>}
                                                  protocolID={this.state.protocolID}
                                                  testMode={true}/>
                                     <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>
-                                    <RemoveProtocol protocolID={this.state.protocolID} />
+                                    <RemoveProtocolButton protocolID={this.state.protocolID} />
                                 </div>
                             </div> : ''}
                     </div>

@@ -100,6 +100,7 @@ class AssignProtocolToPatient extends Reflux.Component {
                 <hr/>
 
                 <div>
+
                     <div className="AssignProtocolToPatient-buttons-controler pull-right">
                         <button className="btn btn-success btn-100" onClick={this.openModal}>Admit</button>
                     </div>

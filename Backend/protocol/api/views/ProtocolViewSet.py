@@ -124,4 +124,4 @@ class ProtocolViewSet(viewsets.ModelViewSet):
                 'error': "Invalid parameters"
             })
 
-        return Response({"results": "ok"})
+        return Response({"results": "success"})

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 /**
  * Component to run protocols
  * */
-class RunProtocol extends Reflux.Component {
+class RunProtocolButton extends Reflux.Component {
     constructor(props) {
         super(props);
         this.stores = [ProtocolStore];
@@ -211,7 +211,7 @@ class RunProtocol extends Reflux.Component {
     }
 }
 
-RunProtocol.defaultProps = {
+RunProtocolButton.defaultProps = {
     className: "btn btn-xxs btn-sm btn-primary",
     icon: "fa fa-play",
     label: "Run protocol",
@@ -220,4 +220,4 @@ RunProtocol.defaultProps = {
     testMode: false
 };
 
-export default RunProtocol;
+export default RunProtocolButton;
