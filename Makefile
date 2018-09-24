@@ -1,3 +1,10 @@
+build:
+	docker build -t bioinformatics-ua/genericcdss:latest .
+
+dock-run:
+	docker-compose up --no-recreate -d
+#   docker run -p 8000:8000 -i -t bioinformatics-ua/genericcdss
+
 createDB:
 	cd Backend && python manage.py makemigrations && python manage.py migrate
 
