@@ -4,6 +4,7 @@ import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
 import {StateActions} from '../../reflux/StateReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
+import RunProtocol from './RunProtocol.js';
 import Settings from '../../GlobalSettings.js';
 import $ from 'jquery';
 import ReactTable from 'react-table'
@@ -20,9 +21,7 @@ class ShowProtocol extends Reflux.Component {
             mode: this.getMode(),
             biggestElementId: 1,
             schedules: undefined,
-            validated: false,
-            insertionData: {},
-            resultActions: []
+            validated: false
         };
     }
 
@@ -31,109 +30,11 @@ class ShowProtocol extends Reflux.Component {
         ScheduleActions.load();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.protocolInquiryData !== this.state.protocolInquiryData) {
-            let inquiryElements = [];
-            for (let cvIndex in this.state.protocolInquiryData.Elements) {
-                let cv = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"]["variable"];
-                inquiryElements.push(<DisplayField onChange={this.cvHandleChange}
-                                                   label={cv}
-                                                   keydata={cv}
-                                                   value={this.state.insertionData[cv]}
-                                                   key={cvIndex}
-                                                   className={"mb-3"}/>);
-            }
-
-            this.setState({
-                inquiryElements: inquiryElements,
-                protocolTitle: this.state.protocolInquiryData.Protocol.title
-            });
-        }
-
-        if (prevState.actions !== this.state.actions) {
-            let resultActions = [];
-            for (let actionIndex in this.state.actions)
-                resultActions.push(
-                    <p key={actionIndex}>{this.state.actions[actionIndex][0] + " - " + this.state.actions[actionIndex][1]}</p>);
-
-            this.setState({resultActions: resultActions, protocolExecuted: true});
-        }
-
-        if (prevState.resultActions !== this.state.resultActions)
-            StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
-
-        if (prevState.protocolTitle !== this.state.protocolTitle && this.state.protocolTitle !== "")
-            StateActions.openModal(this.modalHeader(), this.modalContent(), this.modalFooter());
-    }
-
-
-    /*******************************************************************************************************************
-     * Modal actions
-     ******************************************************************************************************************/
-    modalHeader = () => {
-        return (
-            <div className="">
-                <h1>{this.state.protocolTitle}</h1>
-            </div>
-        );
-    };
-
-    modalContent = () => {
-        /**
-         * ask for the cvs
-         * */
-        return (
-            <div className="card-body">
-                {this.state.inquiryElements}
-                {this.state.resultActions.length !== 0 ?
-                    <div className="card panel-info">
-                        <div className="card-header">Actions recommended</div>
-                        <div className="card-body">{this.state.resultActions}</div>
-                    </div> : ''}
-            </div>
-        );
-    };
-
-    modalFooter = () => {
-        return (<div className="btn-group">
-            <button className="btn btn-default btn-100" onClick={this.closeModal}>
-                <i className="fa fa-ban"></i>&nbsp;Cancel
-            </button>
-            <button className="btn btn-success btn-100" onClick={this.runProtocol}>
-                <i className="fa fa-play"></i>&nbsp;Run
-            </button>
-        </div>);
-    };
-
-    runProtocol = () => {
-        //to do
-        //It is necessary verify if all the data was inserted
-        // but for now i only will call the service and go
-        //console.log(this.state);
-        let insertionData = this.state.insertionData;
-        let protocolId = this.state.protocolInquiryData.Protocol.id;
-
-        ProtocolActions.runProtocolTest(protocolId, insertionData);
-    };
-
-    closeModal = () => {
-        StateActions.closeModal();
-    };
-
-
     /*******************************************************************************************************************
      * Auxiliary functions
      ******************************************************************************************************************/
     getMode = () => {
         return this.props.match.path.split("/")[1];
-    };
-
-    cvHandleChange = (event) => {
-        event.preventDefault();
-        let key = $(event.target).data("keydata");
-        let new_insertionData = this.state.insertionData;
-        new_insertionData[key] = event.target.value;
-        this.setState({insertionData: new_insertionData});
     };
 
     protocolIsValid = () => {
@@ -179,11 +80,6 @@ class ShowProtocol extends Reflux.Component {
      ******************************************************************************************************************/
     editProtocol = () => {
         console.log("editProtocol");
-    };
-
-    runProtocolExample = () => {
-        let protocolId = this.state.protocolID;
-        ProtocolActions.loadProtocolInquiryActions(protocolId);
     };
 
     removeProtocol = () => {
@@ -277,10 +173,16 @@ class ShowProtocol extends Reflux.Component {
                             <div className="col-md-5 align-self-center">
                                 <div className="btn-group pull-right">
                                     {/*<button className="btn btn-sm btn-info btn-100" onClick={this.handleChange}><strong><i className="fa fa-code-fork"></i>&nbsp;Fork</strong></button>*/}
-                                    <button className="btn btn-sm btn-primary btn-150"
-                                            onClick={this.runProtocolExample}>
-                                        <strong><i className="fa fa-play"></i>&nbsp;Run example</strong>
-                                    </button>
+
+                                    <RunProtocol className={"btn btn-sm btn-primary btn-150"}
+                                                 label={<strong>Run example</strong>}
+                                                 protocolID={this.state.protocolID}
+                                                 testMode={true}/>
+
+                                    {/*<button className="btn btn-sm btn-primary btn-150"*/}
+                                            {/*onClick={this.runProtocolExample}>*/}
+                                        {/*<strong><i className="fa fa-play"></i>&nbsp;Run example</strong>*/}
+                                    {/*</button>*/}
                                     <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>

@@ -75,8 +75,8 @@ class ProtocolStore extends Reflux.Store {
     }
 
     onLoadInquiryActions(patientID){
-        this.setState({loading: true});
-        if (patientID !== undefined)
+        if (patientID !== undefined){
+            this.setState({loading: true});
             API.GET("protocolcomponents", patientID, "patient")
                 .then(res => {
                     this.setState({
@@ -85,11 +85,12 @@ class ProtocolStore extends Reflux.Store {
                         loading: false
                     });
                 });
+        }
     }
 
     onLoadProtocolInquiryActions(protocolID){
-        this.setState({loading: true});
-        if (protocolID !== undefined)
+        if (protocolID !== undefined) {
+            this.setState({loading: true});
             API.GET("protocolcomponents", protocolID, "protocol")
                 .then(res => {
                     this.setState({
@@ -97,6 +98,7 @@ class ProtocolStore extends Reflux.Store {
                         loading: false
                     });
                 });
+        }
     }
 
     onLoadAssignedProtocols(patientID) {
