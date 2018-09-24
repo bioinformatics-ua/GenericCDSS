@@ -195,14 +195,14 @@ class RunProtocol extends Reflux.Component {
             PropTypes.object
         ]),
         /**
-         * Patient id, somethimes it is necessary
+         * Protocol id, somethimes it is necessary
          * */
         protocolID: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
         ]),
         /**
-         * Protocol id, somethimes it is necessary
+         * Patient id, somethimes it is necessary
          * */
         patientID: PropTypes.oneOfType([
             PropTypes.string,
