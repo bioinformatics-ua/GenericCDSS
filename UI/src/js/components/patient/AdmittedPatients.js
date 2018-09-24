@@ -6,8 +6,7 @@ import {Link} from "react-router-dom";
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import {ProtocolStore} from '../../reflux/ProtocolReflux.js';
 import Settings from '../../GlobalSettings.js';
-import RunProtocol from '../protocol/RunProtocol.js';
-
+import RunProtocolButton from '../protocol/RunProtocolButton.js';
 
 class AdmittedPatients extends Reflux.Component {
     constructor(props) {
@@ -57,7 +56,7 @@ class AdmittedPatients extends Reflux.Component {
             id: "actions",
             filterable: false,
             accessor: obj => obj.patient.id,
-            Cell: props =>  <RunProtocol patientID={props.value}/>
+            Cell: props =>  <RunProtocolButton patientID={props.value}/>
         }];
 
 

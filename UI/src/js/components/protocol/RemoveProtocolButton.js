@@ -74,7 +74,7 @@ class RemoveProtocolButton extends Component {
         protocolID: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
-        ])
+        ]).isRequired
     };
 }
 

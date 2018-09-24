@@ -8,9 +8,8 @@ import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
 import ProtocolCostumization from './ProtocolCostumization.js';
+import AdmitPatientButton from '../patient/AdmitPatientButton.js';
 import $ from 'jquery';
-
-
 
 class AssignProtocolToPatient extends Reflux.Component {
     constructor(props) {
@@ -53,33 +52,10 @@ class AssignProtocolToPatient extends Reflux.Component {
         );
     };
 
-    modalFooter = () => {
-        return (
-            <div className="">
-                <button className="btn btn-default btn-100" onClick={this.closeModal}>
-                    <i className="fa fa-ban"></i>&nbsp;Cancel
-                </button>
-                <button className="btn btn-success btn-100" onClick={this.admitPatient}>
-                    <i className="fa fa-plus"></i>&nbsp;Add
-                </button>
-            </div>
-        );
-    };
-
-    openModal = (event) => {
-        event.preventDefault();
-        StateActions.openModal(this.modalHeader(), this.modalContent(), this.modalFooter());
-    };
-
-    closeModal = () => {
-        StateActions.closeModal();
-    };
 
     admitPatient = () => {
         let selectedProtocols = [{"id":this.state.selectedProtocol.selectedProtocol["value"]}]; //Provisorio
         AdmissionActions.admitPatient(this.state.patientID, selectedProtocols, this.state.room);
-        History.push('/admittedpatients');
-        StateActions.closeModal();
     };
 
     selectHandleChange = (selectedProtocol) => {
@@ -95,15 +71,20 @@ class AssignProtocolToPatient extends Reflux.Component {
                 <PatientInfo mode={"admitting"} patientID={this.state.patientID}/>
 
                 <h2>Protocol assignment</h2>
-                <ProtocolCostumization setProtocol={this.selectHandleChange}/>
-
-                <hr/>
-
-                <div>
-
-                    <div className="AssignProtocolToPatient-buttons-controler pull-right">
-                        <button className="btn btn-success btn-100" onClick={this.openModal}>Admit</button>
+                <div className="card card-body PatientInfo mb-3">
+                    <div className="row">
+                        <div className="col-md-6 mb-3">
+                            <ProtocolCostumization setProtocol={this.selectHandleChange}/>
+                        </div>
+                        <div className="col-md-6 mb-3">
+                            <DisplayField onChange={this.handleChange} label={"Quarto"}
+                                          keydata={"room"} value={this.state.room}/>
+                        </div>
                     </div>
+                </div>
+                <hr/>
+                <div>
+                    <AdmitPatientButton admitPatient={this.admitPatient} />
                 </div>
             </div>
         )
