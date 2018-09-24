@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import {ProtocolStore} from '../../reflux/ProtocolReflux.js';
 import Settings from '../../GlobalSettings.js';
-import RunSimpleProtocol from '../protocol/RunSimpleProtocol.js';
+import RunProtocol from '../protocol/RunProtocol.js';
 
 
 class AdmittedPatients extends Reflux.Component {
@@ -57,7 +57,7 @@ class AdmittedPatients extends Reflux.Component {
             id: "actions",
             filterable: false,
             accessor: obj => obj.patient.id,
-            Cell: props =>  <RunSimpleProtocol patientID={props.value}/>
+            Cell: props =>  <RunProtocol patientID={props.value}/>
         }];
 
 

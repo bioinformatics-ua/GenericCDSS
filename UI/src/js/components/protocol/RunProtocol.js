@@ -1,93 +1,143 @@
-import React, { Component } from 'react';
-import ProtocolElement from './ProtocolElement.js';
-import ProtocolRadioElement from './ProtocolRadioElement.js';
-import PatientInfo from '../patient/PatientInfo.js';
+import React from 'react';
+import Reflux from 'reflux';
+import {StateActions} from '../../reflux/StateReflux.js';
+import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
+import DisplayField from '../reusable/DisplayField.js';
+import $ from 'jquery';
 
-class RunProtocol extends Component {
+class RunProtocol  extends Reflux.Component {
     constructor(props) {
         super(props);
+        this.stores = [ProtocolStore];
         this.state = {
-            lastComponent: 1,
-            atualComponent: 1,
-            items: []
+            protocolExecuted: false,
+            inquiryElements: [],
+            protocolTitle: "",
+            insertionData: {},
+            resultActions: []
         };
     }
 
-    search = (nameKey, myArray) => {
-        for (var i=0; i < myArray.length; i++) {
-            if (myArray[i].componentId === nameKey) {
-                return myArray[i];
+    handleChange = (event) => {
+        event.preventDefault();
+        let key = $(event.target).data("keydata");
+        let new_insertionData = this.state.insertionData;
+        new_insertionData[key] = event.target.value;
+        this.setState({insertionData: new_insertionData});
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.protocolInquiryData !== this.state.protocolInquiryData) {
+            let inquiryElements = [];
+            for (let cvIndex in this.state.protocolInquiryData.Elements) {
+                let cv = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"]["variable"];
+                inquiryElements.push(<DisplayField onChange={this.handleChange}
+                                                   label={cv}
+                                                   keydata={cv}
+                                                   value={this.state.insertionData[cv]}
+                                                   key={cvIndex}
+                                                   className={"mb-3"}/>);
             }
+
+            this.setState({
+                inquiryElements: inquiryElements,
+                protocolTitle: this.state.protocolInquiryData.Protocol.title
+            });
         }
+
+        if (prevState.actions !== this.state.actions) {
+            let resultActions = [];
+            for (let actionIndex in this.state.actions)
+                resultActions.push(
+                    <p>{this.state.actions[actionIndex][0] + " - " + this.state.actions[actionIndex][1]}</p>);
+
+            this.setState({resultActions: resultActions, protocolExecuted: true});
+        }
+
+        if (prevState.resultActions !== this.state.resultActions)
+            StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
+
+        if (prevState.protocolTitle !== this.state.protocolTitle && this.state.protocolTitle !== "")
+            StateActions.openModal(this.modalHeader(), this.modalContent(), this.modalFooter());
+    }
+
+    modalHeader = () => {
+        return (
+            <div className="">
+                <h1>{this.state.protocolTitle}</h1>
+            </div>
+        );
     };
 
-    setAtualComponent = (componentId, componentPosition) => {
-        this.setState({
-            atualComponent: componentId,
-            lastComponent:componentPosition
-        });
+    modalContent = () => {
+        /**
+         * ask for the cvs
+         * */
+        return (
+            <div className="card-body">
+                {this.state.inquiryElements}
+                {this.state.resultActions.length !== 0 ?
+                    <div className="card panel-info">
+                        <div className="card-header">Actions recommended</div>
+                        <div className="card-body">{this.state.resultActions}</div>
+                    </div> : ''}
+            </div>
+        );
     };
 
-    addComponentToItems = (component, items, position) => {
-        switch(component.type)
-        {
-            case "choice": items.push(<ProtocolRadioElement componentPosition={position} label={component.label} options={component.options} next={this.setAtualComponent}/>); break;
-            case "action": items.push(<ProtocolElement componentPosition={position}  label={component.label} options={component.next} next={this.setAtualComponent}/>); break;
-            default: break;
-        }
+    runProtocol = () => {
+        //to do
+        //It is necessary verify if all the data was inserted
+        // but for now i only will call the service and go
+        //console.log(this.state);
+        let insertionData = this.state.insertionData;
+        let protocolId = this.state.protocolInquiryData.Protocol.id;
+        let patientId = this.state.patientID;
+
+        ProtocolActions.runProtocol(patientId, protocolId, insertionData);
+    };
+
+
+    modalFooter = () => {
+        /*
+         .* Verify if run is pressed or not and show run or only cancel
+         * */
+        if (!this.state.protocolExecuted)
+            return (<div className="btn-group">
+                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
+                </button>
+                <button className="btn btn-success btn-100" onClick={this.runProtocol}>
+                    <i className="fa fa-play"></i>&nbsp;Run
+                </button>
+            </div>);
+        else
+            return (<div className="">
+                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
+                </button>
+            </div>);
+    };
+
+    openModal = (event) => {
+        event.preventDefault();
+        /**
+         * Load the inquiry actions from protocol
+         **/
+        let patientId = $(event.target).data("patientid");
+        ProtocolActions.loadInquiryActions(patientId);
+    };
+
+    closeModal = () => {
+        StateActions.closeModal();
     };
 
     render() {
-        let params = this.props.match.params;
-        console.log(this.props)
-        console.log(params)
-
-        let composition = [{
-            componentId: 1,
-            label: "Do the patient take anti-diabetics?",
-            type: "choice",
-            options: [{option: "Yes", next: 2},{option: "No", next: 3}]
-        }, {
-            componentId: 2,
-            label: "Please insert the blood glucose levels",
-            type: "action",
-            next: 3
-        },{
-            componentId: 3,
-            label: "Do the patient take insulin home?",
-            type: "choice",
-            options: [{option: "Yes", next: 2},{option: "No", next: 3}]
-        }];
-
-        let items = [];
-        let stateItems = [];
-        for (let index = 0; index < this.state.items.length; index++)
-        {
-            let component = this.search(this.state.items[index].componentId, composition);
-            this.addComponentToItems(component, items, this.state.items[index].componentPositionInArray);
-            stateItems.push({componentId: component.componentId, componentPositionInArray:this.state.items[index].componentPositionInArray});
-
-            if(this.state.items[index].componentPositionInArray === this.state.lastComponent)
-                break;
-        }
-
-        if(this.state.atualComponent !== 0){
-            let component = this.search(this.state.atualComponent, composition);
-            this.addComponentToItems(component, items, this.state.items.length+1);
-
-            stateItems.push({componentId: component.componentId, componentPositionInArray:this.state.items.length+1});
-
-            this.setState({
-                atualComponent: 0,
-                items: stateItems,
-                lastComponent: this.state.items.length+1
-            });
-        }
         return (
-            <div className="Protocol">
-                <PatientInfo patientID={params.patient} />
-                <div className="ProtocolExecution">{items}</div>
-            </div>
+            <button data-patientid={this.props.patientID} className="btn btn-xxs btn-sm btn-primary"
+                    onClick={this.openModal}>
+                <i data-patientid={this.props.patientID} className="fa fa-play"></i>&nbsp;Run protocol
+            </button>
         );
     }
 }
