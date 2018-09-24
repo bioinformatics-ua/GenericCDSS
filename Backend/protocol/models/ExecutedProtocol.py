@@ -17,23 +17,9 @@ class ExecutedProtocol(models.Model):
     elementsExecuted    = models.ManyToManyField(ProtocolElement)
 
     def run(self, inquiryData):
-        allElements = ProtocolElement.all(protocol=self.protocol).order_by('internalId').select_subclasses()
-        index = 0
-        firstElementInternalId = allElements[index].internalId
-        while True:
-            element = allElements[index]
+        elementsExecutedInProtocol, actionsResult = self.protocol.run(inquiryData)
+        for element in elementsExecutedInProtocol:
             self.elementsExecuted.add(element)
-            if (type(element) == PEDecision):
-                index = element.run(inquiryData)
-            else:
-                index = element.getNextElementId()
-
-            if index == None:
-                break
-
-            #Because internal ids could start at 0 or 1 depending of the users decision
-            index -= firstElementInternalId
-
         return self.getResult()
 
     def getResult(self):

@@ -12,7 +12,9 @@ const ProtocolActions = Reflux.createActions([
     'setSelectedPatient',
     'loadInquiryActions',
     'runProtocol',
-    'createProtocol'
+    'createProtocol',
+    'loadProtocolInquiryActions',
+    'runProtocolTest'
 ]);
 
 class ProtocolStore extends Reflux.Store {
@@ -85,6 +87,18 @@ class ProtocolStore extends Reflux.Store {
                 });
     }
 
+    onLoadProtocolInquiryActions(protocolID){
+        this.setState({loading: true});
+        if (protocolID !== undefined)
+            API.GET("protocolcomponents", protocolID, "protocol")
+                .then(res => {
+                    this.setState({
+                        protocolInquiryData: res.data["results"],
+                        loading: false
+                    });
+                });
+    }
+
     onLoadAssignedProtocols(patientID) {
         this.setState({loading: true});
         if (patientID !== undefined)
@@ -138,6 +152,19 @@ class ProtocolStore extends Reflux.Store {
         this.setState({loading: true});
         API.POST("protocol", "run", {
             patientID: patientID,
+            protocolID: protocolID,
+            inquiryData: inquiryData
+        }).then(res => {
+            this.setState({
+                actions: res.data["results"],
+                loading: false
+            });
+        })
+    }
+
+    onRunProtocolTest(protocolID, inquiryData){
+        this.setState({loading: true});
+        API.POST("protocol", "runtest", {
             protocolID: protocolID,
             inquiryData: inquiryData
         }).then(res => {

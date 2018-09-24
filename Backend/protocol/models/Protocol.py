@@ -38,3 +38,33 @@ class Protocol(models.Model):
             protocol.schedules.add(scheduleObj)
         protocol.save()
         return protocol
+
+    def run(self, inquiryData):
+        from protocol_element.models import ProtocolElement, PEDecision, PEAction
+
+        allElements = ProtocolElement.all(protocol=self).order_by('internalId').select_subclasses()
+        elementsExecuted = []
+        index = 0
+        firstElementInternalId = allElements[index].internalId
+        while True:
+            element = allElements[index]
+            elementsExecuted += [element]
+            if (type(element) == PEDecision):
+                index = element.run(inquiryData)
+            else:
+                index = element.getNextElementId()
+
+            if index == None:
+                break
+
+            #Because internal ids could start at 0 or 1 depending of the users decision
+            index -= firstElementInternalId
+
+        actionsResult = []
+        counter = 1
+        for element in elementsExecuted:
+            if (type(element) == PEAction):
+                actionsResult += [(counter, element.action)]
+                counter += 1
+
+        return (elementsExecuted, actionsResult)

@@ -73,12 +73,38 @@ class ProtocolViewSet(viewsets.ModelViewSet):
 
         return Response({"results": result})
 
+    @list_route(methods=['post'])
+    @transaction.atomic
+    def runtest(self, request):
+        protocolId = request.data.get('protocolID', None)
+        inquiryData = request.data.get('inquiryData', None)
+
+        if(protocolId == None or inquiryData == None):
+            return Response({
+                'error': "Invalid parameters"
+            })
+
+        protocol = Protocol.objects.get(id=protocolId)
+        result, resultActions = protocol.run(inquiryData)
+
+        return Response({"results": resultActions})
 
     @list_route(methods=['get'])
     def protocolInquiryComponents(self, request):
-        patient = Patient.objects.get(id=self.request.query_params.get('patient', None))
-        assignment = AssignedProtocol.getCurrentAssignment(patient)
-        protocol = assignment.protocol
+        patientid = self.request.query_params.get('patient', None)
+        protocolid = self.request.query_params.get('protocol', None)
+
+        if(patientid):
+            patient = Patient.objects.get(id=patientid)
+            assignment = AssignedProtocol.getCurrentAssignment(patient)
+            protocol = assignment.protocol
+        elif(protocolid):
+            protocol = Protocol.objects.get(id=protocolid)
+        else:
+            return Response({
+                'error': "Invalid parameters"
+            })
+
         elements = ProtocolElement.all(protocol=protocol, type=ProtocolElement.INQUIRY)
 
         return Response({"results": {
