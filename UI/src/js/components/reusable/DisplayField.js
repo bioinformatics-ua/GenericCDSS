@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
  * */
 class DisplayField extends Component {
     render() {
+        let validation = this.props.isWarning ? "is-warning": this.props.isInvalid ? "is-invalid": "";
         return (
             <div className={"input-group " + this.props.className}>
                 <div className="input-group-prepend">
@@ -19,7 +20,7 @@ class DisplayField extends Component {
                         :
                         <input type={this.props.type}
                                data-keydata={this.props.keydata}
-                               className={"form-control " + (this.props.isInvalid ? "is-invalid": "")}
+                               className={"form-control " + validation}
                                onChange={this.props.onChange}
                                value={this.props.value}
                                min={this.props.min}
@@ -29,6 +30,12 @@ class DisplayField extends Component {
                 {
                     this.props.isInvalid ?
                         <div className="invalid-feedback">
+                            {this.props.invalidMessage}
+                        </div> : ''
+                }
+                {
+                    this.props.isWarning ?
+                        <div className="warning-feedback">
                             {this.props.invalidMessage}
                         </div> : ''
                 }
@@ -83,6 +90,10 @@ class DisplayField extends Component {
          * Boolean to trigger the invalid message
          * */
         isInvalid: PropTypes.bool,
+        /**
+         * Boolean to trigger the warning message
+         * */
+        isWarning: PropTypes.bool,
     };
 
 }
@@ -92,7 +103,8 @@ DisplayField.defaultProps = {
     type: "text",
     className: "",
     invalidMessage: "",
-    isInvalid: false
+    isInvalid: false,
+    isWarning: false
 };
 
 export default DisplayField;

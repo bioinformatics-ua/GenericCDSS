@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import {PatientActions} from '../../reflux/PatientReflux.js';
 import {AdmissionActions} from '../../reflux/AdmissionReflux.js';
-import {ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import History from '../globalComponents/History.js';
 import PatientStatus from '../patient/PatientStatus.js';
 import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
 
 class PatientButtonBar extends Component {
-    addPatient = (event) => {
-        PatientActions.addPatient();
+    addPatient = () => {
+        if(this.props.patientIsValid())
+            PatientActions.addPatient();
     };
 
-    admitPatient = (event) => {
-        event.preventDefault();
-        ProtocolActions.cleanSelectedProtocols();
+    admitPatient = () => {
         History.push('/assignprotocol/' + this.props.patient.id);
     };
 

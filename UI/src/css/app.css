@@ -267,10 +267,27 @@ fieldset[disabled] .btn-default.active {
     min-width: 200px;
 }
 
+.is-warning{
+    border-color: #bba70a;
+}
 
+.custom-select.is-warning, .form-control.is-warning{
+    border-color: #bba70a;
+}
 
-
-
+.warning-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #bba70a;
+}
+.custom-select.is-warning~.warning-feedback,
+.custom-select.is-warning~.warning-tooltip,
+.form-control.is-warning~.warning-feedback,
+.form-control.is-warning~.warning-tooltip{
+    display: block;
+}
 
 
 

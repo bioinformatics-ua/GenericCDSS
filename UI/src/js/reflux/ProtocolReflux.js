@@ -8,7 +8,6 @@ const ProtocolActions = Reflux.createActions([
     'loadAssignedProtocols',
     'loadExecutedProtocols',
     'updateSelectedProtocols',
-    'cleanSelectedProtocols',
     'setSelectedPatient',
     'loadInquiryActions',
     'runProtocol',
@@ -33,8 +32,6 @@ class ProtocolStore extends Reflux.Store {
             executedProtocols: [],
             patientID: undefined,
             loading: false,
-
-            selectedProtocols: [],
 
             protocolData:[],
 
