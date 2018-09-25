@@ -43,4 +43,3 @@ class PatientViewSet(viewsets.ModelViewSet):
         '''
         self.queryset = Patient.all(status=Patient.DISCHARGED)
         return super(PatientViewSet, self).list(request, *args, **kwargs)
-

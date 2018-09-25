@@ -40,8 +40,8 @@ class Admission(models.Model):
         #calcular proxima, ou entao pensar numa solucao
         patientAssignedProtocols = AssignedProtocol.all(patient=self.patient)
         print patientAssignedProtocols
-
-        return "2018-04-23 14:00"#.strftime("%Y-%m-%d %H:%M")
+        print "todo"
+        return "todo"#.strftime("%Y-%m-%d %H:%M")
 
     @staticmethod
     def new(patient, physician, room):

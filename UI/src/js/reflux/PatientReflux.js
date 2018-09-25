@@ -24,7 +24,7 @@ class PatientStore extends Reflux.Store {
         return {
                 first_name: '',
                 last_name: '',
-                gender: '',
+                gender: undefined,
                 birthdate: '',
                 phone: '',
                 email: '',

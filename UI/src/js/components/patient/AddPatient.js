@@ -32,13 +32,12 @@ class AddPatient extends Reflux.Component {
             <div className="AddPatient">
                 <h2>Insert patient</h2>
                 <Select
-                    placeholder="Procurar pelo paciente no sistema"
-                    className="Select"
+                    placeholder="Search for the patient in the system"
+                    className="Selectx2"
                     name="form-field-name"
                     value={this.state.selectedPatient}
                     onChange={this.handleChange}
-                    options={this.state.patientListKeyValue}
-                />
+                    options={this.state.patientListKeyValue}/>
                 <br/>
                 <PatientInfo patientID={patientID} mode={mode}/>
                 {

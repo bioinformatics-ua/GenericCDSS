@@ -31,6 +31,9 @@ class Patient(models.Model):
     def __unicode__(self):
         return u"Patient %s" % self.get_full_name()
 
+    def get_birthdate(self):
+        return self.birthdate.strftime("%d/%m/%Y")
+
     def get_full_name(self):
         return self.first_name + " " + self.last_name
 

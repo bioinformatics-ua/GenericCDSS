@@ -13,6 +13,11 @@ class DisplayOptionsField extends Component {
         }
     }
 
+    componentWillReceiveProps(props) {
+        let selection = props.selection;
+        this.setState({selection});
+    }
+
     handleChange = (selection) => {
         if (selection === null) {
             selection = undefined;
@@ -62,7 +67,10 @@ class DisplayOptionsField extends Component {
         /**
          * Selection objects
          * */
-        selection: PropTypes.object,
+        selection: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ]),
         /**
          * Options for the selection
          * */

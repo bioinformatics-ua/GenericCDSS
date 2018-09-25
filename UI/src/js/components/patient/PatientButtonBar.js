@@ -9,7 +9,7 @@ class PatientButtonBar extends Component {
     addPatient = (event) => {
         event.preventDefault();
         PatientActions.addPatient();
-        History.push('/patients');
+        History.push('/admittedpatients');
     };
 
     admitPatient = (event) => {

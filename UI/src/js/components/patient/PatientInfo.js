@@ -2,6 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
+import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 import PatientButtonBar from './PatientButtonBar.js';
 import $ from 'jquery';
 
@@ -16,6 +17,7 @@ class PatientInfo extends Reflux.Component {
 
     componentDidMount() {
         PatientActions.loadPatient(this.props.patientID);
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -36,30 +38,58 @@ class PatientInfo extends Reflux.Component {
         this.setState({patient: new_patient});
     };
 
+    selectHandleChange = (fullgender) => {
+        if (fullgender === null)
+            fullgender = undefined;
+
+        let new_patient = this.state.patient;
+        new_patient["gender"] = fullgender.value;
+        this.setState({new_patient});
+    };
+
     render() {
         let readOnly = this.state.mode === "show" || this.state.mode === "admitting";
+        const genderOptions = [
+            {value: 'M', label: 'Male'},
+            {value: 'F', label: 'Female'}
+        ];
+
         return (
             <div className="card card-body PatientInfo mb-3">
                 <div className="col-md-12">
                     <div className="row mb-3">
                         <div className="col-md-6">
-                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"First Name"}
-                                          keydata={"first_name"} value={this.state.patient.first_name}/>
+                            <DisplayField readOnly={readOnly}
+                                          onChange={this.handleChange}
+                                          label={"First Name"}
+                                          keydata={"first_name"}
+                                          value={this.state.patient.first_name}/>
                         </div>
                         <div className="col-md-6">
-                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Last Name"}
-                                          keydata={"last_name"} value={this.state.patient.last_name}/>
+                            <DisplayField readOnly={readOnly}
+                                          onChange={this.handleChange}
+                                          label={"Last Name"}
+                                          keydata={"last_name"}
+                                          value={this.state.patient.last_name}/>
                         </div>
                     </div>
                     <div className="row mb-3">
                         <div className="col-md-6">
-                            <DisplayField readOnly={readOnly} onChange={this.handleChange} label={"Gender"}
-                                          keydata={"gender"} value={this.state.patient.fullgender}/>
+                            <DisplayOptionsField readOnly={readOnly}
+                                                 options={genderOptions}
+                                                 onChange={this.selectHandleChange}
+                                                 label={"Gender"}
+                                                 keydata={"gender"}
+                                                 value={this.state.patient.fullgender}
+                                                 selection={this.state.patient.gender}/>
                         </div>
                         <div className="col-md-6">
-                            <DisplayField readOnly={readOnly} onChange={this.handleChange}
+                            <DisplayField readOnly={readOnly}
+                                          onChange={this.handleChange}
                                           label={"Birthdate"}
-                                          keydata={"birthdate"} value={this.state.patient.birthdate}/>
+                                          keydata={"birthdate"}
+                                          value={this.state.patient.birthdate}
+                                          type={"date"}/>
                         </div>
                     </div>
                     <div className="row mb-3">
