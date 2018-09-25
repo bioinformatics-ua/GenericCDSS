@@ -4,7 +4,7 @@ import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
 import RunProtocolButton from '../buttons/RunProtocolButton.js';
-import RemoveProtocolButton from '../buttons/RemoveProtocolButton.js';
+import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
 import Settings from '../../GlobalSettings.js';
 import $ from 'jquery';
 import ReactTable from 'react-table'
@@ -81,6 +81,10 @@ class ShowProtocol extends Reflux.Component {
      ******************************************************************************************************************/
     editProtocol = () => {
         console.log("editProtocol");
+    };
+
+    removeProtocol = () => {
+        ProtocolActions.removeProtocol(this.state.protocolID);
     };
 
     saveProtocol = () => {
@@ -174,7 +178,14 @@ class ShowProtocol extends Reflux.Component {
                                     <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>
-                                    <RemoveProtocolButton protocolID={this.state.protocolID} />
+                                    <ButtonWithMsg icon={"fa fa-times"}
+                                                   label={"Remove"}
+                                                   message={"You protocol has been removed."}
+                                                   messageTitle={"Deleted!"}
+                                                   className={"btn btn-sm btn-danger btn-150"}
+                                                   action={this.removeProtocol}
+                                                   redirect={"/protocols"}
+                                                   confirmationMsg={"You will not be able to recover this protocol!"}/>
                                 </div>
                             </div> : ''}
                     </div>

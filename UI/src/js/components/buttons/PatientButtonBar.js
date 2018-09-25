@@ -44,7 +44,9 @@ class PatientButtonBar extends Component {
                                            messageTitle={"Dismiss!"}
                                            className={"btn btn-danger btn-100 pull-right"}
                                            action={this.dischargePatient}
-                                           redirect={"/admittedpatients"} />
+                                           redirect={"/admittedpatients"}
+                                           confirmationMsg={"The patient will be dismissed, but he can be admitted in the future."}
+                                           confirmationMsgOkButton={"Yes, dismiss the patient!"}/>
                         </div>
                     );
                 break;

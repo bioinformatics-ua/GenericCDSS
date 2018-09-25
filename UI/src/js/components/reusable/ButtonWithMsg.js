@@ -4,21 +4,36 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 import History from '../globalComponents/History.js';
 
 /**
- * Button that show message after perform the defined action
+ * Button that show message after perform the defined action (confirmation is optional)
  * */
 class ButtonWithMsg extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showConfirmationMessage: false,
             showSuccessMessage: false
         };
     }
 
     action = () => {
+        if(this.props.confirmationMsg === undefined){
+            this.props.action();
+            this.setState({showSuccessMessage: true});
+        }
+        else
+            this.setState({showConfirmationMessage: true});
+    };
+
+    actionAfterConfirmation = () => {
         this.props.action();
         this.setState({
-            showSuccessMessage: true
+            showSuccessMessage:true,
+            showConfirmationMessage:false
         });
+    };
+
+    cancel = () => {
+        this.setState({showConfirmationMessage:false});
     };
 
     actionExecutedWithSuccess = () => {
@@ -39,6 +54,22 @@ class ButtonWithMsg extends Component {
                         {this.props.label}
                     </button>
                 </div>
+
+                {
+                    this.state.showConfirmationMessage ?
+                        <SweetAlert warning
+                                    showCancel
+                                    confirmBtnText={this.props.confirmationMsgOkButton}
+                                    confirmBtnBsStyle="danger"
+                                    cancelBtnBsStyle="default"
+                                    title="Are you sure?"
+                                    onConfirm={this.actionAfterConfirmation}
+                                    onCancel={this.cancel}
+                        >
+                            {this.props.confirmationMsg}
+                        </SweetAlert> : ''
+                }
+
                 {
                     this.state.showSuccessMessage ?
                         <SweetAlert success title={this.props.messageTitle} onConfirm={this.actionExecutedWithSuccess}>
@@ -77,14 +108,24 @@ class ButtonWithMsg extends Component {
         /**
          * Redirect after success
          * */
-        redirect: PropTypes.string
+        redirect: PropTypes.string,
+        /**
+         * Confirmation message before execute the action
+         * */
+        confirmationMsg: PropTypes.string,
+        /**
+         * Confirmation button label
+         * */
+        confirmationMsgOkButton: PropTypes.string
     };
 }
 
 ButtonWithMsg.defaultProps = {
     icon: undefined,
     className: "",
-    redirect: undefined
+    redirect: undefined,
+    confirmationMsg: undefined,
+    confirmationMsgOkButton: "Yes, remove it!"
 };
 
 export default ButtonWithMsg;

@@ -50,9 +50,8 @@ class AssignProtocolToPatient extends Reflux.Component {
         );
     };
 
-
     admitPatient = () => {
-        let selectedProtocols = [{"id":this.state.selectedProtocol.selectedProtocol["value"]}]; //Provisorio
+        let selectedProtocols = [{"id":this.state.selectedProtocol.selectedProtocol["value"]}]; //Provisorio, maybe because I am only selecting a protocol
         AdmissionActions.admitPatient(this.state.patientID, selectedProtocols, this.state.room);
     };
 
