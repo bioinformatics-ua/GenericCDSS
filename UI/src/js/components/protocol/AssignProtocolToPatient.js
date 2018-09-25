@@ -6,7 +6,7 @@ import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
 import ProtocolCostumization from './ProtocolCostumization.js';
-import AdmitPatientButton from '../buttons/AdmitPatientButton.js';
+import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
 import $ from 'jquery';
 
 class AssignProtocolToPatient extends Reflux.Component {
@@ -82,7 +82,13 @@ class AssignProtocolToPatient extends Reflux.Component {
                 </div>
                 <hr/>
                 <div>
-                    <AdmitPatientButton admitPatient={this.admitPatient} />
+                    <ButtonWithMsg icon={"fa fa-plus"}
+                                   label={"Admit"}
+                                   message={"Patient admitted with success."}
+                                   messageTitle={"Admitted!"}
+                                   className={"btn btn-success btn-100 pull-right"}
+                                   action={this.admitPatient}
+                                   redirect={"/admittedpatients"} />
                 </div>
             </div>
         )

@@ -1,5 +1,6 @@
 import Reflux from 'reflux';
 import API from '../API.js';
+import History from '../components/globalComponents/History.js';
 
 const PatientActions = Reflux.createActions([
     'load',
@@ -73,7 +74,11 @@ class PatientStore extends Reflux.Store {
     }
 
     onAddPatient() {
-        API.POST("patient", null, this.state.patient);
+        API.POST("patient", null, this.state.patient)
+            .then(res => {
+                console.log(res.data)
+                History.push('/assignprotocol/' + res.data.id);
+            });
     }
 
 }

@@ -4,12 +4,11 @@ import {AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import {ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import History from '../globalComponents/History.js';
 import PatientStatus from '../patient/PatientStatus.js';
+import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
 
 class PatientButtonBar extends Component {
     addPatient = (event) => {
-        event.preventDefault();
         PatientActions.addPatient();
-        History.push('/admittedpatients');
     };
 
     admitPatient = (event) => {
@@ -18,10 +17,8 @@ class PatientButtonBar extends Component {
         History.push('/assignprotocol/' + this.props.patient.id);
     };
 
-    dischargePatient = (event) => {
-        event.preventDefault();
+    dischargePatient = () => {
         AdmissionActions.dischargePatient(this.props.patient.id);
-        History.push('/admittedpatients');
     };
 
     render() {
@@ -33,16 +30,21 @@ class PatientButtonBar extends Component {
                     return(
                         <div>
                             <div className="PatientInfo-buttons-controler pull-right">
-                                <button className="btn btn-success btn-100" onClick={this.admitPatient}>Admit</button>
+                                <button className="btn btn-success btn-100" onClick={this.admitPatient}>
+                                    <i className="fa fa-plus"></i>&nbsp;Admit</button>
                             </div>
                         </div>
                     );
                 if(patientStatus === PatientStatus.ADMITTED)
                     return(
                         <div>
-                            <div className="PatientInfo-buttons-controler pull-right">
-                                <button className="btn btn-success btn-100" onClick={this.dischargePatient}>Dismiss</button>
-                            </div>
+                            <ButtonWithMsg icon={"fa fa-minus"}
+                                           label={"Dismiss"}
+                                           message={"Patient dismiss with success."}
+                                           messageTitle={"Dismiss!"}
+                                           className={"btn btn-danger btn-100 pull-right"}
+                                           action={this.dischargePatient}
+                                           redirect={"/admittedpatients"} />
                         </div>
                     );
                 break;
@@ -51,7 +53,8 @@ class PatientButtonBar extends Component {
                 return(
                     <div>
                         <div className="PatientInfo-buttons-controler pull-right">
-                            <button className="btn btn-success btn-100" onClick={this.addPatient}>Add</button>
+                            <button className="btn btn-success btn-100" onClick={this.addPatient}>
+                                <i className="fa fa-plus"></i>&nbsp;Add</button>
                         </div>
                     </div>
                 );
