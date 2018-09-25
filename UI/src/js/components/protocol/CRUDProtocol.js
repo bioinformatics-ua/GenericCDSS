@@ -3,8 +3,8 @@ import Reflux from 'reflux';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
-import RunProtocolButton from './RunProtocolButton.js';
-import RemoveProtocolButton from './RemoveProtocolButton.js';
+import RunProtocolButton from '../buttons/RunProtocolButton.js';
+import RemoveProtocolButton from '../buttons/RemoveProtocolButton.js';
 import Settings from '../../GlobalSettings.js';
 import $ from 'jquery';
 import ReactTable from 'react-table'

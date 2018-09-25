@@ -3,7 +3,7 @@ import Reflux from 'reflux';
 import {PatientStore, PatientActions} from '../../reflux/PatientReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
 import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
-import PatientButtonBar from './PatientButtonBar.js';
+import PatientButtonBar from '../buttons/PatientButtonBar.js';
 import $ from 'jquery';
 
 class PatientInfo extends Reflux.Component {

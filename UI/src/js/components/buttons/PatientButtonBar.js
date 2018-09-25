@@ -3,7 +3,7 @@ import {PatientActions} from '../../reflux/PatientReflux.js';
 import {AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import {ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import History from '../globalComponents/History.js';
-import PatientStatus from './PatientStatus.js';
+import PatientStatus from '../patient/PatientStatus.js';
 
 class PatientButtonBar extends Component {
     addPatient = (event) => {

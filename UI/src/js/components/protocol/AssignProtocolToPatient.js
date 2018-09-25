@@ -6,7 +6,7 @@ import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
 import ProtocolCostumization from './ProtocolCostumization.js';
-import AdmitPatientButton from '../patient/AdmitPatientButton.js';
+import AdmitPatientButton from '../buttons/AdmitPatientButton.js';
 import $ from 'jquery';
 
 class AssignProtocolToPatient extends Reflux.Component {
