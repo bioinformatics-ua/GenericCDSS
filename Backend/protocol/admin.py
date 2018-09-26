@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from protocol.models import AssignedProtocol, Protocol, Schedule, ExecutedProtocol
+from protocol.models import AssignedProtocol, Protocol, Schedule, ExecutedProtocol, Time
 
 # Register your models here.
 
@@ -21,4 +21,8 @@ class ExecutedProtocolAdmin(admin.ModelAdmin):
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ("time", "removed")
+    list_display = ("title", "removed")
+
+@admin.register(Time)
+class TimeeAdmin(admin.ModelAdmin):
+    list_display = ("time",)

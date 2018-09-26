@@ -8,24 +8,58 @@ import random
 from datetime import datetime
 
 class Command(BaseCommand):
-    help = 'This command will create the hypoglycemia protocol in the database'
+    help = 'This command will create the hypoglycemiaDummy protocol in the database'
 
     def handle(self, *args, **options):
+        self.stdout.write("\nCleaning the HypoglycemiaDummy protocol!\n\n")
         self.clean_hipoglicemia()
+        self.stdout.write("\nCreating the HypoglycemiaDummy protocol!\n\n")
+        self.create_cvs()
         self.create_hipoglicemia()
-        self.stdout.write("\nSuccess:The Hypoglycemia protocol was created with success!\n\n")
+        self.stdout.write("\nSuccess:The HypoglycemiaDummy protocol was created with success!\n\n")
+
+    def create_cvs(self):
+        try:
+            CVGroup.objects.get(title="Endocrinological data")
+        except:
+            CVGroup(title="Endocrinological data",
+                    description="Patient endocrinological data",
+                    index_representation=5).save()
+
+        try:
+            ClinicalVariable.objects.get(group=CVGroup.objects.get(title="Endocrinological data"),
+                                          variable="Blood Glucose",
+                                          description="Patient Blood Glucose")
+        except:
+            ClinicalVariable(group=CVGroup.objects.get(title="Endocrinological data"),
+                             variable="Blood Glucose",
+                             description="Patient Blood Glucose",
+                             index_representation=1).save()
+
+        try:
+            ClinicalVariable.objects.get(group=CVGroup.objects.get(title="Endocrinological data"),
+                                          variable="Diet",
+                                          description="Patient Diet")
+        except:
+            ClinicalVariable(group=CVGroup.objects.get(title="Endocrinological data"),
+                             variable="Diet",
+                             description="Patient Diet",
+                             index_representation=5).save()
 
     def clean_hipoglicemia(self):
-        # CVGroup.objects.get(title="Endocrinological data").delete()
-        # ClinicalVariable.objects.get(variable="Blood Glucose").delete()
-        # ClinicalVariable.objects.get(variable="Diet").delete()
-        # Protocol.objects.get(title="Hypoglycemia").delete()
-        pass
-
+        try:
+            protocol = Protocol.objects.get(title="HypoglycemiaDummy")
+            peList = ProtocolElement.objects.filter(protocol=protocol)
+            for pe in peList:
+                PENextElements.objects.filter(nextElement=pe).delete()
+            ProtocolElement.objects.filter(protocol=protocol).delete()
+            protocol.delete()
+        except:
+            self.stdout.write("\nThe HypoglycemiaDummy protocol does not exist in the system!\n\n")
 
     def create_hipoglicemia(self):
-        protocol = Protocol.objects.create(title="Hypo2Dummy",
-                                           description = "Performance in hypoglycemia")
+        protocol = Protocol.objects.create(title="HypoglycemiaDummy",
+                                           description = "Performance in hypoglycemia (just for test)")
         protocol.save()
 
 

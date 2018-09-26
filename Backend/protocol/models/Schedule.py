@@ -3,8 +3,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from protocol.models import Time
+
 class Schedule(models.Model):
-    time            = models.TimeField()
+    title           = models.CharField(max_length=150, unique=True)
+    time            = models.ManyToManyField(Time)
     removed         = models.BooleanField(default=False)
 
     def __unicode__(self):
