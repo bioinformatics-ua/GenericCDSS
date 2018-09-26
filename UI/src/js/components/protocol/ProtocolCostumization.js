@@ -3,7 +3,9 @@ import Reflux from 'reflux';
 import Select from 'react-select';
 import "react-table/react-table.css";
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
-
+/**
+ * NOT USED
+ * */
 class ProtocolCostumization extends Reflux.Component {
     constructor(props) {
         super(props);

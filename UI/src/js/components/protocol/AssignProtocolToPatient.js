@@ -15,15 +15,16 @@ class AssignProtocolToPatient extends Reflux.Component {
         this.state = {
             room: "",
             selectedProtocol: undefined,
-            validated: false
+            validated: false,
         };
 
         ProtocolActions.setSelectedPatient(this.props.match.params.object);
     }
 
     componentDidMount() {
-        //ScheduleActions.load();
         ProtocolActions.load();
+        let patientID = this.props.match.params.object;
+        this.setState({patientID: patientID});
     }
 
     modalHeader = () => {

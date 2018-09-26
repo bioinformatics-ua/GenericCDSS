@@ -44,12 +44,6 @@ class Protocols extends Reflux.Component {
             accessor: obj => obj.description,
             Cell: props => <span>{props.value}</span>
         });
-        columns.push({
-            Header: () => <h5 className="h5-table">Type</h5>,
-            id: "type",
-            accessor: obj => obj.type,
-            Cell: props => <span>{ProtocolType.toString(props.value)}</span>
-        });
 
         return (
             <div className="Content">
