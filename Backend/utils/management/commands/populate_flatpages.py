@@ -8,31 +8,33 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '-fpf',
+            '--force',
             action='store_true',
-            dest='flatpages_force',
-            help='Force the delete and creation the flat pages',
+            dest='force',
+            help='Force the deletion and the creation of the flat pages',
         )
 
     def handle(self, *args, **options):
         siteDomain = "AutoPages"
-        if options['flatpages_force']:
+        if options['force']:
+            self.stdout.write("\nCleaning the old auto flat pages!\n\n")
             self.remove_FlatPages(siteDomain)
+            self.stdout.write("\nCreating new auto flat pages!\n\n")
             self.create_FlatPages(siteDomain)
         else:
-            if FlatPage.objects.all().count() != 0:
+            try:
+                Site.objects.get(domain=siteDomain)
                 self.stdout.write("\nERROR:The flat pages are already populated!\n\n")
-            else:
+            except:
                 self.create_FlatPages(siteDomain)
 
     def remove_FlatPages(self, siteDomain):
         try:
             site = Site.objects.get(domain=siteDomain)
+            FlatPage.objects.filter(sites=site).delete()
         except:
-            site = None
-        if site != None:
-            for entry in FlatPage.objects.all().filter(sites=site):
-                entry.delete()
+            self.stdout.write("\nThe auto flat pages do not exist in the system!\n\n")
+
 
     def create_FlatPages(self, siteDomain):
         try:
@@ -51,4 +53,4 @@ class Command(BaseCommand):
                                 title="Help",
                                 content="TO DO").sites.add(site)
 
-        self.stdout.write("Success: The flat pages  populated with success!\n")
+        self.stdout.write("Success: The flat pages populated with success!\n")
