@@ -161,6 +161,7 @@ class ShowProtocol extends Reflux.Component {
                                                  options={this.state.schedulesOptions}
                                                  onChange={this.schedulesSelectHandleChange}
                                                  readOnly={this.state.mode === "show"}
+                                                 value={this.state.protocol.schedules}
                                                  selection={this.state.schedules}
                                                  multi={true}
                                                  isInvalid={this.state.schedules === undefined && this.state.validated}

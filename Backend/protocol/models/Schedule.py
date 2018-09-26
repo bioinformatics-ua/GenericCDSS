@@ -11,4 +11,4 @@ class Schedule(models.Model):
     removed         = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.time.strftime("%H:%M")
+        return self.title

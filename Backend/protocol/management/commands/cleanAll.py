@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.core.management.base import BaseCommand
-from protocol.models import Protocol, ExecutedProtocol
+from protocol.models import Protocol, ExecutedProtocol, Schedule, Time
 from protocol_element.models import ProtocolElement, PEAction, PEDecision, PEInquiry, PENextElements
 from patients.models import CVGroup, ClinicalVariable, Patient, CVPatient, Admission
 
@@ -15,3 +15,5 @@ class Command(BaseCommand):
                 PENextElements.objects.filter(nextElement=pe).delete()
             ProtocolElement.objects.filter(protocol=protocol).delete()
             protocol.delete()
+        Schedule.objects.all().delete()
+        Time.objects.all().delete()
