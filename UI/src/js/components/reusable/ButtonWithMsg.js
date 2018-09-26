@@ -11,25 +11,36 @@ class ButtonWithMsg extends Component {
         super(props);
         this.state = {
             showConfirmationMessage: false,
-            showSuccessMessage: false
+            showSuccessMessage: false,
+            showErrorMessage:false
         };
     }
 
     action = () => {
         if(this.props.confirmationMsg === undefined){
-            this.props.action();
-            this.setState({showSuccessMessage: true});
+            let result = this.props.action();
+            if(result !== false)
+                this.setState({showSuccessMessage: true});
+            else
+                this.setState({showErrorMessage:true});
         }
         else
             this.setState({showConfirmationMessage: true});
     };
 
     actionAfterConfirmation = () => {
-        this.props.action();
-        this.setState({
-            showSuccessMessage:true,
-            showConfirmationMessage:false
-        });
+        let result = this.props.action();
+        if(result !== false)
+            this.setState({
+                showSuccessMessage:true,
+                showConfirmationMessage:false
+            });
+        else
+            this.setState({
+                showErrorMessage:true,
+                showConfirmationMessage:false
+            });
+
     };
 
     cancel = () => {
@@ -40,6 +51,10 @@ class ButtonWithMsg extends Component {
         this.setState({showSuccessMessage: false});
         if (this.props.redirect)
             History.push(this.props.redirect);
+    };
+
+    closeErrorMessage = () => {
+        this.setState({showErrorMessage:false});
     };
 
     render() {
@@ -69,11 +84,16 @@ class ButtonWithMsg extends Component {
                             {this.props.confirmationMsg}
                         </SweetAlert> : ''
                 }
-
                 {
                     this.state.showSuccessMessage ?
                         <SweetAlert success title={this.props.messageTitle} onConfirm={this.actionExecutedWithSuccess}>
                             {this.props.message}
+                        </SweetAlert> : ''
+                }
+                {
+                    this.state.showErrorMessage ?
+                        <SweetAlert danger title={this.props.errorMessageTitle} onConfirm={this.closeErrorMessage}>
+                            {this.props.errorMessage}
                         </SweetAlert> : ''
                 }
             </div>
@@ -116,7 +136,15 @@ class ButtonWithMsg extends Component {
         /**
          * Confirmation button label
          * */
-        confirmationMsgOkButton: PropTypes.string
+        confirmationMsgOkButton: PropTypes.string,
+        /**
+         * Error message
+         * */
+        errorMessage: PropTypes.string,
+        /**
+         * Error title message
+         * */
+        errorMessageTitle: PropTypes.string
     };
 }
 
@@ -125,7 +153,9 @@ ButtonWithMsg.defaultProps = {
     className: "",
     redirect: undefined,
     confirmationMsg: undefined,
-    confirmationMsgOkButton: "Yes, remove it!"
+    confirmationMsgOkButton: "Yes, remove it!",
+    errorMessage: "An error has occurred!",
+    errorMessageTitle: "Ups"
 };
 
 export default ButtonWithMsg;

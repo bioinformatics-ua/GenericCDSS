@@ -1,28 +1,29 @@
 import React from 'react';
 import Reflux from 'reflux';
 import PatientInfo from '../patient/PatientInfo.js';
-import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
-import ProtocolCostumization from './ProtocolCostumization.js';
+import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
 import $ from 'jquery';
 
 class AssignProtocolToPatient extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.stores = [ScheduleStore, ProtocolStore, AdmissionStore];
+        this.stores = [ProtocolStore, AdmissionStore];
         this.state = {
-            room: undefined,
-            selectedProtocol: []
+            room: "",
+            selectedProtocol: undefined,
+            validated: false
         };
 
         ProtocolActions.setSelectedPatient(this.props.match.params.object);
     }
 
     componentDidMount() {
-        ScheduleActions.load();
+        //ScheduleActions.load();
+        ProtocolActions.load();
     }
 
     modalHeader = () => {
@@ -51,8 +52,19 @@ class AssignProtocolToPatient extends Reflux.Component {
     };
 
     admitPatient = () => {
-        let selectedProtocols = [{"id":this.state.selectedProtocol.selectedProtocol["value"]}]; //Provisorio, maybe because I am only selecting a protocol
-        AdmissionActions.admitPatient(this.state.patientID, selectedProtocols, this.state.room);
+        if(this.isProtocolValid()){
+            let selectedProtocols = [{"id":this.state.selectedProtocol.value}]; //Provisorio, maybe because I am only selecting a protocol
+            AdmissionActions.admitPatient(this.state.patientID, selectedProtocols, this.state.room);
+        }
+        else
+            return false;
+    };
+
+    isProtocolValid = () => {
+        this.setState({validated: true});
+        return (this.state.selectedProtocol !== undefined &&
+                this.state.room !== "" &&
+                this.state.room.length < 10);
     };
 
     selectHandleChange = (selectedProtocol) => {
@@ -71,11 +83,22 @@ class AssignProtocolToPatient extends Reflux.Component {
                 <div className="card card-body PatientInfo mb-3">
                     <div className="row">
                         <div className="col-md-6 mb-3">
-                            <ProtocolCostumization setProtocol={this.selectHandleChange}/>
+                            <DisplayOptionsField options={this.state.protocolListKeyValue}
+                                                 onChange={this.selectHandleChange}
+                                                 label={"Protocol"}
+                                                 keydata={"protocol"}
+                                                 selection={this.state.selectedProtocol}
+                                                 isInvalid={this.state.selectedProtocol === undefined && this.state.validated}
+                                                 invalidMessage={"A protocol must be selected"}/>
+                            {/*<ProtocolCostumization setProtocol={this.selectHandleChange}/>*/}
                         </div>
                         <div className="col-md-6 mb-3">
-                            <DisplayField onChange={this.handleChange} label={"Quarto"}
-                                          keydata={"room"} value={this.state.room}/>
+                            <DisplayField onChange={this.handleChange}
+                                          label={"Quarto"}
+                                          keydata={"room"}
+                                          value={this.state.room}
+                                          isInvalid={(this.state.room === "" || this.state.room.length >= 10) && this.state.validated}
+                                          invalidMessage={"The room field is invalid"}/>
                         </div>
                     </div>
                 </div>

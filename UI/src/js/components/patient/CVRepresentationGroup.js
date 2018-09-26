@@ -125,11 +125,11 @@ class CVRepresentationGroup extends Component {
     modalFooter = () => {
         return (
             <div className="">
-                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
                     <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>
                 {/*/!* */}
-                <button className="btn btn-success btn-100" onClick={this.addCVData}>
+                <button className="btn btn-sm btn-success btn-100" onClick={this.addCVData}>
                     <i className="fa fa-plus"></i>&nbsp;Add
                 </button>
                 {/**!/*/}

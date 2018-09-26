@@ -28,7 +28,7 @@ class PatientButtonBar extends Component {
                     return(
                         <div>
                             <div className="PatientInfo-buttons-controler pull-right">
-                                <button className="btn btn-success btn-100" onClick={this.admitPatient}>
+                                <button className="btn btn-sm btn-success btn-150" onClick={this.admitPatient}>
                                     <i className="fa fa-plus"></i>&nbsp;Admit</button>
                             </div>
                         </div>
@@ -40,7 +40,7 @@ class PatientButtonBar extends Component {
                                            label={"Dismiss"}
                                            message={"Patient dismiss with success."}
                                            messageTitle={"Dismiss!"}
-                                           className={"btn btn-danger btn-100 pull-right"}
+                                           className={"btn btn-sm btn-danger btn-150 pull-right"}
                                            action={this.dischargePatient}
                                            redirect={"/admittedpatients"}
                                            confirmationMsg={"The patient will be dismissed, but he can be admitted in the future."}
@@ -53,7 +53,7 @@ class PatientButtonBar extends Component {
                 return(
                     <div>
                         <div className="PatientInfo-buttons-controler pull-right">
-                            <button className="btn btn-success btn-100" onClick={this.addPatient}>
+                            <button className="btn btn-sm btn-success btn-150" onClick={this.addPatient}>
                                 <i className="fa fa-plus"></i>&nbsp;Add</button>
                         </div>
                     </div>

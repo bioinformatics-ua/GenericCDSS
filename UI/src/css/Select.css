@@ -1,0 +1,35 @@
+.invalid-feedback-select {
+    display: block;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;;
+}
+.custom-select.is-invalid~.invalid-feedback-select,
+.form-control.is-invalid~.invalid-feedback-select{
+    display: block;
+}
+
+.warning-feedback-select {
+    display: block;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #bba70a;
+}
+.custom-select.is-warning~.warning-feedback-select,
+.form-control.is-warning~.warning-feedback-select{
+    display: block;
+}
+
+.Select{
+    z-index: 100;
+}
+
+.Selectx2{
+    z-index: 200;
+}
+
+.Selectx3{
+    z-index: 300;
+}

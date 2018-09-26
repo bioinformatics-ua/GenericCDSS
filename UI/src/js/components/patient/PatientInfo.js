@@ -49,7 +49,10 @@ class PatientInfo extends Reflux.Component {
 
     patientIsValid = () => {
         this.setState({validated: true});
-        return (this.state.patient.first_name !== "" && this.state.patient.last_name !== "" && this.state.patient.gender !== undefined && this.state.patient.birthdate !== "");
+        return (this.state.patient.first_name !== "" &&
+                this.state.patient.last_name !== "" &&
+                this.state.patient.gender !== undefined &&
+                this.state.patient.birthdate !== "");
     };
 
     render() {

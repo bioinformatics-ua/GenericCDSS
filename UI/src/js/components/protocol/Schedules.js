@@ -42,7 +42,7 @@ class Schedules extends Reflux.Component {
     modalFooter = () => {
         return (
             <div>
-                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
                     <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>
             </div>
@@ -60,7 +60,7 @@ class Schedules extends Reflux.Component {
 
     render() {
         return (
-            <button className="btn btn-info btn-150" onClick={this.openModal}>
+            <button className="btn btn-sm btn-info btn-150" onClick={this.openModal}>
                 <i className="fa fa-calendar"></i>&nbsp;Show schedules
             </button>
         );

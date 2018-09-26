@@ -8,7 +8,7 @@ class DisplayField extends Component {
     render() {
         let validation = this.props.isWarning ? "is-warning": this.props.isInvalid ? "is-invalid": "";
         return (
-            <div className={"input-group " + this.props.className}>
+            <div className={"displayField input-group " + this.props.className}>
                 <div className="input-group-prepend">
                     <span className="input-group-text input-group-addon input-group-infos">
                         <strong>{this.props.label}</strong>
@@ -16,16 +16,15 @@ class DisplayField extends Component {
                 </div>
                 {
                     this.props.readOnly ?
-                        <input className="form-control enabled" readOnly value={this.props.value}/>
+                        <input className="displayField form-control enabled" readOnly value={this.props.value}/>
                         :
                         <input type={this.props.type}
                                data-keydata={this.props.keydata}
-                               className={"form-control " + validation}
+                               className={"displayField form-control " + validation}
                                onChange={this.props.onChange}
                                value={this.props.value}
                                min={this.props.min}
                                max={this.props.max}/>
-
                 }
                 {
                     this.props.isInvalid ?

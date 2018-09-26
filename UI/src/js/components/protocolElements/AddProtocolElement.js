@@ -96,10 +96,10 @@ class AddProtocolElement extends Reflux.Component {
     modalFooter = () => {
         return (
             <div>
-                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
                     <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>
-                <button className="btn btn-success btn-100" onClick={this.addElement}>
+                <button className="btn btn-sm btn-success btn-100" onClick={this.addElement}>
                     <i className="fa fa-plus"></i>&nbsp;Add
                 </button>
             </div>

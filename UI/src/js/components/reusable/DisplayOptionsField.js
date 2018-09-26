@@ -33,8 +33,9 @@ class DisplayOptionsField extends Component {
     };
 
     render() {
+        let validation = this.props.isWarning ? "is-warning": this.props.isInvalid ? "is-invalid": "";
         return (
-            <div className={"input-group " + this.props.className}>
+            <div className={"displayField input-group " + this.props.className}>
                 <div className="input-group-prepend d-flex">
                     <span className="input-group-text input-group-addon input-group-infos">
                                         <strong>{this.props.label}</strong>
@@ -43,16 +44,31 @@ class DisplayOptionsField extends Component {
 
                 {
                     this.props.readOnly ?
-                        <input className="form-control enabled" readOnly value={this.props.value}/>
+                        <input className="displayField form-control enabled" readOnly value={this.props.value}/>
                         :
-                        <Select
-                            placeholder={this.props.placeholder}
-                            className={"flex-fill " + this.props.selectClassName}
-                            name="form-field-name"
-                            multi={this.props.multi}
-                            value={this.state.selection}
-                            onChange={this.handleChange}
-                            options={this.props.options}/>
+                        <div className={"flex-fill " + validation}>
+                            <Select
+                                placeholder={this.props.placeholder}
+                                className={"displayField flex-fill " + this.props.selectClassName}
+                                name="form-field-name"
+                                multi={this.props.multi}
+                                value={this.state.selection}
+                                onChange={this.handleChange}
+                                options={this.props.options}/>
+                        </div>
+
+                }
+                {
+                    this.props.isInvalid ?
+                        <div className="invalid-feedback-select">
+                            {this.props.invalidMessage}
+                        </div> : ''
+                }
+                {
+                    this.props.isWarning ?
+                        <div className="warning-feedback-select">
+                            {this.props.invalidMessage}
+                        </div> : ''
                 }
 
             </div>
@@ -69,7 +85,8 @@ class DisplayOptionsField extends Component {
          * */
         selection: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.object
+            PropTypes.object,
+            PropTypes.array
         ]),
         /**
          * Options for the selection
@@ -100,7 +117,19 @@ class DisplayOptionsField extends Component {
         /**
          * Class for the select component only
          * */
-        selectClassName: PropTypes.string
+        selectClassName: PropTypes.string,
+        /**
+         * Message to show if the message is valid
+         * */
+        invalidMessage: PropTypes.string,
+        /**
+         * Boolean to trigger the invalid message
+         * */
+        isInvalid: PropTypes.bool,
+        /**
+         * Boolean to trigger the warning message
+         * */
+        isWarning: PropTypes.bool
     };
 }
 
@@ -110,7 +139,10 @@ DisplayOptionsField.defaultProps = {
     placeholder: "",
     selectClassName: "Select",
     className: "",
-    selection: undefined
+    selection: undefined,
+    invalidMessage: "",
+    isInvalid: false,
+    isWarning: false
 };
 
 export default DisplayOptionsField;

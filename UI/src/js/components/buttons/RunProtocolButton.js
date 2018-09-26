@@ -129,16 +129,16 @@ class RunProtocolButton extends Reflux.Component {
          * */
         if (!this.state.protocolExecuted)
             return (<div className="btn-group">
-                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
                     <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>
-                <button className="btn btn-success btn-100" onClick={this.runProtocol}>
+                <button className="btn btn-sm btn-success btn-100" onClick={this.runProtocol}>
                     <i className="fa fa-play"></i>&nbsp;Run
                 </button>
             </div>);
         else
             return (<div className="">
-                <button className="btn btn-default btn-100" onClick={this.closeModal}>
+                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
                     <i className="fa fa-ban"></i>&nbsp;Cancel
                 </button>
             </div>);

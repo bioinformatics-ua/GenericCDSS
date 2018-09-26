@@ -130,17 +130,8 @@ input[readonly].enabled {
     min-width:150px;
 }
 
-
-.Select{
-    z-index: 100;
-}
-
-.Selectx2{
-    z-index: 200;
-}
-
-.Selectx3{
-    z-index: 300;
+.displayField{
+    min-height:36px;
 }
 
 .CVRepresentationGroup-buttons-controler{
@@ -268,7 +259,13 @@ fieldset[disabled] .btn-default.active {
 }
 
 .is-warning{
-    border-color: #bba70a;
+    border:1px solid  #bba70a;
+    border-radius: 5px;
+}
+
+.is-invalid{
+    border:1px solid #dc3545;
+    border-radius: 5px;
 }
 
 .custom-select.is-warning, .form-control.is-warning{
@@ -288,6 +285,8 @@ fieldset[disabled] .btn-default.active {
 .form-control.is-warning~.warning-tooltip{
     display: block;
 }
+
+
 
 
 
