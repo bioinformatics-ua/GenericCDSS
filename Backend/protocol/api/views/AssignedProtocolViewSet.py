@@ -8,16 +8,16 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-from protocol.api.serializers import AssignedProtocolSerializer
-from protocol.models import AssignedProtocol
+from protocol.api.serializers import ExecutedProtocolSerializer
+from protocol.models import ExecutedProtocol
 
 from patients.models import Patient
 
 from history.models import History
 
 class AssignedProtocolViewSet(viewsets.ModelViewSet):
-    queryset = AssignedProtocol.all()
-    serializer_class = AssignedProtocolSerializer
+    queryset = ExecutedProtocol.all(state=ExecutedProtocol.ASSIGNED)
+    serializer_class = ExecutedProtocolSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ["patient"]

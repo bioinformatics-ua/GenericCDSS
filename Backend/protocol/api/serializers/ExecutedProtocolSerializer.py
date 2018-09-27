@@ -8,8 +8,9 @@ from protocol.models import ExecutedProtocol
 
 
 class ExecutedProtocolSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField(required=False)
-    execution_time = serializers.SerializerMethodField(required=False)
+    title               = serializers.SerializerMethodField(required=False)
+    description         = serializers.SerializerMethodField(required=False)
+    execution_time      = serializers.SerializerMethodField(required=False)
 
     class Meta:
         permission_classes = [permissions.IsAuthenticated]
@@ -19,5 +20,10 @@ class ExecutedProtocolSerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         return obj.protocol.title
 
+    def get_description(self, obj):
+        return obj.protocol.description
+
     def get_execution_time(self, obj):
-        return obj.execution_time.strftime("%Y-%m-%d %H:%M")
+        if(obj.execution_time):
+            return obj.execution_time.strftime("%Y-%m-%d %H:%M")
+        return ""

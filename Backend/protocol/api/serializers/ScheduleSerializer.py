@@ -11,4 +11,4 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         permission_classes = [permissions.IsAuthenticated]
         model = Schedule
-        fields = ("title",)
+        fields = ("id", "title")

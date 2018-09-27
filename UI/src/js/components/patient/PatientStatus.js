@@ -10,7 +10,7 @@ status.get = function(value){
 status.toString = function(value){
     switch (value)
     {
-        case 1:     return "Internado";
+        case 1:     return "Admitted";
         case 2:     return "";
         default:    return "";
     }

@@ -16,7 +16,7 @@ from patients.models import Patient
 from history.models import History
 
 class ExecutedProtocolViewSet(viewsets.ModelViewSet):
-    queryset = ExecutedProtocol.all()
+    queryset = ExecutedProtocol.all(state=ExecutedProtocol.EXECUTED)
     serializer_class = ExecutedProtocolSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]

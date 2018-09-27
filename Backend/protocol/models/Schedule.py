@@ -12,3 +12,9 @@ class Schedule(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def getAllScheduleTimes(self):
+        allPossibleTimes = []
+        for time in self.time.all():
+            allPossibleTimes += [time]
+        return allPossibleTimes

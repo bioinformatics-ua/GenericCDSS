@@ -22,7 +22,7 @@ class ScheduleStore extends Reflux.Store {
                 let scheduleMap = res.data["results"].map(entry => {
                     return {
                         value: entry.id,
-                        label: entry.hoursMinutes
+                        label: entry.title
                     }
                 });
 

@@ -30,7 +30,3 @@ class AdmissionSerializer(serializers.ModelSerializer):
 
     def get_last_measure(self, obj):
         return obj.getLastProtocolAssignedMeasure()
-
-    def get_protocol_id(self, obj):
-        print "TO DO"
-        return 1#obj.getLastProtocolAssignedMeasure()

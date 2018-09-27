@@ -246,7 +246,6 @@ class Command(BaseCommand):
             for patient in Patient.objects.all():
                 for exames in range(random.randint(1,5)):
                     measure_date = self.dateRandom("2018-01-01 0:00:00","2018-09-01 0:00:00",'%Y-%m-%d %H:%M:%S')
-                    print measure_date
                     CVPatient.new(patient=patient,
                                   group = cvg,
                                   variable = "Exams",

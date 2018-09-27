@@ -27,21 +27,21 @@ class Admission(models.Model):
         self.patient.discharge()
         self.end_date = timezone.now()
         self.save()
-        print "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        # History to do
+        ExecutedProtocol.cancelAllAssigned(patient=self.patient)
 
     def getLastProtocolAssignedMeasure(self):
-        lastProtocolExecution = ExecutedProtocol.getLastExecution(patient=self.patient)
+        '''
+        Retrieves when was made the last protocol measurement
+        :return: datetime in string format
+        '''
+        lastProtocolExecution = ExecutedProtocol.getLastExecution(patient=self.patient, admissionDate=self.start_date)
         if(lastProtocolExecution):
             return lastProtocolExecution.execution_time.strftime("%Y-%m-%d %H:%M")
         return ""
 
     def getNextProtocolAssignedMeasure(self):
-        #calcular proxima, ou entao pensar numa solucao
-        patientAssignedProtocols = AssignedProtocol.all(patient=self.patient)
-        print patientAssignedProtocols
-        print "todo"
-        return "todo"#.strftime("%Y-%m-%d %H:%M")
+        nextExecution = ExecutedProtocol.getNextExecution(patient=self.patient)
+        return nextExecution.schedule_time.strftime("%Y-%m-%d %H:%M")
 
     @staticmethod
     def new(patient, physician, room):
@@ -68,8 +68,6 @@ class Admission(models.Model):
     def dischargePatient(patient):
         admission = Admission.getLatestAdmission(patient)
         admission.discharge()
-        print "bbbbbbbbbbbbbbbbbbbbbbbb"
-        print admission
 
     @staticmethod
     def getLatestAdmission(patient):

@@ -15,7 +15,7 @@ from patients.models import Admission, Patient
 
 from accounts.models import Profile
 
-from protocol.models import AssignedProtocol, Protocol, Schedule
+from protocol.models import ExecutedProtocol, Protocol, Schedule
 
 from history.models import History
 
@@ -48,16 +48,10 @@ class AdmissionViewSet(viewsets.ModelViewSet):
                       physician=physician,
                       room=request.data.get('room'))
         #Assign protocols
-        selectedProtocols  = request.data.get('seletedProtocols')
+        selectedProtocols  = request.data.get('seletedProtocols') #For now it is only one
         for selectedProtocol in selectedProtocols:
             protocol = Protocol.objects.get(id=selectedProtocol.get("id"))
-            print "SCHEDULE PODE TER UM BUG"
-            schedule = Schedule.objects.all()[0]#time=selectedProtocol.get("schedule"))
-            AssignedProtocol.new(protocol=protocol,
-                                 patient=patient,
-                                 schedule=schedule,
-                                 start_date=timezone.now())
-                                 #end_date=dateutil.parser.parse(selectedProtocol.get("end_date")))
+            ExecutedProtocol.new(protocol=protocol, patient=patient)
 
         self.queryset = Admission.all(active=True)
         return super(AdmissionViewSet, self).list(request, *args, **kwargs)

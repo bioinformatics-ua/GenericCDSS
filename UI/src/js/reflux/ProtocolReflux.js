@@ -62,7 +62,15 @@ class ProtocolStore extends Reflux.Store {
         if (id !== undefined)
             API.GET("protocol", id)
                 .then(res => {
-                    this.setState({protocol: res.data, protocolData: res.data.elements});
+                    let scheduleMap = res.data["schedules"].map(entry => {
+                        return entry.title;
+                    });
+                    let protocol = res.data;
+                    protocol["schedules"] = scheduleMap;
+                    this.setState({
+                        protocol: protocol,
+                        protocolData: res.data.elements
+                    });
                 });
         else
             this.setState({protocol: {

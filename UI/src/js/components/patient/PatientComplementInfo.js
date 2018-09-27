@@ -31,11 +31,11 @@ class PatientComplementInfo extends Component {
                         <ClinicalVariables patientID={this.state.patientID}/>
                     </TabPane>
 
-                    <TabPane tab='Treatments' key="2">
+                    <TabPane tab='Performed Treatments' key="2">
                         <ExecutedProtocols patientID={this.state.patientID}/>
                     </TabPane>
 
-                    <TabPane tab='Protocols' key="3">
+                    <TabPane tab='Assigned Protocols' key="3">
                         <AssignedProtocols patientID={this.state.patientID}/>
                     </TabPane>
                     {/*to do*/}

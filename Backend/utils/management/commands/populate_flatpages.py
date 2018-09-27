@@ -41,7 +41,8 @@ class Command(BaseCommand):
             site = Site.objects.get(domain=siteDomain)
         except:
             site = Site.objects.create(domain=siteDomain,
-                                       name=siteDomain).save()
+                                       name=siteDomain)
+            site.save()
 
         FlatPage.objects.create(url="/home/",
                                 title="Home",

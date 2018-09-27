@@ -128,7 +128,7 @@ class ShowProtocol extends Reflux.Component {
         }];
 
         let extraObjectsSize = this.state.mode === "show" ? 245 : 245;
-
+        console.log(this.state)
         return (
             <div className="ShowProtocol">
                 <h2>Protocol</h2>

@@ -96,7 +96,7 @@ class ProtocolViewSet(viewsets.ModelViewSet):
 
         if(patientid):
             patient = Patient.objects.get(id=patientid)
-            assignment = AssignedProtocol.getCurrentAssignment(patient)
+            assignment = ExecutedProtocol.getNextExecution(patient)
             protocol = assignment.protocol
         elif(protocolid):
             protocol = Protocol.objects.get(id=protocolid)

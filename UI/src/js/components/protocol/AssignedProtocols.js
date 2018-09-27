@@ -18,24 +18,14 @@ class SelectedProtocols extends Reflux.Component {
 
     render() {
         const columns = [{
-            Header: () => <h5 className="h5-table">Título</h5>,
+            Header: () => <h5 className="h5-table">Title</h5>,
             id: "title",
             accessor: obj => obj.title,
-            Cell: props => <Link to={"/show/protocol/" + props.original.id}>{props.value}</Link>
+            Cell: props => <Link to={"/show/protocol/" + props.original.protocol}>{props.value}</Link>
         }, {
-            Header: () => <h5 className="h5-table">Inicio</h5>,
+            Header: () => <h5 className="h5-table">Description</h5>,
             id: "start_date",
-            accessor: obj => obj.start_date,
-            Cell: props => <span>{props.value}</span>
-        }, {
-            Header: () => <h5 className="h5-table">Fim</h5>,
-            id: "end_date",
-            accessor: obj => obj.end_date,
-            Cell: props => <span>{props.value}</span>
-        }, {
-            Header: () => <h5 className="h5-table">Hora</h5>,
-            id: "schedule",
-            accessor: obj => obj.schedule,
+            accessor: obj => obj.description,
             Cell: props => <span>{props.value}</span>
         }];
 

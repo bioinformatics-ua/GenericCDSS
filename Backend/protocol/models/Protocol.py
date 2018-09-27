@@ -2,6 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
+
+from datetime import datetime
 
 from protocol.models import Schedule
 
@@ -47,6 +50,35 @@ class Protocol(models.Model):
         tmpAll = Protocol.objects.all().filter(removed=False)
 
         return tmpAll.order_by('title')
+
+    def getNextScheduleTime(self):
+        '''
+        Returns next schedule time
+        '''
+        allPossibleTimes = []
+        for schedule in self.schedules.all():
+            allPossibleTimes += schedule.getAllScheduleTimes()
+
+        nextScheduleTime = None
+        allPossibleTimes = sorted(allPossibleTimes)
+
+        for timeObj in allPossibleTimes:
+            if(datetime.now().time() < timeObj.time): #the time is after now
+                if(nextScheduleTime):
+                    if (timeObj.time < nextScheduleTime.time):
+                        nextScheduleTime = timeObj
+                else:
+                    nextScheduleTime = timeObj
+
+        if(nextScheduleTime == None):
+            nextScheduleTime = allPossibleTimes[0]
+
+        if(nextScheduleTime.time < datetime.now().time()): #Tomorrow
+            nextSchedule = datetime.now() + datetime.timedelta(days=1)
+            return nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute)
+        else: #Today
+            nextSchedule = datetime.now()
+            return nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute)
 
     def run(self, inquiryData):
         from protocol_element.models import ProtocolElement, PEDecision, PEAction
