@@ -21,6 +21,11 @@ class Profile(models.Model):
     def __unicode__(self):
         return u"User profile for %s" % self.user
 
+    def getFullName(self):
+        if self.user.get_full_name() != "":
+            return self.user.get_full_name()
+        return self.user.username
+
     @staticmethod
     def getAllPhysicians():
         '''

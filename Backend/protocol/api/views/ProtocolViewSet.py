@@ -67,9 +67,12 @@ class ProtocolViewSet(viewsets.ModelViewSet):
         patient = Patient.objects.get(id=patientId)
         CVPatient.addCVSet(inquiryData, patient)
 
-        protocolTemplate = Protocol.objects.get(id=protocolId)
-        protocol = ExecutedProtocol.new(protocol=protocolTemplate, patient=patient)
-        result = protocol.run(inquiryData)
+        assignment = ExecutedProtocol.getNextExecution(patient)
+        result = assignment.run(inquiryData)
+
+        #Next assigment
+        protocol = assignment.protocol
+        ExecutedProtocol.new(protocol=protocol, patient=patient)
 
         return Response({"results": result})
 

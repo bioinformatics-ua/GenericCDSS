@@ -18,7 +18,8 @@ class RunProtocolButton extends Reflux.Component {
             inquiryElements: [],
             protocolTitle: "",
             insertionData: {},
-            resultActions: []
+            resultActions: [],
+            nextMeasurement: undefined
         };
     }
 
@@ -111,13 +112,19 @@ class RunProtocolButton extends Reflux.Component {
     };
 
     retrieveInquiryElementsAndActionsRecomended = () => {
+        //todo nextMeasurement box
         return (
             <div className="card-body">
                 {this.state.inquiryElements}
                 {this.state.resultActions.length !== 0 ?
-                    <div className="card panel-info">
+                    <div className="card panel-info mb-3">
                         <div className="card-header">Actions recommended</div>
                         <div className="card-body">{this.state.resultActions}</div>
+                    </div> : ''}
+                {this.state.nextMeasurement !== undefined ?
+                    <div className="card panel-info">
+                        <div className="card-header">Next measurement</div>
+                        <div className="card-body">{this.state.nextMeasurement}</div>
                     </div> : ''}
             </div>
         );

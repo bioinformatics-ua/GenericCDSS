@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 
 from patients.models import Patient
 
@@ -33,6 +34,7 @@ class ExecutedProtocol(models.Model):
         for element in elementsExecutedInProtocol:
             self.elementsExecuted.add(element)
         self.state = ExecutedProtocol.EXECUTED
+        self.execution_time = datetime.now()
         self.save()
         return self.getResult()
 
@@ -47,9 +49,8 @@ class ExecutedProtocol(models.Model):
         return actionsResult
 
     @staticmethod
-    def new(protocol, patient, schedule_time=None):
-        if(schedule_time==None):
-            schedule_time = protocol.getNextScheduleTime()
+    def new(protocol, patient):
+        schedule_time = protocol.getNextScheduleTime()
         protocol = ExecutedProtocol.objects.create(protocol=protocol,
                                                    patient=patient,
                                                    schedule_time=schedule_time,
@@ -79,10 +80,10 @@ class ExecutedProtocol(models.Model):
         '''
         Return the last protocol execution instance
         '''
-        return ExecutedProtocol.all(protocol=protocol, patient=patient, admissionDate=admissionDate).first()
+        return ExecutedProtocol.all(protocol=protocol, patient=patient, admissionDate=admissionDate, order_by='-execution_time').first()
 
     @staticmethod
-    def all(protocol=None, patient=None, admissionDate=None, state=None):
+    def all(protocol=None, patient=None, admissionDate=None, state=None, order_by=None):
         '''
         Return all executed protocol instances
         '''
@@ -100,4 +101,7 @@ class ExecutedProtocol(models.Model):
         if state != None:
             tmpAll = tmpAll.filter(state=state)
 
-        return tmpAll.order_by('-execution_time')
+        if order_by != None:
+            return tmpAll.order_by(order_by)
+
+        return tmpAll.order_by('-schedule_time')

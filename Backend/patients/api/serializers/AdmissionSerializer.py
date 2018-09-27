@@ -23,7 +23,7 @@ class AdmissionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_physician(self, obj):
-        return obj.physician.user.get_full_name()
+        return obj.physician.getFullName()
 
     def get_next_measure(self, obj):
         return obj.getNextProtocolAssignedMeasure()

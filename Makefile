@@ -36,7 +36,7 @@ populateInitialConfigs:
 
 populateDBRandomData:
 	cd Backend && \
-	python manage.py populate_db_patients ${patientN}
+	python manage.py populate_db_patients ${patientN} ${force}
 
 demo: createDB createSuperUser createProtocols populateInitialConfigs populateDBRandomData
 

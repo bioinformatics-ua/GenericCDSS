@@ -2,6 +2,8 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 
+from accounts.models import Profile
+
 class Command(BaseCommand):
     help = 'This command will populate the db with random data to create a demo installation'
 
@@ -29,4 +31,6 @@ class Command(BaseCommand):
             self.stdout.write("Success:The superuser was created with success!\n")
 
     def create_superUser(self):
-        User.objects.create_superuser(username="john", email="joao.rafael.almeida@ua.pt", password="12345qwert")
+        user = User.objects.create_superuser(username="john", email="joao.rafael.almeida@ua.pt", password="12345qwert")
+        Profile.objects.create(user=user,
+                               role=Profile.PHYSICIAN)#change this
