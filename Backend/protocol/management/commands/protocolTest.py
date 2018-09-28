@@ -22,31 +22,35 @@ class Command(BaseCommand):
 
     def create_cvs(self):
         try:
-            CVGroup.objects.get(title="Endocrinological data")
+            group = CVGroup.objects.get(title="Endocrinological data")
         except:
-            CVGroup(title="Endocrinological data",
+            group = CVGroup(title="Endocrinological data",
                     description="Patient endocrinological data",
-                    index_representation=5).save()
+                    index_representation=5)
+            group.save()
 
         try:
-            ClinicalVariable.objects.get(group=CVGroup.objects.get(title="Endocrinological data"),
-                                          variable="Blood Glucose",
-                                          description="Patient Blood Glucose")
+            ClinicalVariable.objects.get(group=group,
+                                         variable="Blood Glucose",
+                                         description="Patient Blood Glucose")
         except:
-            ClinicalVariable(group=CVGroup.objects.get(title="Endocrinological data"),
-                             variable="Blood Glucose",
-                             description="Patient Blood Glucose",
-                             index_representation=1).save()
+            ClinicalVariable.new(group=group,
+                                 variable="Blood Glucose",
+                                 type=ClinicalVariable.NUMERIC,
+                                 description="Patient Blood Glucose",
+                                 index_representation=1).save()
 
         try:
-            ClinicalVariable.objects.get(group=CVGroup.objects.get(title="Endocrinological data"),
-                                          variable="Diet",
-                                          description="Patient Diet")
+            ClinicalVariable.objects.get(group=group,
+                                         variable="Diet",
+                                         description="Patient Diet")
         except:
-            ClinicalVariable(group=CVGroup.objects.get(title="Endocrinological data"),
-                             variable="Diet",
-                             description="Patient Diet",
-                             index_representation=5).save()
+            ClinicalVariable.new(group=group,
+                                 variable="Diet",
+                                 type=ClinicalVariable.CONDITIONAL,
+                                 description="Patient Diet",
+                                 index_representation=5,
+                                 options=['zero', 'normal']).save()
 
     def clean_protocol(self):
         try:

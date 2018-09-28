@@ -9,9 +9,21 @@ from datetime import datetime, timedelta
 class Command(BaseCommand):
     help = 'This command will create the hypoglycemia protocol in the database'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            dest='force',
+            default=False,
+            help='Force the deletion and the creation of the patients',
+        )
+
     def handle(self, *args, **options):
         self.stdout.write("\nCleaning the Hypoglycemia protocol!\n\n")
         self.clean_protocol()
+        if options["force"]:
+            self.stdout.write("\nCleaning variables used in the Hypoglycemia protocol!\n\n")
+            self.clean_cvs()
         self.stdout.write("\nCreating the Clinical Variables needed by this protocol!\n\n")
         self.create_cvs()
         self.stdout.write("\nCreating the Hypoglycemia protocol!\n\n")
@@ -20,33 +32,49 @@ class Command(BaseCommand):
         self.create_schedules()
         self.stdout.write("\nSuccess:The Hypoglycemia protocol was created with success!\n\n")
 
+    def clean_cvs(self):
+        try:
+            group = CVGroup.objects.get(title="Endocrinological data")
+
+            ClinicalVariable.objects.filter(group=group,
+                                            variable="Blood Glucose").delete()
+
+            ClinicalVariable.objects.filter(group=group,
+                                            variable="Diet").delete()
+        except:
+            self.stdout.write("\nClinical variables do not exist in the system!\n\n")
+
     def create_cvs(self):
         try:
-            CVGroup.objects.get(title="Endocrinological data")
+            group = CVGroup.objects.get(title="Endocrinological data")
         except:
-            CVGroup(title="Endocrinological data",
+            group = CVGroup(title="Endocrinological data",
                     description="Patient endocrinological data",
-                    index_representation=5).save()
+                    index_representation=5)
+            group.save()
 
         try:
-            ClinicalVariable.objects.get(group=CVGroup.objects.get(title="Endocrinological data"),
-                                          variable="Blood Glucose",
-                                          description="Patient Blood Glucose")
+            ClinicalVariable.objects.get(group=group,
+                                         variable="Blood Glucose",
+                                         description="Patient Blood Glucose")
         except:
-            ClinicalVariable(group=CVGroup.objects.get(title="Endocrinological data"),
-                             variable="Blood Glucose",
-                             description="Patient Blood Glucose",
-                             index_representation=1).save()
+            ClinicalVariable.new(group=group,
+                                 variable="Blood Glucose",
+                                 type=ClinicalVariable.NUMERIC,
+                                 description="Patient Blood Glucose",
+                                 index_representation=1).save()
 
         try:
-            ClinicalVariable.objects.get(group=CVGroup.objects.get(title="Endocrinological data"),
-                                          variable="Diet",
-                                          description="Patient Diet")
+            ClinicalVariable.objects.get(group=group,
+                                         variable="Diet",
+                                         description="Patient Diet")
         except:
-            ClinicalVariable(group=CVGroup.objects.get(title="Endocrinological data"),
-                             variable="Diet",
-                             description="Patient Diet",
-                             index_representation=5).save()
+            ClinicalVariable.new(group=group,
+                                 variable="Diet",
+                                 type=ClinicalVariable.CONDITIONAL,
+                                 description="Patient Diet",
+                                 index_representation=5,
+                                 options=['zero', 'normal']).save()
 
     def clean_protocol(self):
         try:
@@ -67,15 +95,17 @@ class Command(BaseCommand):
 
     def create_schedules(self):
         protocol = Protocol.objects.get(title="Hypoglycemia")
-        schedule = Schedule.objects.create(title="Every 15 minutes")
-        schedule.save()
-        intervalTimes = [dt.strftime('%H:%M') for dt in self.datetime_range(datetime(2018, 9, 1, 0), datetime(2018, 9, 1, 23, 59), timedelta(minutes=15))]
-        for time in intervalTimes:
-            timeToAdd = Time.objects.create(time=time)
-            timeToAdd.save()
-            schedule.time.add(timeToAdd)
+        try:
+            schedule = Schedule.objects.get(title="Every 15 minutes")
+        except:
+            schedule = Schedule.objects.create(title="Every 15 minutes")
+            schedule.save()
+            intervalTimes = [dt.strftime('%H:%M') for dt in self.datetime_range(datetime(2018, 9, 1, 0), datetime(2018, 9, 1, 23, 59), timedelta(minutes=15))]
+            for time in intervalTimes:
+                timeToAdd = Time.objects.create(time=time)
+                timeToAdd.save()
+                schedule.time.add(timeToAdd)
         protocol.schedules.add(schedule)
-
 
     def create_protocol(self):
         protocol = Protocol.objects.create(title="Hypoglycemia",

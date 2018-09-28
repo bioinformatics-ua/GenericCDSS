@@ -142,30 +142,36 @@ class Command(BaseCommand):
             cvg.save()
 
             self.stdout.write("\tCreating the Clinical Variables (Body measurements)\n")
-            ClinicalVariable(group=cvg,
-                             variable="Weight",
-                             description="Patient's weight",
-                             index_representation=1).save()
-            ClinicalVariable(group=cvg,
-                             variable="Height",
-                             description="Patient's height",
-                             index_representation=5).save()
-            ClinicalVariable(group=cvg,
-                             variable="Waist (cm)",
-                             description="Patient's waist perimeter",
-                             index_representation=10).save()
-            ClinicalVariable(group=cvg,
-                             variable="Chest (cm)",
-                             description="Patient's chest perimeter",
-                             index_representation=12).save()
-            ClinicalVariable(group=cvg,
-                             variable="Fat (%)",
-                             description="Percent of patient's fat",
-                             index_representation=15).save()
-            ClinicalVariable(group=cvg,
-                             variable="Lean mass (kg)",
-                             description="Patient's lean mass in kilos",
-                             index_representation=20).save()
+            ClinicalVariable.new(group=cvg,
+                                 variable="Weight",
+                                 type=ClinicalVariable.STRING,
+                                 description="Patient's weight",
+                                 index_representation=1).save()
+            ClinicalVariable.new(group=cvg,
+                                 variable="Height",
+                                 type=ClinicalVariable.STRING,
+                                 description="Patient's height",
+                                 index_representation=5).save()
+            ClinicalVariable.new(group=cvg,
+                                 variable="Waist (cm)",
+                                 type=ClinicalVariable.STRING,
+                                 description="Patient's waist perimeter",
+                                 index_representation=10).save()
+            ClinicalVariable.new(group=cvg,
+                                 variable="Chest (cm)",
+                                 type=ClinicalVariable.STRING,
+                                 description="Patient's chest perimeter",
+                                 index_representation=12).save()
+            ClinicalVariable.new(group=cvg,
+                                 variable="Fat (%)",
+                                 type=ClinicalVariable.STRING,
+                                 description="Percent of patient's fat",
+                                 index_representation=15).save()
+            ClinicalVariable.new(group=cvg,
+                                 variable="Lean mass (kg)",
+                                 type=ClinicalVariable.STRING,
+                                 description="Patient's lean mass in kilos",
+                                 index_representation=20).save()
 
             self.stdout.write("\tCreating the random data for the CVPatient (Body measurements)\n")
             for patient in Patient.objects.all():
@@ -228,14 +234,16 @@ class Command(BaseCommand):
             cvg.save()
 
             self.stdout.write("\tCreating the Clinical Variables (Performed exams)\n")
-            ClinicalVariable(group=CVGroup.objects.get(title="Performed exams"),
-                             variable="Exams",
-                             description="Exam performed by the patient",
-                             index_representation=1).save()
-            ClinicalVariable(group=CVGroup.objects.get(title="Performed exams"),
-                             variable="Physician",
-                             description="Physician that performed the exam",
-                             index_representation=5).save()
+            ClinicalVariable.new(group=CVGroup.objects.get(title="Performed exams"),
+                                 variable="Exams",
+                                 type=ClinicalVariable.STRING,
+                                 description="Exam performed by the patient",
+                                 index_representation=1).save()
+            ClinicalVariable.new(group=CVGroup.objects.get(title="Performed exams"),
+                                    variable="Physician",
+                                 type=ClinicalVariable.STRING,
+                                 description="Physician that performed the exam",
+                                 index_representation=5).save()
 
             self.stdout.write("\tCreating the random data for the CVPatient (Performed exams)\n")
             exams = ("A‐1‐C blood glucose test","Blood pressure", "Cholesterol test", "Dilated eye exam", "Urine test",
