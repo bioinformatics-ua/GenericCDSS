@@ -48,11 +48,11 @@ class LoginComponent extends Reflux.Component {
                                            value="remember-me"/>
                                     Remember me
                                 </label>
-                                <Link className="pull-right" to="forgotten">Forgot password ?</Link>
+                                {/*<Link className="pull-right" to="forgotten">Forgot password ?</Link>*/}
                             </div>
                         </form>
                         <br/>
-                        <Link to="signinup" className="btn btn-outline-link btn-block"> Create an account </Link>
+                        {/*<Link to="signinup" className="btn btn-outline-link btn-block"> Create an account </Link>*/}
                     </div>
                 </div>
             </div>

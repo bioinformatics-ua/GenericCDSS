@@ -94,6 +94,9 @@ class RunProtocolButton extends Reflux.Component {
             ProtocolActions.runProtocolTest(protocolId, insertionData);
         else
             ProtocolActions.runProtocol(patientId, protocolId, insertionData);
+
+        if(this.props.refreshParent !== undefined)
+            this.props.refreshParent();
     };
 
     /*******************************************************************************************************************
@@ -214,7 +217,11 @@ class RunProtocolButton extends Reflux.Component {
         patientID: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
-        ])
+        ]),
+        /**
+         * Function to execute after the protocol execution, defined in the parent component
+         * */
+        refreshParent: PropTypes.func
     }
 }
 
@@ -224,7 +231,8 @@ RunProtocolButton.defaultProps = {
     label: "Run protocol",
     protocolID: undefined,
     patientID: undefined,
-    testMode: false
+    testMode: false,
+    refreshParent: undefined
 };
 
 export default RunProtocolButton;

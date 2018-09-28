@@ -13,7 +13,6 @@ class AdmittedPatients extends Reflux.Component {
         super(props);
         this.stores = [AdmissionStore, ProtocolStore];
         this.state = {
-
         };
     }
 
@@ -22,9 +21,6 @@ class AdmittedPatients extends Reflux.Component {
     }
 
     render() {
-        // console.log("TO DO Needs fix (backend mostly)")
-        // console.log(this.state);
-
         let i = 0;
         const columns = [{
             Header: () => <h5 className="h5-table">Name</h5>,
@@ -57,7 +53,7 @@ class AdmittedPatients extends Reflux.Component {
             id: "actions",
             filterable: false,
             accessor: obj => obj.patient.id,
-            Cell: props =>  <RunProtocolButton patientID={props.value}/>
+            Cell: props =>  <RunProtocolButton refreshParent={this.componentDidMount} patientID={props.value}/>
         }];
 
 
