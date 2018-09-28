@@ -40,8 +40,12 @@ class Admission(models.Model):
         return ""
 
     def getNextProtocolAssignedMeasure(self):
+        '''
+        It returns when the patient information should be measured
+        :return: tuple (datetime, schedule title)
+        '''
         nextExecution = ExecutedProtocol.getNextExecution(patient=self.patient)
-        return nextExecution.schedule_time.strftime("%Y-%m-%d %H:%M")
+        return (nextExecution.schedule_time.strftime("%Y-%m-%d %H:%M"), nextExecution.schedule.title)
 
     @staticmethod
     def new(patient, physician, room):

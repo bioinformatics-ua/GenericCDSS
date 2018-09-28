@@ -53,31 +53,35 @@ class Protocol(models.Model):
     def getNextScheduleTime(self):
         '''
         Returns next schedule time
+        :return: tuple (datetime, schedule title)
         '''
         allPossibleTimes = []
         for schedule in self.schedules.all():
             allPossibleTimes += schedule.getAllScheduleTimes()
 
         nextScheduleTime = None
+        nextScheduleTitle = None
         allPossibleTimes = sorted(allPossibleTimes)
 
-        for timeObj in allPossibleTimes:
+        for timeObj, scheduleTitle in allPossibleTimes:
             if(datetime.now().time() < timeObj.time): #the time is after now
                 if(nextScheduleTime):
                     if (timeObj.time < nextScheduleTime.time):
                         nextScheduleTime = timeObj
+                        nextScheduleTitle = scheduleTitle
                 else:
                     nextScheduleTime = timeObj
+                    nextScheduleTitle = scheduleTitle
 
         if(nextScheduleTime == None):
-            nextScheduleTime = allPossibleTimes[0]
+            nextScheduleTime, nextScheduleTitle = allPossibleTimes[0]
 
         if(nextScheduleTime.time < datetime.now().time()): #Tomorrow
             nextSchedule = datetime.now() + datetime.timedelta(days=1)
-            return nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute)
+            return (nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute), nextScheduleTitle)
         else: #Today
             nextSchedule = datetime.now()
-            return nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute)
+            return (nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute), nextScheduleTitle)
 
     def run(self, inquiryData):
         from protocol_element.models import ProtocolElement, PEDecision, PEAction

@@ -7,7 +7,7 @@ from datetime import datetime
 
 from patients.models import Patient
 
-from protocol.models import Protocol, Time
+from protocol.models import Protocol, Time, Schedule
 
 from protocol_element.models import ProtocolElement, PEDecision, PEAction
 
@@ -24,6 +24,7 @@ class ExecutedProtocol(models.Model):
 
     protocol            = models.ForeignKey(Protocol)
     patient             = models.ForeignKey(Patient)
+    schedule            = models.ForeignKey(Schedule)
     schedule_time       = models.DateTimeField()
     execution_time      = models.DateTimeField(null=True)
     elementsExecuted    = models.ManyToManyField(ProtocolElement)
@@ -50,9 +51,11 @@ class ExecutedProtocol(models.Model):
 
     @staticmethod
     def new(protocol, patient):
-        schedule_time = protocol.getNextScheduleTime()
+        schedule_time, scheduleTitle = protocol.getNextScheduleTime()
+        scheduleObj = Schedule.objects.get(title=scheduleTitle)
         protocol = ExecutedProtocol.objects.create(protocol=protocol,
                                                    patient=patient,
+                                                   schedule=scheduleObj,
                                                    schedule_time=schedule_time,
                                                    state=ExecutedProtocol.ASSIGNED)
         protocol.save()

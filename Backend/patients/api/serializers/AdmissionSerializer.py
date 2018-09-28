@@ -26,7 +26,8 @@ class AdmissionSerializer(serializers.ModelSerializer):
         return obj.physician.getFullName()
 
     def get_next_measure(self, obj):
-        return obj.getNextProtocolAssignedMeasure()
+        nextExecution, nextScheduleTitle = obj.getNextProtocolAssignedMeasure()
+        return nextExecution + " - " + nextScheduleTitle
 
     def get_last_measure(self, obj):
         return obj.getLastProtocolAssignedMeasure()

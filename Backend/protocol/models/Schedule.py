@@ -16,5 +16,5 @@ class Schedule(models.Model):
     def getAllScheduleTimes(self):
         allPossibleTimes = []
         for time in self.time.all():
-            allPossibleTimes += [time]
+            allPossibleTimes += [(time, self.title)]
         return allPossibleTimes
