@@ -128,7 +128,7 @@ class ShowProtocol extends Reflux.Component {
     };
 
     editProtocol = () => {
-        console.log("editProtocol");
+        this.setState({mode:"edit"});
     };
 
     removeProtocol = () => {
@@ -143,60 +143,71 @@ class ShowProtocol extends Reflux.Component {
     };
 
     render() {
-        const columns = [{
-            Header: () => <h5 className="h5-table"></h5>,
-            id: "selection",
-            maxWidth: 33,
-            filterable: false,
-            accessor: obj => obj.internalId,
-            Cell: props => <AddProtocolElement btnClass={"btn-xxs btn-sm btn-inverse-warning"}
-                                               onClick={this.editElement}
-                                               icon={"fa fa-pencil"}
-                                               label={""}
-                                               elementID={parseInt(props.value, 10)}
-                                               getElementData={this.getElementData}/>
-        }, {
+        const columns = [];
+        if(this.state.mode !== "show")
+            columns.push({
+                Header: () => <h5 className="h5-table"></h5>,
+                id: "selection",
+                maxWidth: 33,
+                filterable: false,
+                accessor: obj => obj.internalId,
+                Cell: props => <AddProtocolElement btnClass={"btn-xxs btn-sm btn-inverse-warning"}
+                                                   onClick={this.editElement}
+                                                   icon={"fa fa-pencil"}
+                                                   label={""}
+                                                   elementID={parseInt(props.value, 10)}
+                                                   getElementData={this.getElementData}/>
+            });
+        columns.push({
             Header: () => <h5 className="h5-table">ID</h5>,
             id: "id",
             accessor: obj => obj.internalId,
             Cell: props => <span>{props.value}</span>
-        }, {
+        });
+        columns.push({
             Header: () => <h5 className="h5-table">Type</h5>,
             id: "type",
             accessor: obj => obj.type,
             Cell: props => <span>{props.value}</span>
-        }, {
+        });
+        columns.push({
             Header: () => <h5 className="h5-table">Next element</h5>,
             id: "next",
             accessor: obj => obj.nextElement,
             Cell: props => <span>{props.value}</span>
-        }, {
+        });
+        columns.push({
             Header: () => <h5 className="h5-table">Clinical Variable</h5>,
             id: "cv",
             accessor: obj => obj.clinicalVariable,
             Cell: props => <span>{props.value !== undefined ? props.value.variable : ""}</span>
-        }, {
+        });
+        columns.push({
             Header: () => <h5 className="h5-table">Condition</h5>,
             id: "cond",
             accessor: obj => obj.condition,
             Cell: props => <span>{props.value}</span>
-        }, {
+        });
+        columns.push({
             Header: () => <h5 className="h5-table">Action</h5>,
             id: "action",
             accessor: obj => obj.action,
             Cell: props => <span>{props.value}</span>
-        }, {
-            Header: () => <h5 className="h5-table"></h5>,
-            id: "remove",
-            maxWidth: 33,
-            filterable: false,
-            accessor: obj => obj.internalId,
-            Cell: props => <span>
-                <button data-elementid={props.value}  className="btn btn-xxs btn-sm btn-inverse-danger" onClick={this.removeElement}>
-                    <i data-elementid={props.value}  className="fa fa-times"></i>
-                </button>
-            </span>
-        }];
+        });
+
+        if(this.state.mode !== "show")
+            columns.push({
+                Header: () => <h5 className="h5-table"></h5>,
+                id: "remove",
+                maxWidth: 33,
+                filterable: false,
+                accessor: obj => obj.internalId,
+                Cell: props => <span>
+                    <button data-elementid={props.value}  className="btn btn-xxs btn-sm btn-inverse-danger" onClick={this.removeElement}>
+                        <i data-elementid={props.value}  className="fa fa-times"></i>
+                    </button>
+                </span>
+            });
 
         let extraObjectsSize = this.state.mode === "show" ? 245 : 245;
 
