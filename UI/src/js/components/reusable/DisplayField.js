@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 class DisplayField extends Component {
     render() {
         let validation = this.props.isWarning ? "is-warning": this.props.isInvalid ? "is-invalid": "";
+        let readOnly = typeof this.props.readOnly === "boolean" ? this.props.readOnly : this.props.readOnly();
         return (
             <div className={"displayField input-group " + this.props.className}>
                 <div className="input-group-prepend">
@@ -15,7 +16,7 @@ class DisplayField extends Component {
                     </span>
                 </div>
                 {
-                    this.props.readOnly ?
+                    readOnly ?
                         <input className="displayField form-control enabled" readOnly value={this.props.value}/>
                         :
                         <input type={this.props.type}
@@ -64,7 +65,10 @@ class DisplayField extends Component {
         /**
          * Boolean to block the display to only show data (as a normal input)
          * */
-        readOnly: PropTypes.bool,
+        readOnly: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.bool
+        ]),
         /**
          * Input type
          * */

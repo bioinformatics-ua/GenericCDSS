@@ -52,7 +52,7 @@ class Protocols extends Reflux.Component {
                         <i className="fa fa-sitemap pull-left"></i>
                         <h3 className="text-center card-title h3-table">Protocols</h3>
                         <Link to="/add/protocol" className="pull-right btn btn-sm btn-success table-button">
-                             <i className="fa fa-plus"></i></Link>
+                             <strong><i className="fa fa-plus"></i> Insert new protocol</strong></Link>
                     </div>
                     <div className="card-content">
                         <ReactTable

@@ -9,13 +9,21 @@ class DisplayOptionsField extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selection: this.props.selection
+            selection: this.props.selection,
+            value: this.props.value,
         }
     }
 
     componentWillReceiveProps(props) {
         let selection = props.selection;
-        this.setState({selection});
+        let readOnly = typeof this.props.readOnly === "boolean" ? this.props.readOnly : this.props.readOnly();
+        if(readOnly){
+            let value = props.value;
+            this.setState({selection, value:value});
+        }
+        else
+        //let value = props.value;
+            this.setState({selection});
     }
 
     handleChange = (selection) => {
@@ -25,15 +33,19 @@ class DisplayOptionsField extends Component {
             if (this.props.multi)
                 this.props.onChange([]);
             else
-                this.props.onChange({value: undefined, label: undefined});
+                this.props.onChange({value: undefined, label: undefined}, this.props.keydata);
+
+            this.setState({selection, value:""});
         }
-        else
-            this.props.onChange(selection);
-        this.setState({selection});
+        else{
+            this.props.onChange(selection, this.props.keydata);
+            this.setState({selection, value:selection.value});
+        }
     };
 
     render() {
         let validation = this.props.isWarning ? "is-warning": this.props.isInvalid ? "is-invalid": "";
+        let readOnly = typeof this.props.readOnly === "boolean" ? this.props.readOnly : this.props.readOnly();
         return (
             <div className={"displayField input-group " + this.props.className}>
                 <div className="input-group-prepend d-flex">
@@ -43,8 +55,8 @@ class DisplayOptionsField extends Component {
                 </div>
 
                 {
-                    this.props.readOnly ?
-                        <input className="displayField form-control enabled" readOnly value={this.props.value}/>
+                    readOnly ?
+                        <input className="displayField form-control enabled" readOnly value={this.state.value}/>
                         :
                         <div className={"flex-fill " + validation}>
                             <Select
@@ -81,6 +93,10 @@ class DisplayOptionsField extends Component {
          * */
         label: PropTypes.string.isRequired,
         /**
+         * Used to display the selected option
+         * */
+        value: PropTypes.string,
+        /**
          * Selection objects
          * */
         selection: PropTypes.oneOfType([
@@ -105,7 +121,10 @@ class DisplayOptionsField extends Component {
         /**
          * Boolean to block the display to only show data (as a normal input)
          * */
-        readOnly: PropTypes.bool,
+        readOnly: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.bool
+        ]),
         /**
          * Boolean to allow multiple selections
          * */
@@ -129,7 +148,14 @@ class DisplayOptionsField extends Component {
         /**
          * Boolean to trigger the warning message
          * */
-        isWarning: PropTypes.bool
+        isWarning: PropTypes.bool,
+        /**
+         * Key component
+         * */
+        keydata: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     };
 }
 
@@ -142,7 +168,9 @@ DisplayOptionsField.defaultProps = {
     selection: undefined,
     invalidMessage: "",
     isInvalid: false,
-    isWarning: false
+    isWarning: false,
+    keydata:undefined,
+    value:""
 };
 
 export default DisplayOptionsField;

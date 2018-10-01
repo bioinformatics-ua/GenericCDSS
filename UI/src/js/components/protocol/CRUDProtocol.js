@@ -128,7 +128,7 @@ class ShowProtocol extends Reflux.Component {
         }];
 
         let extraObjectsSize = this.state.mode === "show" ? 245 : 245;
-        console.log(this.state)
+
         return (
             <div className="ShowProtocol">
                 <h2>Protocol</h2>
@@ -182,7 +182,7 @@ class ShowProtocol extends Reflux.Component {
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>
                                     <ButtonWithMsg icon={"fa fa-times"}
-                                                   label={"Remove"}
+                                                   label={<strong>Remove</strong>}
                                                    message={"You protocol has been removed."}
                                                    messageTitle={"Deleted!"}
                                                    className={"btn btn-sm btn-danger btn-150"}

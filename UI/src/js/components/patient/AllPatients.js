@@ -49,7 +49,7 @@ class AllPatients extends Reflux.Component {
                         <h3 className="text-center card-title h3-table">Patients</h3>
 
                         <Link to="/add/patient" className="pull-right btn btn-sm btn-success table-button my-auto">
-                             <i className="fa fa-plus"></i></Link>
+                             <strong><i className="fa fa-plus"></i> Insert new patient</strong></Link>
                     </div>
                     <div className="card-content">
                         <ReactTable

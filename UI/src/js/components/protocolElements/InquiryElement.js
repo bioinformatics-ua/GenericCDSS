@@ -37,6 +37,7 @@ class InquiryElement extends Reflux.Component {
                 <DisplayOptionsField label={"Clinical variable"}
                                      options={this.state.headers}
                                      onChange={this.cvSelectHandleChange}
+                                     selection={this.state.cv}
                                      className={"mb-3"}/>
                 <DisplayField label={"Next element"}
                               onChange={this.nextElementIdHandleChange}

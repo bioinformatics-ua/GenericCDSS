@@ -5,7 +5,7 @@ import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {AdmissionStore, AdmissionActions} from '../../reflux/AdmissionReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
 import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
-import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
+import History from '../globalComponents/History.js';
 import $ from 'jquery';
 
 class AssignProtocolToPatient extends Reflux.Component {
@@ -56,6 +56,7 @@ class AssignProtocolToPatient extends Reflux.Component {
         if(this.isProtocolValid()){
             let selectedProtocols = [{"id":this.state.selectedProtocol.value}]; //Provisorio, maybe because I am only selecting a protocol
             AdmissionActions.admitPatient(this.state.patientID, selectedProtocols, this.state.room);
+            History.push("/admittedpatients");
         }
         else
             return false;
@@ -105,13 +106,9 @@ class AssignProtocolToPatient extends Reflux.Component {
                 </div>
                 <hr/>
                 <div>
-                    <ButtonWithMsg icon={"fa fa-plus"}
-                                   label={"Admit"}
-                                   message={"Patient admitted with success."}
-                                   messageTitle={"Admitted!"}
-                                   className={"btn btn-success btn-100 pull-right"}
-                                   action={this.admitPatient}
-                                   redirect={"/admittedpatients"} />
+                    <button className={"btn btn-success btn-100 pull-right"} onClick={this.admitPatient}>
+                        <span><i className={"fa fa-plus"}></i>&nbsp;</span>Admit
+                    </button>
                 </div>
             </div>
         )

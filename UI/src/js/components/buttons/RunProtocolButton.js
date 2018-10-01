@@ -3,6 +3,7 @@ import Reflux from 'reflux';
 import {StateActions} from '../../reflux/StateReflux.js';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import DisplayField from '../reusable/DisplayField.js';
+import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 
@@ -35,14 +36,39 @@ class RunProtocolButton extends Reflux.Component {
     updateModalContentWithDisplayFields = (prevState) => {
         if (prevState.protocolInquiryData !== this.state.protocolInquiryData) {
             let inquiryElements = [];
+            let count = 1;
             for (let cvIndex in this.state.protocolInquiryData.Elements) {
-                let cv = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"]["variable"];
-                inquiryElements.push(<DisplayField onChange={this.handleChange}
-                                                   label={cv}
-                                                   keydata={cv}
-                                                   value={this.state.insertionData[cv]}
-                                                   key={cvIndex}
-                                                   className={"mb-3"}/>);
+                let clinicalVariable = this.state.protocolInquiryData.Elements[cvIndex]["clinicalVariable"];
+                let cv = clinicalVariable["variable"];
+                if(clinicalVariable["type"] === "Conditional"){
+                    count+=1;
+                    let options = clinicalVariable["options"].map(entry => {
+                        return {
+                            value: entry,
+                            label: entry
+                        }
+                    });
+                    inquiryElements.push(<DisplayOptionsField onChange={this.selectHandleChange}
+                                                              label={cv}
+                                                              options={options}
+                                                              keydata={cv}
+                                                              value={this.state.insertionData[cv]}
+                                                              selection={this.state.insertionData[cv]}
+                                                              key={cvIndex}
+                                                              className={"Selectx" + count + " mb-3"}
+                                                              readOnly={this.protocolWasExecuted}/>);
+                }
+                else{
+                    let type = clinicalVariable["type"] === "Numeric" ? "number": "text";
+                    inquiryElements.push(<DisplayField onChange={this.handleChange}
+                                                       label={cv}
+                                                       keydata={cv}
+                                                       value={this.state.insertionData[cv]}
+                                                       key={cvIndex}
+                                                       className={"mb-3"}
+                                                       type={type}
+                                                       readOnly={this.protocolWasExecuted}/>);
+                }
             }
 
             this.setState({
@@ -57,7 +83,7 @@ class RunProtocolButton extends Reflux.Component {
             let resultActions = [];
             for (let actionIndex in this.state.actions)
                 resultActions.push(
-                    <p>{this.state.actions[actionIndex][0] + " - " + this.state.actions[actionIndex][1]}</p>);
+                    <p key={actionIndex+100}>{this.state.actions[actionIndex][0] + " - " + this.state.actions[actionIndex][1]}</p>);
 
             this.setState({resultActions: resultActions, protocolExecuted: !this.props.testMode});
         }
@@ -82,6 +108,12 @@ class RunProtocolButton extends Reflux.Component {
         this.setState({insertionData: new_insertionData});
     };
 
+    selectHandleChange = (selection, key) => {
+        let new_insertionData = this.state.insertionData;
+        new_insertionData[key] = selection.value;
+        this.setState({insertionData: new_insertionData});
+    };
+
     runProtocol = () => {
         //todo
         //It is necessary verify if all the data was inserted
@@ -94,9 +126,10 @@ class RunProtocolButton extends Reflux.Component {
             ProtocolActions.runProtocolTest(protocolId, insertionData);
         else
             ProtocolActions.runProtocol(patientId, protocolId, insertionData);
+    };
 
-        if(this.props.refreshParent !== undefined)
-            this.props.refreshParent();
+    protocolWasExecuted = () => {
+        return this.state.protocolExecuted;
     };
 
     /*******************************************************************************************************************
@@ -177,6 +210,10 @@ class RunProtocolButton extends Reflux.Component {
             insertionData: {},
             resultActions: []
         });
+
+        if(this.props.refreshParent !== undefined)
+            this.props.refreshParent();
+
         StateActions.closeModal();
     };
 
