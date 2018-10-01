@@ -14,57 +14,58 @@ class AddProtocolElement extends Reflux.Component {
         this.state = {
             internalId: this.props.elementID.toString(),
             selectionType: undefined,
-            elementConfigurations: {}
+            elementConfigurations: {},
+            elementData: this.props.getElementData !== undefined ? this.props.getElementData(this.props.elementID) : undefined,
+            mode: this.props.getElementData !== undefined ? "edit": "new",
+
+            //This is static, because the system only have 3 types os codition and maybe never will be added a new type
+            typeOptions:[
+                {value: 'inquiry', label: 'Inquiry'},
+                {value: 'decision', label: 'Decision'},
+                {value: 'action', label: 'Action'}
+            ]
         };
     }
+
+    loadDetails = () => {
+        if(this.state.mode === "edit"){
+            let selectionType = this.state.typeOptions.find(obj => {
+                return obj.value === this.state.elementData.type;
+            });
+
+            this.setState({
+                selectionType: selectionType,
+                internalId: this.state.elementData.internalId
+            });
+        }
+    };
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState !== this.state)
             StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
     }
 
-    modalHeader = () => {
-        return (
-            <div className="">
-                <h1>Add protocol element</h1>
-            </div>
-        );
-    };
-
-    modalContent = () => {
-        //This is static, because the system only have 3 types os codition and maybe never will be added a new type
-        const typeOptions = [
-            {value: 'inquiry', label: 'Inquiry'},
-            {value: 'decision', label: 'Decision'},
-            {value: 'action', label: 'Action'}
-        ];
-
-        return (
-            <div className="card-body">
-                <DisplayField onChange={this.internalIdHandleChange}
-                              label={"Element id"}
-                              value={this.state.internalId}
-                              type={"number"}
-                              min={"0"}
-                              className={"mb-3"}/>
-                <DisplayOptionsField label={"Element type"}
-                                     options={typeOptions}
-                                     onChange={this.typeSelectHandleChange}
-                                     selection={this.state.selectionType}
-                                     className={"mb-3"}
-                                     selectClassName={"Selectx3"}/>
-                {this.protocolElementConfigurations()}
-            </div>
-        );
-    };
-
+    /*******************************************************************************************************************
+     * Auxiliary functions
+     ******************************************************************************************************************/
     internalIdHandleChange = (event) => {
         event.preventDefault();
-        this.setState({internalId: event.target.value});
+        let elementData = this.state.elementData;
+
+        if(elementData)
+            elementData["internalId"] = event.target.value;
+
+        this.setState({
+            internalId: event.target.value,
+            elementData: elementData
+        });
     };
 
     typeSelectHandleChange = (selection) => {
-        this.setState({selectionType: selection});
+        this.setState({
+            selectionType: selection,
+            elementData: {}
+        });
     };
 
     protocolElementConfigurations = () => {
@@ -72,15 +73,21 @@ class AddProtocolElement extends Reflux.Component {
             switch (this.state.selectionType.value) {
                 case 'inquiry':
                     return (
-                        <InquiryElement addElementConfigurations={this.addElementConfigurations}/>
+                        <InquiryElement addElementConfigurations={this.addElementConfigurations}
+                                        elementData={this.state.elementData}
+                                        mode={this.state.mode}/>
                     );
                 case 'decision':
                     return (
-                        <DecisionElement addElementConfigurations={this.addElementConfigurations}/>
+                        <DecisionElement addElementConfigurations={this.addElementConfigurations}
+                                         elementData={this.state.elementData}
+                                         mode={this.state.mode}/>
                     );
                 case 'action':
                     return (
-                        <ActionElement addElementConfigurations={this.addElementConfigurations}/>
+                        <ActionElement addElementConfigurations={this.addElementConfigurations}
+                                       elementData={this.state.elementData}
+                                       mode={this.state.mode}/>
                     );
                 default:
                     break;
@@ -90,20 +97,16 @@ class AddProtocolElement extends Reflux.Component {
     addElementConfigurations = (key, value) => {
         let elementConfigurations = this.state.elementConfigurations;
         elementConfigurations[key] = value;
-        this.setState({elementConfigurations: elementConfigurations});
-    };
 
-    modalFooter = () => {
-        return (
-            <div>
-                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
-                    <i className="fa fa-ban"></i>&nbsp;Cancel
-                </button>
-                <button className="btn btn-sm btn-success btn-100" onClick={this.addElement}>
-                    <i className="fa fa-plus"></i>&nbsp;Add
-                </button>
-            </div>
-        );
+        let elementData = this.state.elementData;
+
+        if(elementData)
+            elementData[key] = value;
+
+        this.setState({
+            elementConfigurations: elementConfigurations,
+            elementData: elementData
+        });
     };
 
     addElement = () => {
@@ -112,7 +115,7 @@ class AddProtocolElement extends Reflux.Component {
          * */
         let element = this.buildElementObject();
         this.closeModal();
-        this.props.addElement(element);
+        this.props.onClick(element);
     };
 
     buildElementObject = () => {
@@ -128,8 +131,52 @@ class AddProtocolElement extends Reflux.Component {
         return element;
     };
 
+    /*******************************************************************************************************************
+     * Modal actions
+     ******************************************************************************************************************/
+    modalHeader = () => {
+        return (
+            <div className="">
+                <h1>Add protocol element</h1>
+            </div>
+        );
+    };
+
+    modalContent = () => {
+        return (
+            <div className="card-body">
+                <DisplayField onChange={this.internalIdHandleChange}
+                              label={"Element id"}
+                              value={this.state.internalId}
+                              type={"number"}
+                              min={"0"}
+                              className={"mb-3"}/>
+                <DisplayOptionsField label={"Element type"}
+                                     options={this.state.typeOptions}
+                                     onChange={this.typeSelectHandleChange}
+                                     selection={this.state.selectionType}
+                                     className={"mb-3"}
+                                     selectClassName={"Selectx3"}/>
+                {this.protocolElementConfigurations()}
+            </div>
+        );
+    };
+
+    modalFooter = () => {
+        return (
+            <div>
+                <button className="btn btn-sm btn-default btn-100" onClick={this.closeModal}>
+                    <i className="fa fa-ban"></i>&nbsp;Cancel
+                </button>
+                <button className="btn btn-sm btn-success btn-100" onClick={this.addElement}>
+                    <i className="fa fa-plus"></i>&nbsp;Add
+                </button>
+            </div>
+        );
+    };
+
     openModal = (event) => {
-        event.preventDefault();
+        this.loadDetails();
         StateActions.openModal(this.modalHeader(), this.modalContent(), this.modalFooter());
     };
 
@@ -144,8 +191,8 @@ class AddProtocolElement extends Reflux.Component {
 
     render() {
         return (
-            <button className={"btn btn-success " + this.props.btnClass} onClick={this.openModal}>
-                <i className="fa fa-plus"></i>&nbsp;Add element
+            <button className={"btn " + this.props.btnClass} onClick={this.openModal}>
+                <i className={this.props.icon}></i>{this.props.label}
             </button>
         );
     }
@@ -156,16 +203,33 @@ class AddProtocolElement extends Reflux.Component {
          * */
         elementID: PropTypes.number,
         /**
-         * Function to add element to the protocol
+         * Function to perform in the parent (edit or add new element to the protocol)
          *
          * @param element
          * */
-        addElement: PropTypes.func
+        onClick: PropTypes.func,
+        /**
+         * Function to get the element data received when in edition mode
+         * */
+        getElementData: PropTypes.func,
+        /**
+         * Button icon
+         * */
+        icon: PropTypes.string,
+        /**
+         * Element id given by the protocol (auto-increment)
+         * */
+        label: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ])
     };
 }
 
 AddProtocolElement.defaultProps = {
-    elementID: 1
+    elementID: 1,
+    icon: "fa fa-plus",
+    label: <span>&nbsp;Add element</span>
 };
 
 export default AddProtocolElement;

@@ -12,6 +12,21 @@ class ActionElement extends Reflux.Component {
         };
     }
 
+    componentDidMount() {
+        this.loadingDetails();
+    }
+
+    loadingDetails = () => {
+        if(this.props.mode === "edit"){
+            this.props.addElementConfigurations("action", this.props.elementData.action);
+            this.props.addElementConfigurations("nextElement", this.props.elementData.nextElement);
+            this.setState({
+                action: this.props.elementData.action,
+                nextElementId: this.props.elementData.nextElement
+            })
+        }
+    };
+
     actionHandleChange = (event) => {
         event.preventDefault();
         this.props.addElementConfigurations("action", event.target.value);

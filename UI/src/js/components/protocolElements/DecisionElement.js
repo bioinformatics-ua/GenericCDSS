@@ -14,13 +14,62 @@ class DecisionElement extends Reflux.Component {
             nextElementIdFalse: "",//(this.props.elementID + 2).toString(),
             cv: undefined,
             condition: undefined,
-            value: ""
+            value: "",
+
+            conditionOptions: [
+                //{value: 'switch', label: 'switch'}, todo
+                {value: '<', label: '<'},
+                {value: '>', label: '>'},
+                {value: '=', label: '=='}
+            ]
         };
     }
 
     componentDidMount() {
         ClinicalVariablesActions.loadCVHeaders();
+        this.loadingDetails();
     }
+
+    loadingDetails = () => {
+        if(this.props.mode === "edit"){
+            let selectedCV = undefined;
+            if(this.props.elementData.clinicalVariable){
+                selectedCV = this.state.headers.find(obj => {
+                    return obj.value === this.props.elementData.clinicalVariable.variable;
+                });
+                this.props.addElementConfigurations("clinicalVariable", {variable: selectedCV.value});
+            }
+            else
+                this.props.addElementConfigurations("clinicalVariable", {variable: selectedCV});
+
+            let condition = undefined;
+            let value = undefined;
+            if (this.props.elementData.condition) {
+                condition = this.state.conditionOptions.find(obj => {
+                    return obj.value === this.props.elementData.condition.charAt(0);
+                });
+                condition = condition.value;
+                value = this.props.elementData.condition.substring(1);
+                this.props.addElementConfigurations("condition", this.props.elementData.condition);
+            }
+
+            let nextElementIdFalse = "";
+            let nextElementIdTrue = "";
+            if(this.props.elementData.nextElement){
+                nextElementIdFalse = this.props.elementData.nextElement.split(";")[0].split(":")[1];
+                nextElementIdTrue = this.props.elementData.nextElement.split(";")[1].split(":")[1];
+
+                this.props.addElementConfigurations("nextElement", this.props.elementData.nextElement);
+            }
+            this.setState({
+                cv:selectedCV,
+                condition: condition,
+                value: value,
+                nextElementIdTrue: nextElementIdTrue,
+                nextElementIdFalse: nextElementIdFalse
+            })
+        }
+    };
 
     cvSelectHandleChange = (selection) => {
         this.props.addElementConfigurations("clinicalVariable", {variable: selection.value});
@@ -53,13 +102,6 @@ class DecisionElement extends Reflux.Component {
     };
 
     render() {
-        const conditionOptions = [
-            //{value: 'switch', label: 'switch'}, todo
-            {value: '<', label: '<'},
-            {value: '>', label: '>'},
-            {value: '=', label: '=='}
-        ];
-
         return (
             <div>
                 <DisplayOptionsField label={"Clinical variable"}
@@ -69,7 +111,7 @@ class DecisionElement extends Reflux.Component {
                                      selectClassName={"Selectx2"}
                                      className={"mb-3"}/>
                 <DisplayOptionsField label={"Condition"}
-                                     options={conditionOptions}
+                                     options={this.state.conditionOptions}
                                      onChange={this.conditionHandleChange}
                                      selection={this.state.condition}
                                      className={"mb-3"}/>

@@ -76,9 +76,57 @@ class ShowProtocol extends Reflux.Component {
         this.setState({schedules: selection});
     };
 
+    getElementData = (elementId) => {
+        for (let elementIndex in this.state.protocolData){
+            let element = this.state.protocolData[elementIndex];
+            if(parseInt(element["internalId"], 10) === parseInt(elementId, 10))
+                return element;
+        }
+    };
+
     /*******************************************************************************************************************
      * Button actions
      ******************************************************************************************************************/
+    editElement = (editedElement) => {
+        /**
+         * todo remove older id
+         * */
+        let protocolData = [];
+        let maxInternalId = 0;
+        for (let elementIndex in this.state.protocolData){
+            let element = this.state.protocolData[elementIndex];
+            if(parseInt(element["internalId"], 10) === parseInt(editedElement["internalId"], 10))
+                continue;
+            protocolData.push(element);
+            if(parseInt(element["internalId"], 10) > maxInternalId)
+                maxInternalId = parseInt(element["internalId"], 10);
+        }
+        protocolData.push(editedElement);
+        this.setState({
+            protocolData: protocolData,
+            biggestElementId: maxInternalId + 1
+        });
+    };
+
+    removeElement = (event) => {
+        event.preventDefault();
+        let elementId = $(event.target).data("elementid");
+        let protocolData = [];
+        let maxInternalId = 0;
+        for (let elementIndex in this.state.protocolData){
+            let element = this.state.protocolData[elementIndex];
+            if(parseInt(element["internalId"], 10) === elementId)
+                continue;
+            protocolData.push(element);
+            if(parseInt(element["internalId"], 10) > maxInternalId)
+                maxInternalId = parseInt(element["internalId"], 10);
+        }
+        this.setState({
+            protocolData: protocolData,
+            biggestElementId: maxInternalId + 1
+        });
+    };
+
     editProtocol = () => {
         console.log("editProtocol");
     };
@@ -96,6 +144,18 @@ class ShowProtocol extends Reflux.Component {
 
     render() {
         const columns = [{
+            Header: () => <h5 className="h5-table"></h5>,
+            id: "selection",
+            maxWidth: 33,
+            filterable: false,
+            accessor: obj => obj.internalId,
+            Cell: props => <AddProtocolElement btnClass={"btn-xxs btn-sm btn-inverse-warning"}
+                                               onClick={this.editElement}
+                                               icon={"fa fa-pencil"}
+                                               label={""}
+                                               elementID={parseInt(props.value, 10)}
+                                               getElementData={this.getElementData}/>
+        }, {
             Header: () => <h5 className="h5-table">ID</h5>,
             id: "id",
             accessor: obj => obj.internalId,
@@ -125,6 +185,17 @@ class ShowProtocol extends Reflux.Component {
             id: "action",
             accessor: obj => obj.action,
             Cell: props => <span>{props.value}</span>
+        }, {
+            Header: () => <h5 className="h5-table"></h5>,
+            id: "remove",
+            maxWidth: 33,
+            filterable: false,
+            accessor: obj => obj.internalId,
+            Cell: props => <span>
+                <button data-elementid={props.value}  className="btn btn-xxs btn-sm btn-inverse-danger" onClick={this.removeElement}>
+                    <i data-elementid={props.value}  className="fa fa-times"></i>
+                </button>
+            </span>
         }];
 
         let extraObjectsSize = this.state.mode === "show" ? 245 : 245;
@@ -175,9 +246,9 @@ class ShowProtocol extends Reflux.Component {
                                     {/*<button className="btn btn-sm btn-info btn-100" onClick={this.handleChange}><strong><i className="fa fa-code-fork"></i>&nbsp;Fork</strong></button>*/}
 
                                     <RunProtocolButton className={"btn btn-sm btn-primary btn-150"}
-                                                 label={<strong>Run example</strong>}
-                                                 protocolID={this.state.protocolID}
-                                                 testMode={true}/>
+                                                       label={<strong>Run example</strong>}
+                                                       protocolID={this.state.protocolID}
+                                                       testMode={true}/>
                                     <button className="btn btn-sm btn-warning btn-150" onClick={this.editProtocol}>
                                         <strong><i className="fa fa-pencil"></i>&nbsp;Edit</strong>
                                     </button>
@@ -211,8 +282,8 @@ class ShowProtocol extends Reflux.Component {
                 {
                     this.state.mode !== "show" ?
                         <div className="btn-group CRUDProtocol-buttons-controler pull-right mb-3">
-                            <AddProtocolElement btnClass={"btn-sm btn-150"}
-                                                addElement={this.addElement}
+                            <AddProtocolElement btnClass={"btn-success btn-sm btn-150"}
+                                                onClick={this.addElement}
                                                 elementID={this.state.biggestElementId}/>
                             <button className="btn btn-sm btn-primary btn-150" onClick={this.saveProtocol}>
                                 <i className="fa fa-calendar-alt"></i>&nbsp;Save

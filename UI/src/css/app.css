@@ -130,6 +130,19 @@ input[readonly].enabled {
     min-width:150px;
 }
 
+.btn-inverse-warning{
+    color: #ffc107;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+.btn-inverse-danger{
+    color: #dc3545;
+    background-color: transparent;
+    border-color: transparent;
+}
+
 .displayField{
     min-height:36px;
 }

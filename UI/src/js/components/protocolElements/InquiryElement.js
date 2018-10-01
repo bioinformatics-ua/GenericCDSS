@@ -17,7 +17,28 @@ class InquiryElement extends Reflux.Component {
 
     componentDidMount() {
         ClinicalVariablesActions.loadCVHeaders();
+        this.loadingDetails();
     }
+
+    loadingDetails = () => {
+        if(this.props.mode === "edit"){
+            let selectedCV = undefined;
+            if(this.props.elementData.clinicalVariable){
+                selectedCV = this.state.headers.find(obj => {
+                    return obj.value === this.props.elementData.clinicalVariable.variable;
+                });
+                this.props.addElementConfigurations("clinicalVariable", {variable: selectedCV.value});
+            }
+            else
+                this.props.addElementConfigurations("clinicalVariable", {variable: selectedCV});
+
+            this.props.addElementConfigurations("nextElement", this.props.elementData.nextElement);
+            this.setState({
+                cv:selectedCV,
+                nextElementId:this.props.elementData.nextElement
+            })
+        }
+    };
 
     cvSelectHandleChange = (selection) => {
         this.props.addElementConfigurations("clinicalVariable", {variable: selection.value});
@@ -60,7 +81,11 @@ class InquiryElement extends Reflux.Component {
          * @param key
          * @param value
          * */
-        addElementConfigurations: PropTypes.func
+        addElementConfigurations: PropTypes.func,
+        /**
+         * Object with the element data (important in the edition mode)
+         * */
+        elementData: PropTypes.object
     };
 }
 

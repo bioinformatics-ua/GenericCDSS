@@ -22,7 +22,6 @@ class DisplayOptionsField extends Component {
             this.setState({selection, value:value});
         }
         else
-        //let value = props.value;
             this.setState({selection});
     }
 
