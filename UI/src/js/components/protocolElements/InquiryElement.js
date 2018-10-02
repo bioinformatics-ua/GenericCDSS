@@ -11,12 +11,13 @@ class InquiryElement extends Reflux.Component {
         this.store = ClinicalVariablesStore;
         this.state = {
             nextElementId: "", //(this.props.elementID + 1).toString(),
-            cv: undefined
+            cv: undefined,
+            validated: false
         };
     }
 
     componentDidMount() {
-        ClinicalVariablesActions.loadCVHeaders();
+        //ClinicalVariablesActions.loadCVHeaders();
         this.loadingDetails();
     }
 
@@ -40,6 +41,11 @@ class InquiryElement extends Reflux.Component {
         }
     };
 
+    isValid = () => {
+        this.setState({validated: true});
+        return (this.state.cv !== undefined);
+    };
+
     cvSelectHandleChange = (selection) => {
         this.props.addElementConfigurations("clinicalVariable", {variable: selection.value});
         this.setState({cv: selection.value});
@@ -59,12 +65,14 @@ class InquiryElement extends Reflux.Component {
                                      options={this.state.headers}
                                      onChange={this.cvSelectHandleChange}
                                      selection={this.state.cv}
-                                     className={"mb-3"}/>
+                                     className={"mb-3"}
+                                     isInvalid={this.state.cv === undefined && this.state.validated}
+                                     invalidMessage={"A clinical variable must be selected"}/>
                 <DisplayField label={"Next element"}
                               onChange={this.nextElementIdHandleChange}
                               value={this.state.nextElementId}
                               type={"number"}
-                              min={"0"}
+                              min={(parseInt(this.props.elementID, 10) + 1).toString()}
                               className={"mb-3"}/>
             </div>
         );

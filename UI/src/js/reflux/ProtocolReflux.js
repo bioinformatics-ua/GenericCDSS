@@ -12,6 +12,7 @@ const ProtocolActions = Reflux.createActions([
     'loadInquiryActions',
     'runProtocol',
     'createProtocol',
+    'editProtocol',
     'loadProtocolInquiryActions',
     'runProtocolTest',
     'removeProtocol'
@@ -197,6 +198,24 @@ class ProtocolStore extends Reflux.Store {
             title: this.state.protocol.title,
             description: this.state.protocol.description,
             schedules: schedules
+        }).then(res => {
+            this.setState({
+                protocol: res.data["results"], protocolData: res.data["results"].elements,
+                loading: false
+            });
+            History.push('/show/protocol/' + res.data["results"]["id"]);
+            window.location.reload();
+        })
+    }
+
+    onEditProtocol(schedules){
+        this.setState({loading: true});
+        API.POST("protocol", "editProtocol", {
+            protocolElements: this.state.protocolData,
+            title: this.state.protocol.title,
+            description: this.state.protocol.description,
+            schedules: schedules,
+            protocolID: this.state.protocol.id
         }).then(res => {
             this.setState({
                 protocol: res.data["results"], protocolData: res.data["results"].elements,

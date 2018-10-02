@@ -20,10 +20,16 @@ class AddProtocolElement extends Reflux.Component {
 
             //This is static, because the system only have 3 types os codition and maybe never will be added a new type
             typeOptions:[
-                {value: 'inquiry', label: 'Inquiry'},
-                {value: 'decision', label: 'Decision'},
-                {value: 'action', label: 'Action'}
-            ]
+                {value: 'Inquiry', label: 'Inquiry'},
+                {value: 'Decision', label: 'Decision'},
+                {value: 'Action', label: 'Action'}
+            ],
+            validated: false
+        };
+
+        this.child = null;
+        this.setChildRef = element => {
+            this.child = element;
         };
     }
 
@@ -32,7 +38,6 @@ class AddProtocolElement extends Reflux.Component {
             let selectionType = this.state.typeOptions.find(obj => {
                 return obj.value === this.state.elementData.type;
             });
-
             this.setState({
                 selectionType: selectionType,
                 internalId: this.state.elementData.internalId
@@ -41,6 +46,9 @@ class AddProtocolElement extends Reflux.Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
+        if(prevProps.elementID !== this.props.elementID)
+            this.setState({internalId: this.props.elementID.toString()});
+
         if (prevState !== this.state)
             StateActions.updateModal(this.modalHeader(), this.modalContent(), this.modalFooter());
     }
@@ -48,6 +56,11 @@ class AddProtocolElement extends Reflux.Component {
     /*******************************************************************************************************************
      * Auxiliary functions
      ******************************************************************************************************************/
+    isElementValid = () => {
+        this.setState({validated: true});
+        return (this.state.internalId !== "" && this.state.selectionType !== undefined && this.child.isValid());
+    };
+
     internalIdHandleChange = (event) => {
         event.preventDefault();
         let elementData = this.state.elementData;
@@ -71,21 +84,24 @@ class AddProtocolElement extends Reflux.Component {
     protocolElementConfigurations = () => {
         if (this.state.selectionType)
             switch (this.state.selectionType.value) {
-                case 'inquiry':
+                case 'Inquiry':
                     return (
-                        <InquiryElement addElementConfigurations={this.addElementConfigurations}
+                        <InquiryElement ref={this.setChildRef}
+                                        addElementConfigurations={this.addElementConfigurations}
                                         elementData={this.state.elementData}
                                         mode={this.state.mode}/>
                     );
-                case 'decision':
+                case 'Decision':
                     return (
-                        <DecisionElement addElementConfigurations={this.addElementConfigurations}
+                        <DecisionElement ref={this.setChildRef}
+                                         addElementConfigurations={this.addElementConfigurations}
                                          elementData={this.state.elementData}
                                          mode={this.state.mode}/>
                     );
-                case 'action':
+                case 'Action':
                     return (
-                        <ActionElement addElementConfigurations={this.addElementConfigurations}
+                        <ActionElement ref={this.setChildRef}
+                                       addElementConfigurations={this.addElementConfigurations}
                                        elementData={this.state.elementData}
                                        mode={this.state.mode}/>
                     );
@@ -113,9 +129,11 @@ class AddProtocolElement extends Reflux.Component {
         /**
          * todo: Perform some validations
          * */
-        let element = this.buildElementObject();
-        this.closeModal();
-        this.props.onClick(element);
+        if(this.isElementValid()){
+            let element = this.buildElementObject();
+            this.closeModal();
+            this.props.onClick(element);
+        }
     };
 
     buildElementObject = () => {
@@ -150,13 +168,18 @@ class AddProtocolElement extends Reflux.Component {
                               value={this.state.internalId}
                               type={"number"}
                               min={"0"}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              readOnly={this.state.mode === 'edit'}
+                              isInvalid={this.state.internalId === "" && this.state.validated}
+                              invalidMessage={"The element id must be defined"}/>
                 <DisplayOptionsField label={"Element type"}
                                      options={this.state.typeOptions}
                                      onChange={this.typeSelectHandleChange}
                                      selection={this.state.selectionType}
                                      className={"mb-3"}
-                                     selectClassName={"Selectx3"}/>
+                                     selectClassName={"Selectx3"}
+                                     isInvalid={this.state.selectionType === undefined && this.state.validated}
+                                     invalidMessage={"An element type must be selected"}/>
                 {this.protocolElementConfigurations()}
             </div>
         );
@@ -184,7 +207,8 @@ class AddProtocolElement extends Reflux.Component {
         this.setState({
             internalId: undefined,
             elementConfigurations: {},
-            selectionType: undefined
+            selectionType: undefined,
+            validated: false
         });
         StateActions.closeModal();
     };

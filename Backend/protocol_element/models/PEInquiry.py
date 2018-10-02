@@ -22,7 +22,7 @@ class PEInquiry(ProtocolElement):
 
     @staticmethod
     def addNextElement(id, protocol, nextElementId):
-        pe = PEInquiry.objects.get(internalId=int(id), protocol=protocol)
+        pe = ProtocolElement.get(type=ProtocolElement.INQUIRY,internalId=int(id), protocol=protocol)
         nextElement = PENextElements.new(nextElementId=int(nextElementId), protocol=protocol)
         pe.nextElement = nextElement
         pe.save()

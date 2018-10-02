@@ -36,7 +36,7 @@ class PEDecision(ProtocolElement):
 
     @staticmethod
     def addNextElements(id, protocol, nextElements):
-        pe = PEDecision.objects.get(internalId=int(id), protocol=protocol)
+        pe = ProtocolElement.get(type=ProtocolElement.DECISION, internalId=int(id), protocol=protocol)
         for option, id in nextElements.iteritems():
             nextElement = PENextElements.new(option=option, nextElementId=int(id), protocol=protocol)
             pe.nextElement.add(nextElement)
@@ -50,8 +50,10 @@ class PEDecision(ProtocolElement):
             conditions = conditionString.split(";")
             for condition in conditions:
                 splitedCondition = condition.split(":")
-                print splitedCondition
-                nextElementOptions[splitedCondition[0] == True] = splitedCondition[1]
+                if splitedCondition[0] == 'True' or splitedCondition[0] == True:
+                    nextElementOptions[True] = splitedCondition[1]
+                else:
+                    nextElementOptions[False] = splitedCondition[1]
         #elif switch todo
         return nextElementOptions
 

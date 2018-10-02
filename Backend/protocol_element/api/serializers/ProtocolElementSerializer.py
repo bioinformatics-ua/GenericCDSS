@@ -14,8 +14,8 @@ class ProtocolElementSerializer(PolymorphicSerializer):
     class Meta:
         permission_classes = [permissions.IsAuthenticated]
         model = ProtocolElement
-        exclude = ['id']
-        #fields = '__all__'
+        #exclude = ['id']
+        fields = '__all__'
 
     def get_serializer_map(self):
         return {

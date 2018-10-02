@@ -14,7 +14,8 @@ class PEActionSerializer(serializers.ModelSerializer):
     class Meta:
         permission_classes = [permissions.IsAuthenticated]
         model = PEAction
-        exclude = ['id']
+        #exclude = ['id']
+        fields = '__all__'
 
     def get_type(self, obj):
         return "Action"

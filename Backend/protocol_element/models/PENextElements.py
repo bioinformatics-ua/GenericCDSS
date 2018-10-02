@@ -14,7 +14,7 @@ class PENextElements(models.Model):
 
     @staticmethod
     def new(nextElementId, protocol, option=None):
-        pe = ProtocolElement.objects.get(internalId=nextElementId, protocol=protocol)
+        pe = ProtocolElement.get(internalId=nextElementId, protocol=protocol)
         nextElement = PENextElements.objects.create(option=option, nextElement=pe)
         nextElement.save()
         return nextElement

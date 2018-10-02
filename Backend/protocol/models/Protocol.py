@@ -34,11 +34,30 @@ class Protocol(models.Model):
                                                    # type=type,
                                                    # public=public)
         protocol.save()
-        # History todo
+
         for schedule in schedules:
             scheduleObj = Schedule.objects.get(title=schedule)
             protocol.schedules.add(scheduleObj)
         protocol.save()
+
+        # History todo
+        return protocol
+
+    @staticmethod
+    def edit(id, title, description, schedules):#, type, public):
+        protocol = Protocol.objects.get(id=id)
+        protocol.title = title
+        protocol.description = description
+
+        for schedule in protocol.schedules.all():
+            protocol.schedules.remove(schedule)
+        protocol.save()
+        for schedule in schedules:
+            scheduleObj = Schedule.objects.get(title=schedule)
+            protocol.schedules.add(scheduleObj)
+        protocol.save()
+
+        # History todo
         return protocol
 
     @staticmethod

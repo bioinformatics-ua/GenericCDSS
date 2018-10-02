@@ -46,11 +46,51 @@ class ProtocolViewSet(viewsets.ModelViewSet):
         #Create elements relations
         for element in protocolElements:
             if "nextElement" in element:
-                ProtocolElement.createConnectionsBetweenElements(internalId=element["internalId"],
-                                                                 protocol=protocol,
-                                                                 type=element["type"],
-                                                                 elementData=element)
+                if element["nextElement"] != '':
+                    ProtocolElement.createConnectionsBetweenElements(internalId=element["internalId"],
+                                                                     protocol=protocol,
+                                                                     type=element["type"],
+                                                                     elementData=element)
         return Response({"results": ProtocolSerializer(protocol).data})
+
+    @list_route(methods=['post'])
+    @transaction.atomic
+    def editProtocol(self, request):
+        protocolId = request.data.get('protocolID', None)
+        title = request.data.get('title', None)
+        description = request.data.get('description', None)
+        protocolElements = request.data.get('protocolElements', None)
+        schedules = request.data.get('schedules', None)
+
+        if (protocolId == None or title == None or protocolElements == None or schedules == None or description == None):
+            return Response({
+                'error': "Invalid parameters"
+            })
+
+        protocol = Protocol.edit(id=protocolId, title=title, description=description, schedules=schedules)
+
+        #My approach was, desativate all the elements and create news (this is not the best solution but the db space occupied is small)
+        # Desativate all protocol elements
+        allOldElements = ProtocolElement.all(protocol=protocol)
+        for element in allOldElements:
+            element.desativate()
+
+        # Create elements
+        for element in protocolElements:
+            ProtocolElement.new(internalId=element["internalId"],
+                                protocol=protocol,
+                                type=element["type"],
+                                elementData=element)
+        # Create elements relations
+        for element in protocolElements:
+            if "nextElement" in element:
+                if element["nextElement"] != '':
+                    ProtocolElement.createConnectionsBetweenElements(internalId=element["internalId"],
+                                                                     protocol=protocol,
+                                                                     type=element["type"],
+                                                                     elementData=element)
+        return Response({"results": ProtocolSerializer(protocol).data})
+
 
     @list_route(methods=['post'])
     @transaction.atomic

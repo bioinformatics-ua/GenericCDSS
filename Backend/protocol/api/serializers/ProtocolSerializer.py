@@ -8,9 +8,10 @@ from protocol.models import Protocol
 from protocol.api.serializers import ScheduleSerializer
 
 from protocol_element.api.serializers import ProtocolElementSerializer
+from protocol_element.models import ProtocolElement
 
 class ProtocolSerializer(serializers.ModelSerializer):
-    elements    = ProtocolElementSerializer(many=True)
+    elements    = serializers.SerializerMethodField(required=False)
     schedules   = ScheduleSerializer(many=True)
 
     class Meta:
@@ -18,3 +19,6 @@ class ProtocolSerializer(serializers.ModelSerializer):
         model = Protocol
         fields = '__all__'
 
+    def get_elements(self, obj):
+        elements = ProtocolElement.all(protocol=obj)
+        return ProtocolElementSerializer(elements, many=True).data

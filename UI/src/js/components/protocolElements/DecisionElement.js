@@ -26,7 +26,7 @@ class DecisionElement extends Reflux.Component {
     }
 
     componentDidMount() {
-        ClinicalVariablesActions.loadCVHeaders();
+        //ClinicalVariablesActions.loadCVHeaders();
         this.loadingDetails();
     }
 
@@ -56,8 +56,20 @@ class DecisionElement extends Reflux.Component {
             let nextElementIdFalse = "";
             let nextElementIdTrue = "";
             if(this.props.elementData.nextElement){
-                nextElementIdFalse = this.props.elementData.nextElement.split(";")[0].split(":")[1];
-                nextElementIdTrue = this.props.elementData.nextElement.split(";")[1].split(":")[1];
+                let options = this.props.elementData.nextElement.split(";");
+                switch(options.length){ //Maybe this switch need to be changed
+                    case 0:break;
+                    case 1:
+                        if(options[0].split(":")[0] === "False")
+                            nextElementIdFalse = options[0].split(":")[1];
+                        else
+                            nextElementIdTrue = options[0].split(":")[1];
+                        break;
+                    case 2:
+                        nextElementIdFalse = options[0].split(":")[1];
+                        nextElementIdTrue = options[1].split(":")[1];
+                        break;
+                }
 
                 this.props.addElementConfigurations("nextElement", this.props.elementData.nextElement);
             }
@@ -69,6 +81,13 @@ class DecisionElement extends Reflux.Component {
                 nextElementIdFalse: nextElementIdFalse
             })
         }
+    };
+
+    isValid = () => {
+        this.setState({validated: true});
+        return (this.state.cv !== undefined &&
+                this.state.condition !== undefined &&
+                this.state.value !== "" );
     };
 
     cvSelectHandleChange = (selection) => {
@@ -109,27 +128,33 @@ class DecisionElement extends Reflux.Component {
                                      onChange={this.cvSelectHandleChange}
                                      selection={this.state.cv}
                                      selectClassName={"Selectx2"}
-                                     className={"mb-3"}/>
+                                     className={"mb-3"}
+                                     isInvalid={this.state.cv === undefined && this.state.validated}
+                                     invalidMessage={"A clinical variable must be selected"}/>
                 <DisplayOptionsField label={"Condition"}
                                      options={this.state.conditionOptions}
                                      onChange={this.conditionHandleChange}
                                      selection={this.state.condition}
-                                     className={"mb-3"}/>
+                                     className={"mb-3"}
+                                     isInvalid={this.state.condition === undefined && this.state.validated}
+                                     invalidMessage={"A condition must be selected"}/>
                 <DisplayField label={"Value"}
                               onChange={this.valueInConditionHandleChange}
                               value={this.state.value}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              isInvalid={this.state.value === "" && this.state.validated}
+                              invalidMessage={"A value to compare must be inserted"}/>
                 <DisplayField label={"Next element - True"}
                               onChange={this.nextElementIdWhenTrueHandleChange}
                               value={this.state.nextElementIdTrue}
                               type={"number"}
-                              min={"0"}
+                              min={(parseInt(this.props.elementID, 10) + 1).toString()}
                               className={"mb-3"}/>
                 <DisplayField label={"Next element - False"}
                               onChange={this.nextElementIdWhenFalseHandleChange}
                               value={this.state.nextElementIdFalse}
                               type={"number"}
-                              min={"0"}
+                              min={(parseInt(this.props.elementID, 10) + 1).toString()}
                               className={"mb-3"}/>
             </div>
         );
@@ -146,7 +171,11 @@ class DecisionElement extends Reflux.Component {
          * @param key
          * @param value
          * */
-        addElementConfigurations: PropTypes.func
+        addElementConfigurations: PropTypes.func,
+        /**
+         * Object with the element data (important in the edition mode)
+         * */
+        elementData: PropTypes.object
     };
 }
 

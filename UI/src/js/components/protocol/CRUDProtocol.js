@@ -2,6 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import {ScheduleStore, ScheduleActions} from '../../reflux/ScheduleReflux.js';
+import {ClinicalVariablesStore, ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
 import AddProtocolElement from '../protocolElements/AddProtocolElement.js';
 import RunProtocolButton from '../buttons/RunProtocolButton.js';
 import ButtonWithMsg from '../reusable/ButtonWithMsg.js';
@@ -16,7 +17,7 @@ import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 class ShowProtocol extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.stores = [ProtocolStore, ScheduleStore];
+        this.stores = [ProtocolStore, ScheduleStore, ClinicalVariablesStore];
         this.state = {
             protocolID: this.props.match.params.object,
             mode: this.getMode(),
@@ -28,6 +29,7 @@ class ShowProtocol extends Reflux.Component {
 
     componentDidMount() {
         ProtocolActions.loadProtocol(this.state.protocolID);
+        ClinicalVariablesActions.loadCVHeaders();
         ScheduleActions.load();
     }
 
@@ -68,7 +70,7 @@ class ShowProtocol extends Reflux.Component {
         protocolData.push(element);
         this.setState({
             protocolData: protocolData,
-            biggestElementId: parseInt(protocolData["internalId"], 10) + 1
+            biggestElementId: parseInt(element["internalId"], 10) + 1
         });
     };
 
@@ -88,9 +90,6 @@ class ShowProtocol extends Reflux.Component {
      * Button actions
      ******************************************************************************************************************/
     editElement = (editedElement) => {
-        /**
-         * todo remove older id
-         * */
         let protocolData = [];
         let maxInternalId = 0;
         for (let elementIndex in this.state.protocolData){
@@ -138,7 +137,10 @@ class ShowProtocol extends Reflux.Component {
     saveProtocol = () => {
         if (this.protocolIsValid()) {
             let protocolSchedules = this.getSchedules();
-            ProtocolActions.createProtocol(protocolSchedules);
+            if(this.state.mode === "edit")
+                ProtocolActions.editProtocol(protocolSchedules);
+            else
+                ProtocolActions.createProtocol(protocolSchedules);
         }
     };
 

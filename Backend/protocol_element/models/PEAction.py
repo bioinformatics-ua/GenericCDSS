@@ -20,7 +20,7 @@ class PEAction(ProtocolElement):
 
     @staticmethod
     def addNextElement(id, protocol, nextElementId):
-        pe = PEAction.objects.get(internalId=int(id), protocol=protocol)
+        pe = ProtocolElement.get(type=ProtocolElement.ACTION, internalId=int(id), protocol=protocol)
         nextElement = PENextElements.new(nextElementId=int(nextElementId), protocol=protocol)
         pe.nextElement = nextElement
         pe.save()

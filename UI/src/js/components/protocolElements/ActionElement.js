@@ -27,6 +27,11 @@ class ActionElement extends Reflux.Component {
         }
     };
 
+    isValid = () => {
+        this.setState({validated: true});
+        return (this.state.action !== "");
+    };
+
     actionHandleChange = (event) => {
         event.preventDefault();
         this.props.addElementConfigurations("action", event.target.value);
@@ -45,12 +50,14 @@ class ActionElement extends Reflux.Component {
                 <DisplayField label={"Action"}
                               onChange={this.actionHandleChange}
                               value={this.state.action}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              isInvalid={this.state.action === "" && this.state.validated}
+                              invalidMessage={"A action must be inserted"}/>
                 <DisplayField label={"Next element"}
                               onChange={this.nextElementIdHandleChange}
                               value={this.state.nextElementId}
                               type={"number"}
-                              min={"0"}
+                              min={(parseInt(this.props.elementID, 10) + 1).toString()}
                               className={"mb-3"}/>
             </div>
         );
@@ -67,7 +74,11 @@ class ActionElement extends Reflux.Component {
          * @param key
          * @param value
          * */
-        addElementConfigurations: PropTypes.func
+        addElementConfigurations: PropTypes.func,
+        /**
+         * Object with the element data (important in the edition mode)
+         * */
+        elementData: PropTypes.object
     };
 }
 

@@ -17,7 +17,8 @@ class PEInquirySerializer(serializers.ModelSerializer):
     class Meta:
         permission_classes = [permissions.IsAuthenticated]
         model = PEInquiry
-        exclude = ['id']
+        #exclude = ['id']
+        fields = '__all__'
 
     def get_type(self, obj):
         return "Inquiry"
