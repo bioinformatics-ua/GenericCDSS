@@ -36,7 +36,7 @@ class Protocol(models.Model):
         protocol.save()
         # History todo
         for schedule in schedules:
-            scheduleObj = Schedule.objects.get(time=schedule)
+            scheduleObj = Schedule.objects.get(title=schedule)
             protocol.schedules.add(scheduleObj)
         protocol.save()
         return protocol

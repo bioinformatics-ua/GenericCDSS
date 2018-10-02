@@ -54,7 +54,7 @@ class DisplayOptionsField extends Component {
                 </div>
 
                 {
-                    readOnly ?
+                    readOnly && !this.props.multi ?
                         <input className="displayField form-control enabled" readOnly value={this.state.value}/>
                         :
                         <div className={"flex-fill " + validation}>
@@ -65,7 +65,8 @@ class DisplayOptionsField extends Component {
                                 multi={this.props.multi}
                                 value={this.state.selection}
                                 onChange={this.handleChange}
-                                options={this.props.options}/>
+                                options={this.props.options}
+                                disabled={readOnly}/>
                         </div>
 
                 }
