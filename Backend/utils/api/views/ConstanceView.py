@@ -12,16 +12,30 @@ from django.contrib.flatpages.models import FlatPage
 class ConstanceView(viewsets.ViewSet):
     permission_classes = (AllowAny,)
 
-    @detail_route(methods=['get'])
-    def getFooter(self, request, *args, **kwargs):
+    def __getFooter(self):
         try:
-            return Response({"footer": config.footer_extra})
+            return config.footer_extra
         except:
-            return Response({"footer": "Error"})
+            return "Error"
+
+    def __getAppSymbol(self):
+        try:
+            return config.app_symbol
+        except:
+            return "Error"
+
+    def __getTitle(self):
+        try:
+            return config.site_name
+        except:
+            return "Error"
 
     @detail_route(methods=['get'])
-    def getHeader(self, request, *args, **kwargs):
-        try:
-            return Response({"appSymbol": config.app_symbol})
-        except:
-            return Response({"appSymbol": "Error"})
+    def getSettings(self, request, *args, **kwargs):
+        response = {}
+
+        response["title"] = self.__getTitle()
+        response["footer"] = self.__getFooter()
+        response["appSymbol"] = self.__getAppSymbol()
+
+        return Response(response)

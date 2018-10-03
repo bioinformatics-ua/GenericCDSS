@@ -138,7 +138,7 @@ class RunProtocolButton extends Reflux.Component {
     modalHeader = () => {
         return (
             <div className="">
-                <h1>{this.state.protocolTitle}</h1>
+                <h1><i className="fa fa-sitemap"></i>&nbsp;{this.state.protocolTitle}</h1>
             </div>
         );
     };

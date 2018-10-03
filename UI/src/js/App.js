@@ -8,6 +8,7 @@ import {UserStore, UserActions} from './reflux/UserReflux.js';
 import {StateStore} from './reflux/StateReflux.js';
 import History from './components/globalComponents/History.js';
 import Modal from 'react-awesome-modal';
+import API from './API.js';
 
 class LoadingBar extends Component {
     render() {
@@ -27,13 +28,23 @@ class App extends Reflux.Component {
 
     componentDidMount() {
         UserActions.getUserData();
+        this.setAppTitle();
     }
+
+    setAppTitle = () => {
+        API.GET("settings")
+            .then(res => {
+                if(res.data["title"] !== "")
+                    document.title = res.data["title"];
+            });
+    };
 
     closeModal = () => {/*To remove the warning*/};
 
     render() {
         if (this.state.loading && this.state.user === undefined)
             return (<LoadingBar/>);
+
 
         return (
             <Router history={History}>

@@ -19,6 +19,13 @@ class AllPatients extends Reflux.Component {
 
     render() {
         const columns = [{
+            Header: () => <h5 className="h5-table"></h5>,
+            id: "gender",
+            maxWidth: 33,
+            filterable: false,
+            accessor: obj => obj.gender,
+            Cell: props => props.value === "M" ? <i className="icon-user_male"></i>: <i className="icon-user_female"></i>
+        },{
             Header: () => <h5 className="h5-table">Name</h5>,
             id: "fullname",
             accessor: obj => obj.fullname,

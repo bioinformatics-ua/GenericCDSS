@@ -279,7 +279,7 @@ class ShowProtocol extends Reflux.Component {
 
         return (
             <div className="ShowProtocol">
-                <h2>Protocol</h2>
+                <h2><i className="fa fa-sitemap"></i>&nbsp;Protocol</h2>
                 <div className="card card-body PatientInfo mb-3">
                     <div className="row">
                         <div className="col-md-12 mb-3">

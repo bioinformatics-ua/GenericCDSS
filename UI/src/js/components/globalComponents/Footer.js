@@ -12,7 +12,7 @@ class Footer extends Component {
     }
 
     componentDidMount() {
-        API.GET("footer")
+        API.GET("settings")
             .then(res => {
                 if(this.refs.footer)
                     this.setState({footer:res.data["footer"]});

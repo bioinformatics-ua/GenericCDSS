@@ -6,3 +6,9 @@
 @import url("Table.css");
 @import url("Texts.css");
 @import url("Select.css");
+@import url("externalLibsConfigs.css");
+
+/*
+ * External libs
+ */
+@import url("../externalLibs/mfglabs-iconset/css/mfglabs_iconset.css");

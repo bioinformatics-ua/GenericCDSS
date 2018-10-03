@@ -13,7 +13,7 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        API.GET("header")
+        API.GET("settings")
             .then(res => {
                 if (this.refs.header)
                     this.setState({appSymbol: res.data["appSymbol"]});

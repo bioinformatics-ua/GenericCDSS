@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         FlatPage.objects.create(url="/home/",
                                 title="Home",
-                                content='<center><img src="home_wallpaper.jpg" style="width:100%;opacity:0.5;"><center>').sites.add(site)
+                                content='<img src="home_wallpaper.jpg" style="width:100%; height:100%; opacity:0.5;">').sites.add(site)
         FlatPage.objects.create(url="/about/",
                                 title="About",
                                 content="TO DO").sites.add(site)

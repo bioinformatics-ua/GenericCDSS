@@ -10,12 +10,11 @@ const API = axios.create({
 /*
  * The webservices are called using the baseURL + one of these constants
  */
-const footerURL                 = 'utils/footer';
-const headerURL                 = 'utils/header';
 const languageURL               = 'utils/language';
 const aboutURL                  = 'utils/about';
 const helpURL                   = 'utils/help';
 const homeURL                   = 'utils/home';
+const settingsURL               = 'utils/settings';
 
 const authURL                   = 'accounts';
 
@@ -40,8 +39,6 @@ const getModuleURL = function (module) {
         case "patientclinicalvariables":    return patientclinicalvariablesURL;
         case "clinicalvariables":           return clinicalvariablesURL;
         case "admission":                   return admissionURL;
-        case "footer":                      return footerURL;
-        case "header":                      return headerURL;
         case "language":                    return languageURL;
         case "about":                       return aboutURL;
         case "help":                        return helpURL;
@@ -51,6 +48,7 @@ const getModuleURL = function (module) {
         case "assignedprotocols":           return assignedprotocolsURL;
         case "executedprotocols":           return executedprotocolsURL;
         case "protocolcomponents":          return protocolcomponentsURL;
+        case "settings":                    return settingsURL;
         default:                            return "";
     }
 };
