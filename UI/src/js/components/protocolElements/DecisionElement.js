@@ -21,7 +21,10 @@ class DecisionElement extends Reflux.Component {
                 {value: '<', label: '<'},
                 {value: '>', label: '>'},
                 {value: '=', label: '=='}
-            ]
+            ],
+
+            conditionalOptions: [],
+            valueType: "text"
         };
     }
 
@@ -94,11 +97,57 @@ class DecisionElement extends Reflux.Component {
 
     cvSelectHandleChange = (selection) => {
         this.props.addElementConfigurations("clinicalVariable", {variable: selection.value});
+        this.configureRemainingDisplaysFields(selection.value);
         this.setState({cv: selection.value});
+    };
+
+    configureRemainingDisplaysFields = (cv) => {
+        let variable = this.state.variablesDetails.find(obj => {
+            return obj.variable === cv
+        });
+        let conditionOptions =  [
+            {value: '<', label: '<'},
+            {value: '>', label: '>'},
+            {value: '=', label: '=='}
+        ];
+        switch (variable["type"]){
+            case "Numeric":
+                this.setState({
+                    valueType:"number",
+                    conditionOptions:conditionOptions
+                });
+                return;
+            case "Conditional":
+                let conditionalOptions = variable["options"].map(entry => {
+                    return {
+                        value: entry,
+                        label: entry
+                    }
+                });
+                conditionOptions =  [
+                    {value: '=', label: '=='}
+                ];
+                this.setState({
+                    valueType:"select",
+                    conditionalOptions:conditionalOptions,
+                    conditionOptions:conditionOptions
+                });
+                return;
+            case "String":
+                this.setState({
+                    valueType:"text",
+                    conditionOptions:conditionOptions
+                });
+                return;
+        }
     };
 
     conditionHandleChange = (selection) => {
         this.setState({condition: selection.value});
+    };
+
+    conditionalHandleChange = (selection) => {
+        this.setState({value: selection.value});
     };
 
     nextElementIdWhenTrueHandleChange = (event) => {
@@ -129,23 +178,36 @@ class DecisionElement extends Reflux.Component {
                                      options={this.state.headers}
                                      onChange={this.cvSelectHandleChange}
                                      selection={this.state.cv}
-                                     selectClassName={"Selectx2"}
+                                     selectClassName={"Selectx3"}
                                      className={"mb-3"}
                                      isInvalid={this.state.cv === undefined && this.state.validated}
                                      invalidMessage={"A clinical variable must be selected"}/>
+                {this.state.cv !== undefined ? <span>
                 <DisplayOptionsField label={"Condition"}
                                      options={this.state.conditionOptions}
                                      onChange={this.conditionHandleChange}
                                      selection={this.state.condition}
                                      className={"mb-3"}
+                                     selectClassName={"Selectx2"}
                                      isInvalid={this.state.condition === undefined && this.state.validated}
                                      invalidMessage={"A condition must be selected"}/>
-                <DisplayField label={"Value"}
-                              onChange={this.valueInConditionHandleChange}
-                              value={this.state.value}
-                              className={"mb-3"}
-                              isInvalid={this.state.value === "" && this.state.validated}
-                              invalidMessage={"A value to compare must be inserted"}/>
+                    {this.state.valueType === "select" ?
+                        <DisplayOptionsField label={"Condition"}
+                                     options={this.state.conditionalOptions}
+                                     onChange={this.conditionalHandleChange}
+                                     selection={this.state.value}
+                                     className={"mb-3"}
+                                     isInvalid={this.state.value === undefined && this.state.validated}
+                                     invalidMessage={"A value to compare must be selected"}/>
+                        :
+                        <DisplayField label={"Value"}
+                                      onChange={this.valueInConditionHandleChange}
+                                      value={this.state.value}
+                                      className={"mb-3"}
+                                      type={this.state.valueType}
+                                      isInvalid={this.state.value === "" && this.state.validated}
+                                      invalidMessage={"A value to compare must be inserted"}/>
+                    }
                 <DisplayField label={"Next element - True"}
                               onChange={this.nextElementIdWhenTrueHandleChange}
                               value={this.state.nextElementIdTrue}
@@ -162,6 +224,8 @@ class DecisionElement extends Reflux.Component {
                               className={"mb-3"}
                               isInvalid={this.state.nextElementIdFalse !== "" && this.state.nextElementIdFalse <= this.props.elementID && this.state.validated}
                               invalidMessage={"The next element id should be bigger than the element id"}/>
+                </span>: ''}
+
             </div>
         );
     }

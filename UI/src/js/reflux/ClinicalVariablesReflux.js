@@ -8,7 +8,8 @@ class ClinicalVariablesStore extends Reflux.Store {
         super();
         this.listenables = ClinicalVariablesActions;
         this.state = {
-            headers: []
+            headers: [],
+            variablesDetails: []
         };
     }
 
@@ -23,7 +24,8 @@ class ClinicalVariablesStore extends Reflux.Store {
                 });
 
                 this.setState({
-                    headers: headersMap
+                    headers: headersMap,
+                    variablesDetails:res.data["results"]
                 });
             })
     }
