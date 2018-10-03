@@ -87,7 +87,9 @@ class DecisionElement extends Reflux.Component {
         this.setState({validated: true});
         return (this.state.cv !== undefined &&
                 this.state.condition !== undefined &&
-                this.state.value !== "" );
+                this.state.value !== ""  &&
+                (this.state.nextElementIdTrue === "" || this.state.nextElementIdTrue > this.props.elementID) &&
+                (this.state.nextElementIdFalse === "" || this.state.nextElementIdFalse > this.props.elementID));
     };
 
     cvSelectHandleChange = (selection) => {
@@ -149,13 +151,17 @@ class DecisionElement extends Reflux.Component {
                               value={this.state.nextElementIdTrue}
                               type={"number"}
                               min={(parseInt(this.props.elementID, 10) + 1).toString()}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              isInvalid={this.state.nextElementIdTrue !== "" && this.state.nextElementIdTrue <= this.props.elementID && this.state.validated}
+                              invalidMessage={"The next element id should be bigger than the element id"}/>
                 <DisplayField label={"Next element - False"}
                               onChange={this.nextElementIdWhenFalseHandleChange}
                               value={this.state.nextElementIdFalse}
                               type={"number"}
                               min={(parseInt(this.props.elementID, 10) + 1).toString()}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              isInvalid={this.state.nextElementIdFalse !== "" && this.state.nextElementIdFalse <= this.props.elementID && this.state.validated}
+                              invalidMessage={"The next element id should be bigger than the element id"}/>
             </div>
         );
     }

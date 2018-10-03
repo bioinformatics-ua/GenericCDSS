@@ -43,7 +43,7 @@ class InquiryElement extends Reflux.Component {
 
     isValid = () => {
         this.setState({validated: true});
-        return (this.state.cv !== undefined);
+        return (this.state.cv !== undefined && (this.state.nextElementId === "" || this.state.nextElementId > this.props.elementID));
     };
 
     cvSelectHandleChange = (selection) => {
@@ -73,7 +73,9 @@ class InquiryElement extends Reflux.Component {
                               value={this.state.nextElementId}
                               type={"number"}
                               min={(parseInt(this.props.elementID, 10) + 1).toString()}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              isInvalid={this.state.nextElementId !== "" && this.state.nextElementId <= this.props.elementID && this.state.validated}
+                              invalidMessage={"The next element id should be bigger than the element id"}/>
             </div>
         );
     }

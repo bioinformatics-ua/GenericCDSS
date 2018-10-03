@@ -29,7 +29,7 @@ class ActionElement extends Reflux.Component {
 
     isValid = () => {
         this.setState({validated: true});
-        return (this.state.action !== "");
+        return (this.state.action !== "" && (this.state.nextElementId === "" || this.state.nextElementId > this.props.elementID));
     };
 
     actionHandleChange = (event) => {
@@ -58,7 +58,9 @@ class ActionElement extends Reflux.Component {
                               value={this.state.nextElementId}
                               type={"number"}
                               min={(parseInt(this.props.elementID, 10) + 1).toString()}
-                              className={"mb-3"}/>
+                              className={"mb-3"}
+                              isInvalid={this.state.nextElementId !== "" && this.state.nextElementId <= this.props.elementID && this.state.validated}
+                              invalidMessage={"The next element id should be bigger than the element id"}/>
             </div>
         );
     }

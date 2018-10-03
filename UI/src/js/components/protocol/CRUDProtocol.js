@@ -40,9 +40,73 @@ class ShowProtocol extends Reflux.Component {
         return this.props.match.path.split("/")[1];
     };
 
+    validateProtocolElements = () => {
+        let ids = [];
+        for (let elementIndex in this.state.protocolData)
+            ids.push(parseInt(this.state.protocolData[elementIndex]["internalId"], 10));
+
+        //If all the for runs until the end, means that all the nextElementIds are correct
+        for (let elementIndex in this.state.protocolData)
+            if(!this.nextElementExistsInIdsList(ids, this.state.protocolData[elementIndex]))
+                return false;
+
+        return true;
+    };
+
+    nextElementExistsInIdsList = (idsList, element) => {
+        switch(element["type"]){
+            case "Decision" :
+                let options = element["nextElement"].split(";");
+                switch(options.length){ //Maybe this switch need to be changed
+                    case 0:
+                        return true;
+                    case 1://Maybe this never is used the case 0 and 1, check later
+                        let idToCheck = options[0].split(":")[1];
+                        for(let id in idsList)
+                            if(parseInt(idToCheck, 10) === idsList[id])
+                                return true;
+                        return false;
+                    case 2:
+                        let idToCheckFalse = options[0].split(":")[1];
+                        let idToCheckTrue = options[1].split(":")[1];
+                        let checkedFalse = false;
+                        let checkedTrue = false;
+                        for(let id in idsList){
+                            if(idToCheckFalse.length > 0){
+                                if(parseInt(idToCheckFalse, 10) === idsList[id])
+                                    checkedFalse = true;
+                            }
+                            else
+                                checkedFalse = true;
+
+                            if(idToCheckTrue.length > 0){
+                                if(parseInt(idToCheckTrue, 10) === idsList[id])
+                                    checkedTrue = true;
+                            }
+                            else
+                                checkedTrue = true;
+                        }
+                        return checkedFalse && checkedTrue;
+                }
+                return false;
+            case "Inquiry" :
+            case "Action" :
+                if(element["nextElement"] === undefined)
+                    return true;
+                for(let id in idsList)
+                    if(parseInt(element["nextElement"], 10) === idsList[id])
+                        return true;
+                return false;
+        }
+    };
+
     protocolIsValid = () => {
+        console.log(this.validateProtocolElements())
         this.setState({validated: true});
-        return (this.state.protocol.title !== "" && this.state.protocol.description !== "" && this.state.schedules !== undefined);
+        return (this.state.protocol.title !== "" &&
+                this.state.protocol.description !== "" &&
+                this.state.schedules !== undefined &&
+                this.validateProtocolElements());
     };
 
     getSchedules = () => {
