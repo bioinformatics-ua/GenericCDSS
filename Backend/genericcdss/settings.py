@@ -181,6 +181,8 @@ SESSION_COOKIE_NAME = os.environ.get('SESSION_COOKIE_NAME', 'genericcdss')
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',

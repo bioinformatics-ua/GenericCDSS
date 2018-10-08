@@ -1,12 +1,14 @@
 #######################################################################
 ##############              Deploy management            ##############
 #######################################################################
-build:
+docker-build:
 	docker build -t bioinformatics-ua/genericcdss:latest .
 
-dock-run:
+docker-run:
 	docker-compose up --no-recreate -d
-#   docker run -p 8000:8000 -i -t bioinformatics-ua/genericcdss
+
+docker-delete:
+	docker rm -f genericcdss_db_1 genericcdss_web_1 genericcdss_nginx_1
 
 run:
 	cd Backend && python manage.py runserver
@@ -42,5 +44,7 @@ demo: createDB createSuperUser createProtocols populateInitialConfigs populateDB
 
 defaultDemo:
 	make demo force=--force patientN=--patientNumber=20
-#improve
+
+setUpSystem: createDB createSuperUser populateInitialConfigs
+
 

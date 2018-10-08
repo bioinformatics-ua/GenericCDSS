@@ -4,14 +4,19 @@ MAINTAINER Joao Almeida
 ADD     ./Backend /GenericCDSS/Backend
 ADD     ./UI /GenericCDSS/UI
 ADD     ./Deploy /GenericCDSS/Deploy
+ADD     ./Makefile /GenericCDSS
+ADD     ./config /GenericCDSS/config
+
+RUN     apt-get update && \
+        apt-get install -y -q vim nginx nodejs uwsgi-plugin-python && \
+        rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* 
+
+        #&6 \
+        #npm install && npm run build-production
 
 WORKDIR  /GenericCDSS
 
-RUN pip install -r ./Backend/requirements.txt --no-cache-dir
-
-CMD     cd ./Deploy/bin && sh run.sh
-
-###############################################################################
+RUN     mkdir -p /var/log/gunicorn
 
 
-
+RUN     pip install -r ./config/requirements.pip #--no-cache-dir
