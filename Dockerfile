@@ -3,7 +3,6 @@ MAINTAINER Joao Almeida
 
 ADD     ./Backend /GenericCDSS/Backend
 ADD     ./UI /GenericCDSS/UI
-ADD     ./Deploy /GenericCDSS/Deploy
 ADD     ./Makefile /GenericCDSS
 ADD     ./config /GenericCDSS/config
 
@@ -19,4 +18,4 @@ WORKDIR  /GenericCDSS
 RUN     mkdir -p /var/log/gunicorn
 
 
-RUN     pip install -r ./config/requirements.pip #--no-cache-dir
+RUN     pip install -r ./config/requirements.pip --no-cache-dir
