@@ -7,15 +7,18 @@ ADD     ./Makefile /GenericCDSS
 ADD     ./config /GenericCDSS/config
 
 RUN     apt-get update && \
-        apt-get install -y -q vim nginx nodejs uwsgi-plugin-python && \
-        rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* 
+        apt-get install -y -q vim curl nginx uwsgi-plugin-python
 
-        #&6 \
-        #npm install && npm run build-production
+RUN 	curl -sL https://deb.nodesource.com/setup_8.x | bash
+
+RUN		apt-get install -y nodejs
 
 WORKDIR  /GenericCDSS
 
-RUN     mkdir -p /var/log/gunicorn
+RUN 	nodejs -v
 
+RUN 	cd UI/ && npm install && npm run build
+
+RUN     mkdir -p /var/log/gunicorn
 
 RUN     pip install -r ./config/requirements.pip --no-cache-dir
