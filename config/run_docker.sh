@@ -3,8 +3,10 @@
 echo "------------------------------------------"
 echo "---- Backend Deploy ------ "
 
+cd /GenericCDSS
+
 if [ ${DEPLOY_MODE} = "demo" ]; then
-	make defaultDemo
+    make defaultDemo
 else
     make setUpSystem
 fi
