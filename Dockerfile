@@ -9,13 +9,11 @@ ADD     ./config /GenericCDSS/config
 RUN     apt-get update && \
         apt-get install -y -q vim curl nginx uwsgi-plugin-python
 
-RUN 	curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN 	curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
 RUN		apt-get install -y nodejs
 
 WORKDIR  /GenericCDSS
-
-RUN 	nodejs -v
 
 RUN 	cd UI/ && npm install && npm run build
 
