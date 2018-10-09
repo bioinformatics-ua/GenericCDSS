@@ -48,4 +48,11 @@ python manage.py collectstatic --noinput
 
 exec gunicorn genericcdss.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
+echo "------------------------------------------"
+echo "------------- Frontend Deploy ------------"
+echo "------------------------------------------"
+cd /GenericCDSS/UI
+
+npm run build
+
 tail -f /dev/null
