@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const baseURL = (process.env.API_URL === undefined ? "http://127.0.0.1:8000" : process.env.API_URL) + "/api/";
+
 const API = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/',
+    baseURL: baseURL,
     xsrfHeaderName: "X-CSRFToken",
     xsrfCookieName: "csrftoken",
     withCredentials: true
@@ -10,24 +12,24 @@ const API = axios.create({
 /*
  * The webservices are called using the baseURL + one of these constants
  */
-const languageURL               = 'utils/language';
-const aboutURL                  = 'utils/about';
-const helpURL                   = 'utils/help';
-const homeURL                   = 'utils/home';
-const settingsURL               = 'utils/settings';
+const languageURL                       = 'utils/language';
+const aboutURL                          = 'utils/about';
+const helpURL                           = 'utils/help';
+const homeURL                           = 'utils/home';
+const settingsURL                       = 'utils/settings';
 
-const authURL                   = 'accounts';
+const authURL                           = 'accounts';
 
-const patientURL                = 'patients/patient';
-const patientclinicalvariablesURL      = 'patients/patientclinicalvariables';
-const clinicalvariablesURL      = 'patients/clinicalvariables';
-const admissionURL              = 'patients/admission';
+const patientURL                        = 'patients/patient';
+const patientclinicalvariablesURL       = 'patients/patientclinicalvariables';
+const clinicalvariablesURL              = 'patients/clinicalvariables';
+const admissionURL                      = 'patients/admission';
 
-const protocolURL               = 'protocols/protocol';
-const protocolcomponentsURL     = 'protocols/protocol/protocolInquiryComponents';
-const scheduleURL               = 'protocols/schedule';
-const assignedprotocolsURL      = 'protocols/assignedprotocols';
-const executedprotocolsURL      = 'protocols/executedprotocols';
+const protocolURL                       = 'protocols/protocol';
+const protocolcomponentsURL             = 'protocols/protocol/protocolInquiryComponents';
+const scheduleURL                       = 'protocols/schedule';
+const assignedprotocolsURL              = 'protocols/assignedprotocols';
+const executedprotocolsURL              = 'protocols/executedprotocols';
 
 /*
  * Function to retrieve the URL from each module

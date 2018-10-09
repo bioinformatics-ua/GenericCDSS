@@ -46,7 +46,7 @@ cd /GenericCDSS/Backend
 
 python manage.py collectstatic --noinput
 
-exec gunicorn genericcdss.wsgi:application --bind 0.0.0.0:8000 --workers 3
+exec gunicorn genericcdss.wsgi:application --bind 0.0.0.0:8000 --workers 3 &
 
 echo "------------------------------------------"
 echo "------------- Frontend Deploy ------------"
