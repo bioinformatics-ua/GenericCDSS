@@ -59,10 +59,10 @@ const getModuleURL = function (module) {
  */
 const buildGETPath = function (globalPath, urlPath, filter) {
     if (urlPath === undefined)
-        return globalPath;
+        return globalPath + "/";
 
     if (filter === undefined)
-        return globalPath + "/" + urlPath;
+        return globalPath + "/" + urlPath + "/";
 
     return globalPath + "/?" + filter + "=" + urlPath;
 };

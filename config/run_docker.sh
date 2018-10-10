@@ -53,6 +53,7 @@ echo "------------- Frontend Deploy ------------"
 echo "------------------------------------------"
 cd /GenericCDSS/UI
 
+echo "Defing api url..."
 apiURL=$(echo $API_URL)
 if [ -z "$apiURL" ]
 then
@@ -62,6 +63,16 @@ else
 	jq -c 'del(.api_url)' package.json > tmp.json && mv tmp.json package.json
 
 	jq -c '. + { "api_url": "'$apiURL'" }' package.json > tmp.json && mv tmp.json package.json
+fi
+
+echo "Defining homepage url..."
+homepage=$(echo $HOMEPAGE)
+if [ -z "$homepage" ]
+then
+	echo "Homepage url not defined"
+else
+	echo "Change homepage in package"
+	jq -c '. + { "homepage": "'$homepage'" }' package.json > tmp.json && mv tmp.json package.json
 fi
 
 npm run build
