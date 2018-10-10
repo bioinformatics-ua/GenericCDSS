@@ -24,6 +24,7 @@ import http500 from '../errorPages/http500.js';
 import http0 from '../errorPages/http0.js';
 
 
+
 const PrivateRoute = ({component: Component, ...rest}) => (
     <Route {...rest} render={props => (
         rest.authenticated ? (
@@ -52,7 +53,6 @@ class Routes extends Component {
                 <Route path="/help" component={Help}/>
                 <Route path="/about" component={About}/>
 
-                /*private links*/
                 <PrivateRoute authenticated={authenticated} path="/admittedpatients" component={AdmittedPatients}/>
                 <PrivateRoute authenticated={authenticated} path="/allpatients" component={AllPatients}/>
                 <PrivateRoute authenticated={authenticated} path="/protocols" component={Protocols}/>

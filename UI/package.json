@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "api_url": "http://127.0.0.1:8000/api/",
+  "homepage": "http://127.0.0.1:3000",
+  "base_url": "",
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.3",

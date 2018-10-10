@@ -45,7 +45,6 @@ class App extends Reflux.Component {
         if (this.state.loading && this.state.user === undefined)
             return (<LoadingBar/>);
 
-
         return (
             <Router history={History}>
                 <div>

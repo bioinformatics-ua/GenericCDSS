@@ -72,7 +72,19 @@ then
 	echo "Homepage url not defined"
 else
 	echo "Change homepage in package"
+	jq -c 'del(.homepage)' package.json > tmp.json && mv tmp.json package.json
 	jq -c '. + { "homepage": "'$homepage'" }' package.json > tmp.json && mv tmp.json package.json
+fi
+
+echo "Defining baseurl..."
+base_url=$(echo $BASE_URL)
+if [ -z "$base_url" ]
+then
+	echo "Homepage url not defined"
+else
+	echo "Change homepage in package"
+	jq -c 'del(.baseurl)' package.json > tmp.json && mv tmp.json package.json
+	jq -c '. + { "base_url": "'$base_url'" }' package.json > tmp.json && mv tmp.json package.json
 fi
 
 npm run build
