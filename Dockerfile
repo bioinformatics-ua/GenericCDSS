@@ -3,7 +3,7 @@ MAINTAINER Joao Almeida
 
 ADD     ./Backend /GenericCDSS/Backend
 ADD     ./UI /GenericCDSS/UI
-ADD     ./Makefile /GenericCDSS
+ADD     ./Makefile /GenericCDSS/Makefile
 ADD     ./config /GenericCDSS/config
 
 RUN     apt-get update && \
