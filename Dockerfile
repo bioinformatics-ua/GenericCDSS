@@ -7,7 +7,7 @@ ADD     ./Makefile /GenericCDSS
 ADD     ./config /GenericCDSS/config
 
 RUN     apt-get update && \
-        apt-get install -y -q vim curl nginx uwsgi-plugin-python
+        apt-get install -y -q jq vim curl nginx uwsgi-plugin-python
 
 RUN 	curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
