@@ -1,9 +1,8 @@
 import axios from 'axios';
-
-const baseURL = (process.env.API_URL === undefined ? "http://127.0.0.1:8000" : process.env.API_URL) + "/api/";
+import {api_url} from '../../package.json';
 
 const API = axios.create({
-    baseURL: baseURL,
+    baseURL: api_url,
     xsrfHeaderName: "X-CSRFToken",
     xsrfCookieName: "csrftoken",
     withCredentials: true

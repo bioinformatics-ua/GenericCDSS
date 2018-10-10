@@ -15,7 +15,7 @@ RUN		apt-get install -y nodejs
 
 WORKDIR  /GenericCDSS
 
-RUN 	cd UI/ && npm install && npm run build
+RUN 	cd UI/ && npm install
 
 RUN     mkdir -p /var/log/gunicorn
 

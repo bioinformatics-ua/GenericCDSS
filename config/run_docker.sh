@@ -53,6 +53,17 @@ echo "------------- Frontend Deploy ------------"
 echo "------------------------------------------"
 cd /GenericCDSS/UI
 
+apiURL=$(echo $API_URL)
+if [ -z "$apiURL" ]
+then
+	echo "API_URL not defined"
+else
+	echo "Change API URL in package"
+	jq -c 'del(.api_url)' package.json > tmp.json && mv tmp.json package.json
+
+	jq -c '. + { "api_url": "'$apiURL'" }' package.json > tmp.json && mv tmp.json package.json
+fi
+
 npm run build
 
 tail -f /dev/null
