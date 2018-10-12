@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/bioinformatics-ua/GenericCDSS/tree/master)
 
 GenericCDSS is a web-based application, which provides the main dashboard where professionals (e.g, practitioners, nurses) can follow all the patients that are under their responsibility and some details about the state of each one.
-Dillinger is a cloud-enabled, mobile-ready, offline-storage, AngularJS powered HTML5 Markdown editor.
 
 # New Features!
 
