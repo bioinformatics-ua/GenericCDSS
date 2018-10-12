@@ -5,7 +5,8 @@ docker-build:
 	docker build -t bioinformatics-ua/genericcdss:latest .
 
 docker-run:
-	docker-compose up --no-recreate -d
+	sed -i -e "s:{BASE_URL}:clision:g" ./config/nginx/genericcdss.conf
+	docker-compose -f docker-compose.yml -p genericcdss up -d --no-recreate
 
 docker-delete:
 	docker rm -f genericcdss_db_1 genericcdss_web_1 genericcdss_nginx_1

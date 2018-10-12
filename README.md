@@ -76,7 +76,7 @@ After the costumization of the docker-compose file, it is only necessary perform
 
 ```sh
 $ make build
-$ make run
+$ make docker-run
 ```
 
 ### Scientific contributions
