@@ -87,6 +87,17 @@ else
 	jq -c '. + { "base_url": "'$base_url'" }' package.json > tmp.json && mv tmp.json package.json
 fi
 
+echo "Defining version..."
+version=$(echo $VERSION)
+if [ -z "$version" ]
+then
+	echo "Version not defined"
+else
+	echo "Change version in package"
+	jq -c 'del(.version)' package.json > tmp.json && mv tmp.json package.json
+	jq -c '. + { "version": "'$version'" }' package.json > tmp.json && mv tmp.json package.json
+fi
+
 npm run build
 
 tail -f /dev/null
