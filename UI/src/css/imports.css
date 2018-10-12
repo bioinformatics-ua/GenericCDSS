@@ -1,0 +1,14 @@
+/*
+ * Other CSS project files
+ */
+@import url("app.css");
+@import url("LoginComponent.css");
+@import url("Table.css");
+@import url("Texts.css");
+@import url("Select.css");
+@import url("externalImportsConfigs.css");
+
+/*
+ * External libs
+ */
+@import url("../externalImports/mfglabs-iconset/css/mfglabs_iconset.css");

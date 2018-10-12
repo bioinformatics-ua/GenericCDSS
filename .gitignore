@@ -1,0 +1,26 @@
+.gitignore
+.idea/*
+UI/node_modules/*
+env/*
+*.pyc
+
+#Put this files in somewhere private
+docker-compose.yml
+
+#Ignore migrations
+Backend/accounts/migrations/*
+Backend/history/migrations/*
+Backend/patients/migrations/*
+Backend/protocol/migrations/*
+Backend/protocol_element/migrations/*
+Backend/utils/migrations/*
+
+#Don't ignore migrations the __init__.py
+!Backend/accounts/migrations/__init__.py
+!Backend/history/migrations/__init__.py
+!Backend/patients/migrations/__init__.py
+!Backend/protocol/migrations/__init__.py
+!Backend/protocol_element/migrations/__init__.py
+!Backend/utils/migrations/__init__.py
+
+UI/package-lock.json

@@ -1,0 +1,381 @@
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+.App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.Header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.Home{
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: auto;
+    bottom: 0px;
+    height: 100%;
+}
+
+.Footer {
+    z-index: 1000;
+    position: relative;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    background-color: #f5f5f5;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.container {
+    padding: 65px;
+    padding-bottom: 70px;
+}
+
+.input-group-infos {
+    min-width: 160px;
+    text-align: left;
+}
+
+.user-login {
+    min-width: 200px;
+}
+
+.user-details {
+    padding: 10px 10px 0 10px;
+}
+
+.user-details strong {
+    font-size: 12px;
+}
+
+.user-details hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.profile-img {
+    position: relative;
+    float: left;
+    max-width: 100%;
+    max-height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+input[readonly].enabled {
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+.CVSummary{
+    padding: 20px;
+}
+
+.btn-100{
+    min-width:100px;
+}
+
+.btn-150{
+    min-width:150px;
+}
+
+.btn-inverse-warning{
+    color: #ffc107;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+.btn-inverse-danger{
+    color: #dc3545;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.displayField{
+    min-height:36px;
+}
+
+.CVRepresentationGroup-buttons-controler{
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.CRUDProtocol-buttons-controler{
+    margin-top: 13px;
+    margin-bottom: 7px;
+}
+
+.modal-content{
+    height: 70%;
+    overflow-y: scroll;
+    border: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.modal-header{
+    height: 15%;
+}
+
+.modal-footer{
+    height: 15%;
+}
+
+.btn-default{
+    color: white;
+    background-color: #4a5758;
+}
+
+.react-date-picker__calendar,
+.react-date-picker__calendar--open,
+.react-calendar{
+    z-index: 200;
+}
+
+.btn-xxs {
+    font-size: 0.75rem !important;
+    line-height: 1 !important;
+}
+
+.card-header{
+    height: 42px;
+}
+
+
+
+
+/*Refactor this*/
+.btn-default {
+  color: #ffffff;
+  background-color: #95a5a6;
+  border-color: #ffffff;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #ffffff;
+  background-color: #798d8f;
+  border-color: #e0e0e0;
+}
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  background-image: none;
+}
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled.focus,
+.btn-default[disabled].focus,
+fieldset[disabled] .btn-default.focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default.active {
+  background-color: #95a5a6;
+  border-color: #ffffff;
+}
+.btn-default .badge {
+  color: #95a5a6;
+  background-color: #ffffff;
+}
+
+.btn {
+  border-width: 1px;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active {
+  color: white;
+  background-color: #4a5758;
+  border-color: #c7c7c7;
+}
+.btn:active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.btn-group.open .dropdown-toggle {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.navbar-dropdown-width
+{
+    min-width: 200px;
+}
+
+.is-warning{
+    border:1px solid  #bba70a;
+    border-radius: 5px;
+}
+
+.is-invalid{
+    border:1px solid #dc3545;
+    border-radius: 5px;
+}
+
+.custom-select.is-warning, .form-control.is-warning{
+    border-color: #bba70a;
+}
+
+.warning-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #bba70a;
+}
+.custom-select.is-warning~.warning-feedback,
+.custom-select.is-warning~.warning-tooltip,
+.form-control.is-warning~.warning-feedback,
+.form-control.is-warning~.warning-tooltip{
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-control2 {
+  display: block;
+  width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .form-control2 {
+    transition: none;
+  }
+}
+
+.form-control2::-ms-expand {
+  background-color: transparent;
+  border: 0;
+}
+
+.form-control2:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-control2::-webkit-input-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control2::-moz-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control2:-ms-input-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control2::-ms-input-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control2::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control2:disabled, .form-control2[readonly] {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
+select.form-control2:focus::-ms-value {
+  color: #495057;
+  background-color: #fff;
+}
