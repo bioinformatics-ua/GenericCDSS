@@ -2,6 +2,7 @@
 .idea/*
 UI/node_modules/*
 env/*
+*.pyc
 
 #Put this files in somewhere private
 docker-compose.yml
