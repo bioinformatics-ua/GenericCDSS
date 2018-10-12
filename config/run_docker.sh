@@ -31,12 +31,6 @@ check_up() {
 
 check_up "postgres" db 5432
 
-
-echo "------------------------------------------"
-echo "------------- Configure NGINX ------------"
-echo "------------------------------------------"
-sed -i -e "s:{BASE_URL}:$BASE_URL/:g" /GenericCDSS/config/nginx/genericcdss.conf
-
 echo "------------------------------------------"
 echo "------------- Backend Deploy -------------"
 echo "------------------------------------------"
