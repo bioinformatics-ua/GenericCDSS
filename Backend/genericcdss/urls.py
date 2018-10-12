@@ -22,23 +22,28 @@ admin.site.site_header = settings.ADMIN_CONSOLE_NAME
 
 BASE_URL = os.environ.get('BASE_URL', '')
 
-urlpatterns = [
-    url(r'^' + BASE_URL + '/', include([
-        url(r'^jet/', include('jet.urls', 'jet')),
-        url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+urls = [
+    url(r'^jet/', include('jet.urls', 'jet')),
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
 
-        url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^api-auth/', include('rest_framework.urls')),
 
-        url(r'^pages/', include('django.contrib.flatpages.urls')),
+    url(r'^pages/', include('django.contrib.flatpages.urls')),
 
-        #Api
-        url(r'^api/accounts/', include('accounts.urls')),
-        url(r'^api/patients/', include('patients.urls')),
-        url(r'^api/protocols/', include('protocol.urls')),
-        url(r'^api/utils/', include('utils.urls')),
-        #...
+    #Api
+    url(r'^api/accounts/', include('accounts.urls')),
+    url(r'^api/patients/', include('patients.urls')),
+    url(r'^api/protocols/', include('protocol.urls')),
+    url(r'^api/utils/', include('utils.urls')),
+    #...
 
-        #Admin
-        url(r'^admin/', admin.site.urls)
-    ])),
+    #Admin
+    url(r'^admin/', admin.site.urls)
 ]
+
+if BASE_URL != '':
+    urlpatterns = [
+        url(r'^' + BASE_URL + '/', include(urls)),
+    ]
+else:
+    urlpatterns = urls

@@ -15,9 +15,14 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-BASE_URL = '/' + os.environ.get('BASE_URL', '') + '/'
+ENV_BASE_URL = os.environ.get('BASE_URL', '')
 
-STATIC_URL = BASE_URL + 'static2/'
+BASE_URL = '/' + ENV_BASE_URL + '/'
+
+if ENV_BASE_URL == '':
+    STATIC_URL = '/static2/'
+else:
+    STATIC_URL = BASE_URL + 'static2/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
