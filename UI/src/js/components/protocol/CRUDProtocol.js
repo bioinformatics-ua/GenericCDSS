@@ -102,7 +102,6 @@ class ShowProtocol extends Reflux.Component {
     };
 
     protocolIsValid = () => {
-        console.log(this.validateProtocolElements())
         this.setState({validated: true});
         return (this.state.protocol.title !== "" &&
                 this.state.protocol.description !== "" &&
@@ -203,7 +202,7 @@ class ShowProtocol extends Reflux.Component {
         if (this.protocolIsValid()) {
             let protocolSchedules = this.getSchedules();
             if(this.state.mode === "edit")
-                ProtocolActions.editProtocol(protocolSchedules);
+                ProtocolActions.editProtocol(protocolSchedules, this.state.protocolData);
             else
                 ProtocolActions.createProtocol(protocolSchedules);
             return undefined;
@@ -364,9 +363,6 @@ class ShowProtocol extends Reflux.Component {
                             <AddProtocolElement btnClass={"btn-success btn-sm btn-150"}
                                                 onClick={this.addElement}
                                                 elementID={this.state.biggestElementId}/>
-                            {/*<button className="btn btn-sm btn-primary btn-150" onClick={this.saveProtocol}>*/}
-                                {/*<i className="fa fa-calendar-alt"></i>&nbsp;Save*/}
-                            {/*</button>*/}
                             <ButtonWithMsg icon={"fa fa-calendar-alt"}
                                            label={"Save"}
                                            errorMessage={"Some of the protocol elements are incorrect!"}
