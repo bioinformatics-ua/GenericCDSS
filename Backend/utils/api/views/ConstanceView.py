@@ -30,6 +30,12 @@ class ConstanceView(viewsets.ViewSet):
         except:
             return "Error"
 
+    def __getShowDefaultHome(self):
+        try:
+            return config.show_default_home
+        except:
+            return "Error"
+
     @detail_route(methods=['get'])
     def getSettings(self, request, *args, **kwargs):
         response = {}
@@ -37,5 +43,6 @@ class ConstanceView(viewsets.ViewSet):
         response["title"] = self.__getTitle()
         response["footer"] = self.__getFooter()
         response["appSymbol"] = self.__getAppSymbol()
+        response["showDefaultHome"] = self.__getShowDefaultHome()
 
         return Response(response)

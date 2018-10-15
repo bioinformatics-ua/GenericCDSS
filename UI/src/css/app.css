@@ -47,6 +47,25 @@
     position: relative;
 }
 
+.loginPanel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.full-page-image {
+     position: absolute;
+     top: 0px;
+     bottom: 0px;
+     left: 0px;
+     right: 0px;
+}
+.full-page-image img {
+     width: 100%;
+     height: 100%;
+}
+
 footer {
     position: fixed;
     bottom: 0;

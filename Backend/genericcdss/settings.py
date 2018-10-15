@@ -205,7 +205,8 @@ GLOBALS = {
     'APP_SYMBOL':"""
                     <img style='margin-left:20px' src='static/NOTFOUND'>
                  """,
-    'LANGUAGE':"pt - to do"
+    'LANGUAGE':"pt - to do",
+    'SHOW_DEFAULT_HOME': True
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
@@ -216,11 +217,12 @@ CONSTANCE_CONFIG = {
     'footer_extra': (GLOBALS['FOOTER_EXTRA'], 'Extra HTML to be shown besides the footer'),
     'app_symbol': (GLOBALS['APP_SYMBOL'], 'Image used to represent the system (Logo)'),
     'site_name': (GLOBALS['SITE_NAME'], 'Website title'),
-    'language':(GLOBALS['LANGUAGE'], 'The languge used in the GUI')
+    'language':(GLOBALS['LANGUAGE'], 'The languge used in the GUI'),
+    'show_default_home':(GLOBALS['SHOW_DEFAULT_HOME'], 'If true, it show the default home. If false, it show the home flat page')
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'General Options': ('site_name', 'footer_extra', 'app_symbol', 'copyrightsplash', 'copyright','language'),
+    'General Options': ('site_name', 'footer_extra', 'app_symbol', 'copyrightsplash', 'copyright','language', 'show_default_home'),
 }
 
 JET_DEFAULT_THEME = 'light-blue'
