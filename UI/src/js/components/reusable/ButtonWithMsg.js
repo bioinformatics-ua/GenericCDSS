@@ -19,10 +19,12 @@ class ButtonWithMsg extends Component {
     action = () => {
         if(this.props.confirmationMsg === undefined){
             let result = this.props.action();
-            if(result !== false)
+            if(result !== false && result !== undefined)
                 this.setState({showSuccessMessage: true});
             else
-                this.setState({showErrorMessage:true});
+                if(result === false)
+                    this.setState({showErrorMessage:true});
+                //undefiend did not show nothing
         }
         else
             this.setState({showConfirmationMessage: true});

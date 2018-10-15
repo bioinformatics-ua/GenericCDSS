@@ -45,6 +45,7 @@ class ShowProtocol extends Reflux.Component {
         for (let elementIndex in this.state.protocolData)
             ids.push(parseInt(this.state.protocolData[elementIndex]["internalId"], 10));
 
+
         //If all the for runs until the end, means that all the nextElementIds are correct
         for (let elementIndex in this.state.protocolData)
             if(!this.nextElementExistsInIdsList(ids, this.state.protocolData[elementIndex]))
@@ -91,7 +92,7 @@ class ShowProtocol extends Reflux.Component {
                 return false;
             case "Inquiry" :
             case "Action" :
-                if(element["nextElement"] === undefined)
+                if(element["nextElement"] === undefined || element["nextElement"] === "")
                     return true;
                 for(let id in idsList)
                     if(parseInt(element["nextElement"], 10) === idsList[id])
@@ -205,7 +206,9 @@ class ShowProtocol extends Reflux.Component {
                 ProtocolActions.editProtocol(protocolSchedules);
             else
                 ProtocolActions.createProtocol(protocolSchedules);
+            return undefined;
         }
+        return false;
     };
 
     render() {
@@ -361,9 +364,15 @@ class ShowProtocol extends Reflux.Component {
                             <AddProtocolElement btnClass={"btn-success btn-sm btn-150"}
                                                 onClick={this.addElement}
                                                 elementID={this.state.biggestElementId}/>
-                            <button className="btn btn-sm btn-primary btn-150" onClick={this.saveProtocol}>
-                                <i className="fa fa-calendar-alt"></i>&nbsp;Save
-                            </button>
+                            {/*<button className="btn btn-sm btn-primary btn-150" onClick={this.saveProtocol}>*/}
+                                {/*<i className="fa fa-calendar-alt"></i>&nbsp;Save*/}
+                            {/*</button>*/}
+                            <ButtonWithMsg icon={"fa fa-calendar-alt"}
+                                           label={"Save"}
+                                           errorMessage={"Some of the protocol elements are incorrect!"}
+                                           errorMessageTitle={"Something is wrong!"}
+                                           className={"btn btn-sm btn-primary btn-150"}
+                                           action={this.saveProtocol} />
                         </div> : ''
                 }
             </div>
