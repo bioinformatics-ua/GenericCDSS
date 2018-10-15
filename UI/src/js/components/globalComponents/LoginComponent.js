@@ -1,6 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
-import {Link} from "react-router-dom";
+//import {Link} from "react-router-dom";
 import {UserStore, UserActions} from '../../reflux/UserReflux.js';
 
 class LoginComponent extends Reflux.Component {

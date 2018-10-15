@@ -88,8 +88,10 @@ class ShowProtocol extends Reflux.Component {
                                 checkedTrue = true;
                         }
                         return checkedFalse && checkedTrue;
+
+                    default:
+                        return false;
                 }
-                return false;
             case "Inquiry" :
             case "Action" :
                 if(element["nextElement"] === undefined || element["nextElement"] === "")
@@ -97,6 +99,8 @@ class ShowProtocol extends Reflux.Component {
                 for(let id in idsList)
                     if(parseInt(element["nextElement"], 10) === idsList[id])
                         return true;
+                return false;
+            default:
                 return false;
         }
     };

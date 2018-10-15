@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Reflux from 'reflux';
-import {ClinicalVariablesStore, ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
+import {ClinicalVariablesStore} from '../../reflux/ClinicalVariablesReflux.js';
 import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 import DisplayField from '../reusable/DisplayField.js';
 
@@ -29,7 +29,6 @@ class DecisionElement extends Reflux.Component {
     }
 
     componentDidMount() {
-        //ClinicalVariablesActions.loadCVHeaders();
         this.loadingDetails();
     }
 
@@ -72,6 +71,7 @@ class DecisionElement extends Reflux.Component {
                         nextElementIdFalse = options[0].split(":")[1];
                         nextElementIdTrue = options[1].split(":")[1];
                         break;
+                    default: break;
                 }
 
                 this.props.addElementConfigurations("nextElement", this.props.elementData.nextElement);
@@ -139,6 +139,7 @@ class DecisionElement extends Reflux.Component {
                     conditionOptions:conditionOptions
                 });
                 return;
+            default: return;
         }
     };
 

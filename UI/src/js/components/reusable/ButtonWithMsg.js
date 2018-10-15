@@ -117,11 +117,11 @@ class ButtonWithMsg extends Component {
         /**
          * Message to display in the modal after the execution of the function
          * */
-        message: PropTypes.string.isRequired,
+        message: PropTypes.string,
         /**
          * Message title
          * */
-        messageTitle: PropTypes.string.isRequired,
+        messageTitle: PropTypes.string,
         /**
          * Button class name
          * */
