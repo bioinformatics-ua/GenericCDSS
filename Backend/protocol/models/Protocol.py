@@ -69,7 +69,7 @@ class Protocol(models.Model):
 
         return tmpAll.order_by('title')
 
-    def getNextScheduleTime(self):
+    def getNextScheduleTime(self, last_execution=None):
         '''
         Returns next schedule time
         :return: tuple (datetime, schedule title)
@@ -81,16 +81,26 @@ class Protocol(models.Model):
         nextScheduleTime = None
         nextScheduleTitle = None
         allPossibleTimes = sorted(allPossibleTimes)
-
         for timeObj, scheduleTitle in allPossibleTimes:
-            if(datetime.now().time() < timeObj.time): #the time is after now
-                if(nextScheduleTime):
-                    if (timeObj.time < nextScheduleTime.time):
+            if(last_execution):
+                if(timeObj.time.hour != last_execution.hour or timeObj.time.minute != last_execution.minute):
+                    if(datetime.now().time() < timeObj.time and last_execution.time() < timeObj.time): #the time is after now
+                        if(nextScheduleTime):
+                            if (timeObj.time < nextScheduleTime.time):
+                                nextScheduleTime = timeObj
+                                nextScheduleTitle = scheduleTitle
+                        else:
+                            nextScheduleTime = timeObj
+                            nextScheduleTitle = scheduleTitle
+            else:
+                if (datetime.now().time() < timeObj.time):  # the time is after now
+                    if (nextScheduleTime):
+                        if (timeObj.time < nextScheduleTime.time):
+                            nextScheduleTime = timeObj
+                            nextScheduleTitle = scheduleTitle
+                    else:
                         nextScheduleTime = timeObj
                         nextScheduleTitle = scheduleTitle
-                else:
-                    nextScheduleTime = timeObj
-                    nextScheduleTitle = scheduleTitle
 
         if(nextScheduleTime == None):
             nextScheduleTime, nextScheduleTitle = allPossibleTimes[0]

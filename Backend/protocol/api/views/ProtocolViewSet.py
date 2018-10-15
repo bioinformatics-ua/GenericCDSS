@@ -112,7 +112,8 @@ class ProtocolViewSet(viewsets.ModelViewSet):
 
         #Next assigment
         protocol = assignment.protocol
-        ExecutedProtocol.new(protocol=protocol, patient=patient)
+        last_execution = assignment.schedule_time
+        ExecutedProtocol.new(protocol=protocol, patient=patient, last_execution=last_execution)
 
         return Response({"results": result})
 

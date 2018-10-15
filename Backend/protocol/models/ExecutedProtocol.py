@@ -50,8 +50,8 @@ class ExecutedProtocol(models.Model):
         return actionsResult
 
     @staticmethod
-    def new(protocol, patient):
-        schedule_time, scheduleTitle = protocol.getNextScheduleTime()
+    def new(protocol, patient, last_execution=None):
+        schedule_time, scheduleTitle = protocol.getNextScheduleTime(last_execution)
         scheduleObj = Schedule.objects.get(title=scheduleTitle)
         protocol = ExecutedProtocol.objects.create(protocol=protocol,
                                                    patient=patient,
