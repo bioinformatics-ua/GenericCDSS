@@ -51,7 +51,10 @@ class DisplayField extends Component {
         /**
          * Value to be shown
          * */
-        value: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ]),
         /**
          * Key data to help the input identification when data is changed
          * */
