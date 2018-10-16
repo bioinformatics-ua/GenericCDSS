@@ -17,7 +17,7 @@ nginx:
       - web
 
 web:
-    image: bioinformatics-ua/genericcdss:0.1
+    image: bioinformatics-ua/genericcdss:latest
     command: bash -c "cd /GenericCDSS/config && sh run_docker.sh"
     environment:
       - DOCKER_POSTGRES_USER=genericcdss
