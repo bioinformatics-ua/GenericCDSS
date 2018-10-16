@@ -38,16 +38,19 @@ class Home extends Reflux.Component {
                     {ReactHtmlParser(this.state.home)}
                 </div>
             );
+
         return (
-            <div className="full-page-image row">
-                <div className="col-sm-4"></div>
-                <div className="col-sm-4 my-auto">
-                    <div className="container card card-block w-25 h-25 d-table-cell align-middle">
-                        {this.state.appSymbol}
-                        <LoginButton />
+            <div>
+                <div className="full-page-image row">
+                    <div className="col-sm-4"></div>
+                    <div className="col-sm-4 my-auto">
+                        <div className="container card card-block w-25 h-25 d-table-cell align-middle">
+                            {ReactHtmlParser(this.state.appSymbol)}
+                            <LoginButton/>
+                        </div>
                     </div>
+                    <div className="col-sm-4"></div>
                 </div>
-                <div className="col-sm-4"></div>
             </div>
         );
     }

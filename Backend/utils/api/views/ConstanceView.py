@@ -24,6 +24,12 @@ class ConstanceView(viewsets.ViewSet):
         except:
             return "Error"
 
+    def __getAppSymbolSmall(self):
+        try:
+            return config.app_symbol_small
+        except:
+            return "Error"
+
     def __getTitle(self):
         try:
             return config.site_name
@@ -43,6 +49,7 @@ class ConstanceView(viewsets.ViewSet):
         response["title"] = self.__getTitle()
         response["footer"] = self.__getFooter()
         response["appSymbol"] = self.__getAppSymbol()
+        response["appSymbolSmall"] = self.__getAppSymbolSmall()
         response["showDefaultHome"] = self.__getShowDefaultHome()
 
         return Response(response)

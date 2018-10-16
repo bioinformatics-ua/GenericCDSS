@@ -202,8 +202,9 @@ GLOBALS = {
     'FOOTER_EXTRA': """<a href='http://www.ua.pt/'>
                     <img style='margin-left:20px' src='https://emif-catalogue.eu/taska/static/images/logo-ua2.png'>
                     </a>""",
-    'APP_SYMBOL':"""
-                    <img style='margin-left:20px' src='static/NOTFOUND'>
+    'APP_SYMBOL_SMALL':"""<img style='margin-left:20px; max-width: 30px;' src='images/logo_small.png'>
+                 """,
+    'APP_SYMBOL':"""<center><img style='max-width: 150px; max-height: 150px;' src='images/logo.png'></center>
                  """,
     'LANGUAGE':"pt - to do",
     'SHOW_DEFAULT_HOME': True
@@ -215,6 +216,7 @@ CONSTANCE_CONFIG = {
     'copyright': (GLOBALS['COPYRIGHT'], 'Text to show as copyright'),
     'copyrightsplash': ('<a target="_blank" href="http://bioinformatics.ua.pt/">Bioinformatics, UA.</a>', 'Text to show as copyright on splash screen'),
     'footer_extra': (GLOBALS['FOOTER_EXTRA'], 'Extra HTML to be shown besides the footer'),
+    'app_symbol_small': (GLOBALS['APP_SYMBOL_SMALL'], 'Image used to represent the system (Logo) - small'),
     'app_symbol': (GLOBALS['APP_SYMBOL'], 'Image used to represent the system (Logo)'),
     'site_name': (GLOBALS['SITE_NAME'], 'Website title'),
     'language':(GLOBALS['LANGUAGE'], 'The languge used in the GUI'),
@@ -222,7 +224,8 @@ CONSTANCE_CONFIG = {
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'General Options': ('site_name', 'footer_extra', 'app_symbol', 'copyrightsplash', 'copyright','language', 'show_default_home'),
+    'General Options': ('site_name', 'footer_extra',  'copyrightsplash', 'copyright', 'language'),
+    'Home Options': ('show_default_home', 'app_symbol_small', 'app_symbol')
 }
 
 JET_DEFAULT_THEME = 'light-blue'
