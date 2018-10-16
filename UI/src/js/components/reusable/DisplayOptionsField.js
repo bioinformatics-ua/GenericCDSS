@@ -15,14 +15,16 @@ class DisplayOptionsField extends Component {
     }
 
     componentWillReceiveProps(props) {
-        let selection = props.selection;
-        let readOnly = typeof this.props.readOnly === "boolean" ? this.props.readOnly : this.props.readOnly();
-        if(readOnly){
-            let value = props.value;
-            this.setState({selection, value:value});
+        if(this.props.updateProps){
+            let selection = props.selection;
+            let readOnly = typeof this.props.readOnly === "boolean" ? this.props.readOnly : this.props.readOnly();
+            if(readOnly){
+                let value = props.value;
+                this.setState({selection, value:value});
+            }
+            else
+                this.setState({selection});
         }
-        else
-            this.setState({selection});
     }
 
     handleChange = (selection) => {
@@ -155,7 +157,13 @@ class DisplayOptionsField extends Component {
         keydata: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
-        ])
+        ]),
+        /**
+         * If true, the received props will be updated
+         * This was inserted because when a protocol is executed, thes props updated and clean the value
+         * This was not the best solution. It was only used to prevent that.
+         * */
+        updateProps: PropTypes.bool,
     };
 }
 
@@ -170,7 +178,8 @@ DisplayOptionsField.defaultProps = {
     isInvalid: false,
     isWarning: false,
     keydata:undefined,
-    value:""
+    value:"",
+    updateProps: true
 };
 
 export default DisplayOptionsField;

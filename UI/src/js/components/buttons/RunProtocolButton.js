@@ -56,7 +56,8 @@ class RunProtocolButton extends Reflux.Component {
                                                               selection={this.state.insertionData[cv]}
                                                               key={cvIndex}
                                                               className={"Selectx" + count + " mb-3"}
-                                                              readOnly={this.protocolWasExecuted}/>);
+                                                              readOnly={this.protocolWasExecuted}
+                                                              updateProps={false}/>);
                 }
                 else{
                     let type = clinicalVariable["type"] === "Numeric" ? "number": "text";
