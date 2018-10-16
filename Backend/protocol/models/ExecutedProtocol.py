@@ -11,6 +11,8 @@ from protocol.models import Protocol, Time, Schedule
 
 from protocol_element.models import ProtocolElement, PEDecision, PEAction
 
+from accounts.models import Profile
+
 class ExecutedProtocol(models.Model):
     ASSIGNED            = 1
     EXECUTED            = 2
@@ -25,17 +27,19 @@ class ExecutedProtocol(models.Model):
     protocol            = models.ForeignKey(Protocol)
     patient             = models.ForeignKey(Patient)
     schedule            = models.ForeignKey(Schedule)
+    physician           = models.ForeignKey(Profile)
     schedule_time       = models.DateTimeField()
     execution_time      = models.DateTimeField(null=True)
     elementsExecuted    = models.ManyToManyField(ProtocolElement)
     state               = models.PositiveSmallIntegerField(choices=STATUS, default=ASSIGNED)
 
-    def run(self, inquiryData):
+    def run(self, inquiryData, physician):
         elementsExecutedInProtocol, actionsResult = self.protocol.run(inquiryData)
         for element in elementsExecutedInProtocol:
             self.elementsExecuted.add(element)
         self.state = ExecutedProtocol.EXECUTED
         self.execution_time = datetime.now()
+        self.physician = physician
         self.save()
         return self.getResult()
 
@@ -50,12 +54,13 @@ class ExecutedProtocol(models.Model):
         return actionsResult
 
     @staticmethod
-    def new(protocol, patient, last_execution=None):
+    def new(protocol, patient, physician, last_execution=None):
         schedule_time, scheduleTitle = protocol.getNextScheduleTime(last_execution)
         scheduleObj = Schedule.objects.get(title=scheduleTitle)
         protocol = ExecutedProtocol.objects.create(protocol=protocol,
                                                    patient=patient,
                                                    schedule=scheduleObj,
+                                                   physician=physician,
                                                    schedule_time=schedule_time,
                                                    state=ExecutedProtocol.ASSIGNED)
         protocol.save()

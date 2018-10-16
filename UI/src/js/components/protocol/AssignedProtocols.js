@@ -27,6 +27,11 @@ class SelectedProtocols extends Reflux.Component {
             id: "start_date",
             accessor: obj => obj.description,
             Cell: props => <span>{props.value}</span>
+        }, {
+            Header: () => <h5 className="h5-table">Physician</h5>,
+            id: "physician",
+            accessor: obj => obj.admission_physician,
+            Cell: props => <span>{props.value}</span>
         }];
 
         return (

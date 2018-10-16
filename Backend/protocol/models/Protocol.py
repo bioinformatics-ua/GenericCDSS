@@ -63,11 +63,20 @@ class Protocol(models.Model):
     @staticmethod
     def all():
         '''
-        Returns all executed protocol instances
+        Returns all protocol instances
         '''
         tmpAll = Protocol.objects.all().filter(removed=False)
 
         return tmpAll.order_by('title')
+
+    @staticmethod
+    def get(title):
+        '''
+        Returns a active protocol instance
+        '''
+        tmpAll = Protocol.all()
+
+        return tmpAll.get(title=title)
 
     def getNextScheduleTime(self, last_execution=None):
         '''

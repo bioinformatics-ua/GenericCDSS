@@ -202,7 +202,7 @@ GLOBALS = {
     'FOOTER_EXTRA': """<a href='http://www.ua.pt/'>
                     <img style='margin-left:20px' src='https://emif-catalogue.eu/taska/static/images/logo-ua2.png'>
                     </a>""",
-    'APP_SYMBOL_SMALL':"""<img style='margin-left:20px; max-width: 30px;' src='images/logo_small.png'>
+    'APP_SYMBOL_SMALL':"""<img style='margin-left:20px; max-width: 70px;' src='images/logo_small.png'>
                  """,
     'APP_SYMBOL':"""<center><img style='max-width: 150px; max-height: 150px;' src='images/logo.png'></center>
                  """,

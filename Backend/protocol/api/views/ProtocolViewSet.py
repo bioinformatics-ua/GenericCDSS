@@ -17,6 +17,8 @@ from patients.models import Patient, CVPatient
 from protocol_element.api.serializers import ProtocolElementSerializer, PEInquirySerializer
 from protocol_element.models import ProtocolElement, PEInquiry
 
+from accounts.models import Profile
+
 from history.models import History
 
 class ProtocolViewSet(viewsets.ModelViewSet):
@@ -104,16 +106,17 @@ class ProtocolViewSet(viewsets.ModelViewSet):
                 'error': "Invalid parameters"
             })
 
+        physician = Profile.objects.get(user=request.user)
         patient = Patient.objects.get(id=patientId)
         CVPatient.addCVSet(inquiryData, patient)
 
         assignment = ExecutedProtocol.getNextExecution(patient)
-        result = assignment.run(inquiryData)
+        result = assignment.run(inquiryData=inquiryData, physician=physician)
 
         #Next assigment
         protocol = assignment.protocol
         last_execution = assignment.schedule_time
-        ExecutedProtocol.new(protocol=protocol, patient=patient, last_execution=last_execution)
+        ExecutedProtocol.new(protocol=protocol, patient=patient, physician=physician, last_execution=last_execution)
 
         return Response({"results": result})
 

@@ -39,6 +39,16 @@ class Admission(models.Model):
             return lastProtocolExecution.execution_time.strftime("%Y-%m-%d %H:%M")
         return ""
 
+    def getLastProtocolAssignedMeasurePhysician(self):
+        '''
+        Retrieves who made the last protocol measurement
+        :return: datetime in string format
+        '''
+        lastProtocolExecution = ExecutedProtocol.getLastExecution(patient=self.patient, admissionDate=self.start_date)
+        if(lastProtocolExecution):
+            return lastProtocolExecution.physician
+        return ""
+
     def getNextProtocolAssignedMeasure(self):
         '''
         It returns when the patient information should be measured

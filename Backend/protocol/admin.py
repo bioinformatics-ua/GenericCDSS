@@ -17,7 +17,7 @@ class ProtocolAdmin(admin.ModelAdmin):
 
 @admin.register(ExecutedProtocol)
 class ExecutedProtocolAdmin(admin.ModelAdmin):
-    list_display = ("protocol", "patient", "execution_time")
+    list_display = ("protocol", "patient", "execution_time", "physician")
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
