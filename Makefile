@@ -26,11 +26,11 @@ createSuperUser:
 createProtocols:
 	cd Backend && \
 	python manage.py cleanAllProtocols && \
-	python manage.py hypoglycemic && \
-	python manage.py protocolTest && \
+#	python manage.py protocolTest && \
 #	python manage.py continuousIntravenousInfusion && \
-	python manage.py diabeticInpatients && \
-	python manage.py surgicalDiabeticInpatient
+#	python manage.py diabeticInpatients && \
+#	python manage.py surgicalDiabeticInpatient && \
+	python manage.py hypoglycemic
 
 
 populateInitialConfigs:

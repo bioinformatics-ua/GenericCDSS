@@ -1,6 +1,9 @@
 # coding=utf-8
 from django.core.management.base import BaseCommand
 from patients.models import CVGroup, ClinicalVariable, Patient, CVPatient, Admission
+from accounts.models import Profile
+from django.contrib.auth.models import User
+from protocol.models import Protocol, ExecutedProtocol
 import random
 import time
 
@@ -41,6 +44,8 @@ class Command(BaseCommand):
             self.stdout.write("\nManage Clinical Variables and CVGroups\n")
             self.manageBodyMeasurements(options['force'])
             self.managePerfomedExams(options['force'])
+
+            self.assignPatients()
 
     def deleteAll(self):
         self.stdout.write("\tDeleting data in the CVPatients\n")
@@ -264,3 +269,37 @@ class Command(BaseCommand):
                                   variable = "Physician",
                                   value = random.choice(drs),
                                   measure_date=measure_date)
+
+    def assignPatients(self):
+        try:
+            physician_user = User.objects.create_user('João Almeida', 'ja@ua.pt', '12345')
+            physician = Profile(user=physician_user, role=Profile.PHYSICIAN)
+            physician.save()
+            max = len(Patient.objects.all())/4
+            count = 0
+            for patient in Patient.objects.all():
+                # Create admission
+                Admission.new(patient=patient,
+                              physician=physician,
+                              room="c." + str(patient.id))
+
+                # Assign protocols
+                protocol = Protocol.objects.get(title="Hypoglycemia")
+                ExecutedProtocol.new(protocol=protocol, patient=patient, physician=physician)
+
+                if count%2 == 0: #Execute one mesurement in some patients
+                    inquiryData = {"Blood Glucose": "12", "Diet": "zero"}
+                    CVPatient.addCVSet(inquiryData, patient)
+                    assignment = ExecutedProtocol.getNextExecution(patient)
+                    result = assignment.run(inquiryData)
+                    # Next assigment
+                    protocol = assignment.protocol
+                    last_execution = assignment.schedule_time
+                    ExecutedProtocol.new(protocol=protocol, patient=patient, physician=physician, last_execution=last_execution)
+
+                count += 1
+                if count == max:
+                    break
+        except Exception as ex:
+            self.stdout.write("\tError: Probably no protocol or doctors in the database!\n")
+            self.stdout.write(ex)

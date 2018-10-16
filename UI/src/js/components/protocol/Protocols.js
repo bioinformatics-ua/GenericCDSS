@@ -6,7 +6,6 @@ import "react-table/react-table.css";
 import {Link} from "react-router-dom";
 import {ProtocolStore, ProtocolActions} from '../../reflux/ProtocolReflux.js';
 import Settings from '../../GlobalSettings.js';
-import ProtocolType from "./ProtocolType.js";
 
 class Protocols extends Reflux.Component {
     constructor(props) {

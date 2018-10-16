@@ -19,10 +19,12 @@ class ButtonWithMsg extends Component {
     action = () => {
         if(this.props.confirmationMsg === undefined){
             let result = this.props.action();
-            if(result !== false)
+            if(result !== false && result !== undefined)
                 this.setState({showSuccessMessage: true});
             else
-                this.setState({showErrorMessage:true});
+                if(result === false)
+                    this.setState({showErrorMessage:true});
+                //undefiend did not show nothing
         }
         else
             this.setState({showConfirmationMessage: true});
@@ -115,11 +117,11 @@ class ButtonWithMsg extends Component {
         /**
          * Message to display in the modal after the execution of the function
          * */
-        message: PropTypes.string.isRequired,
+        message: PropTypes.string,
         /**
          * Message title
          * */
-        messageTitle: PropTypes.string.isRequired,
+        messageTitle: PropTypes.string,
         /**
          * Button class name
          * */

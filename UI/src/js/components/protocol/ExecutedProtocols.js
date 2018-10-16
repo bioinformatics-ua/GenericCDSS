@@ -17,14 +17,19 @@ class ExecutedProtocols extends Reflux.Component {
 
     render() {
         const columns = [{
-            Header: () => <h5 className="h5-table">Título</h5>,
+            Header: () => <h5 className="h5-table">Title</h5>,
             id: "title",
             accessor: obj => obj.title,
             Cell: props => <span>{props.value}</span>//<Link to={"/show/protocol/" + props.original.id}>{props.value}</Link>
         }, {
-            Header: () => <h5 className="h5-table">Data de realização</h5>,
+            Header: () => <h5 className="h5-table">Execution date</h5>,
             id: "end_date",
             accessor: obj => obj.execution_time,
+            Cell: props => <span>{props.value}</span>
+        }, {
+            Header: () => <h5 className="h5-table">Physician</h5>,
+            id: "physician",
+            accessor: obj => obj.last_measure_physician,
             Cell: props => <span>{props.value}</span>
         }];
 

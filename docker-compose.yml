@@ -1,0 +1,40 @@
+db:
+    image: postgres:9.3
+    environment:
+      - POSTGRES_USER=genericcdss
+      - POSTGRES_PASS=12345
+
+nginx:
+    image: nginx:1.14.0
+    ports:
+      - "9000:8000"
+    volumes:
+      - ./Backend:/src
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./Backend/static:/static 
+      - ./UI/build:/frontend 
+    links:
+      - web
+
+web:
+    image: bioinformatics-ua/genericcdss:0.1
+    command: bash -c "cd /GenericCDSS/config && sh run_docker.sh"
+    environment:
+      - DOCKER_POSTGRES_USER=genericcdss
+      - DOCKER_POSTGRES_PASS=12345
+      - DOCKER_POSTGRES_DB=genericcdss
+      - DOCKER_POSTGRES_HOST=db
+      - DOCKER_POSTGRES_PORT=5432
+      - DEPLOY_MODE=demo
+      - API_URL=http://localhost:9000/genericcdss/api/
+      - HOMEPAGE=http://localhost:9000/genericcdss
+      - BASE_URL=genericcdss
+      - VERSION=0.1
+    links:
+      - db
+    volumes:
+      - ./Backend:/src
+      - ./Backend/static:/GenericCDSS/Backend/static
+      - ./UI/build:/GenericCDSS/UI/build
+    expose:
+      - "8000"

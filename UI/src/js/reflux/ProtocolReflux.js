@@ -208,10 +208,10 @@ class ProtocolStore extends Reflux.Store {
         })
     }
 
-    onEditProtocol(schedules){
+    onEditProtocol(schedules, protocolData){
         this.setState({loading: true});
         API.POST("protocol", "editProtocol", {
-            protocolElements: this.state.protocolData,
+            protocolElements: protocolData,
             title: this.state.protocol.title,
             description: this.state.protocol.description,
             schedules: schedules,

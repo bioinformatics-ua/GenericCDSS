@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Reflux from 'reflux';
-import {ClinicalVariablesStore, ClinicalVariablesActions} from '../../reflux/ClinicalVariablesReflux.js';
+import {ClinicalVariablesStore} from '../../reflux/ClinicalVariablesReflux.js';
 import DisplayOptionsField from '../reusable/DisplayOptionsField.js';
 import DisplayField from '../reusable/DisplayField.js';
 
@@ -17,7 +17,6 @@ class InquiryElement extends Reflux.Component {
     }
 
     componentDidMount() {
-        //ClinicalVariablesActions.loadCVHeaders();
         this.loadingDetails();
     }
 

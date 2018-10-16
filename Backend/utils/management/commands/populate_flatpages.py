@@ -49,7 +49,19 @@ class Command(BaseCommand):
                                 content='<img src="images/home_wallpaper.jpg" style="width:100%; height:100%; opacity:0.5;">').sites.add(site)
         FlatPage.objects.create(url="/about/",
                                 title="About",
-                                content="TO DO").sites.add(site)
+                                content='<h2 className="mb-3">About</h2>\
+                        <p className="mb-3">\
+                            This system is a web-based application, which provides the main dashboard where professionals (e.g, practitioners, nurses) can follow all the patients that are under their responsibility and some details about the state of each one.\
+                        </p>\
+                    <h2 className="mb-3">Available features</h2>\
+                    <ul>\
+                        <li>Manage all the patient information dynamically</li>\
+                        <li>Create and manage clinical protocols</li>\
+                        <li>Assign protocols to the patients and execute them</li>\
+                        <li>Easly costumize the patient information</li>\
+                        <li>Keep track of all the patient data</li>\
+                        <li>Be reminder about the next measurement for each patient admitted in the system</li>\
+                    </ul>').sites.add(site)
         FlatPage.objects.create(url="/help/",
                                 title="Help",
                                 content="TO DO").sites.add(site)

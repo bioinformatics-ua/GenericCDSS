@@ -2,7 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import MyLink from "../reusable/MyLink.js";
 import {Link} from "react-router-dom";
-import LoginComponent from './LoginComponent.js';
+import LoginButton from './LoginButton.js';
 import {UserStore, UserActions} from '../../reflux/UserReflux.js';
 
 class NavigationBar extends Reflux.Component {
@@ -24,7 +24,7 @@ class NavigationBar extends Reflux.Component {
                     </ul>
 
                     <ul className="navbar-nav my-2 my-lg-0">
-                        <LoginComponent/>
+                        <LoginButton />
                     </ul>
                 </div>);
         return (

@@ -51,7 +51,7 @@ class AdmissionViewSet(viewsets.ModelViewSet):
         selectedProtocols  = request.data.get('seletedProtocols') #For now it is only one
         for selectedProtocol in selectedProtocols:
             protocol = Protocol.objects.get(id=selectedProtocol.get("id"))
-            ExecutedProtocol.new(protocol=protocol, patient=patient)
+            ExecutedProtocol.new(protocol=protocol, patient=patient, physician=physician)
 
         self.queryset = Admission.all(active=True)
         return super(AdmissionViewSet, self).list(request, *args, **kwargs)

@@ -53,7 +53,7 @@ class AdmittedPatients extends Reflux.Component {
         }, {
             Header: () => <h5 className="h5-table">Physician</h5>,
             id: "doctor",
-            accessor: obj => obj.physician,
+            accessor: obj => obj.last_measure_physician,
             Cell: props => <span>{props.value}</span>
         }, {
             Header: () => <h5 className="h5-table"></h5>,
