@@ -41,6 +41,7 @@ class UserStore extends Reflux.Store {
             .then(res => {
                 this.setState({authenticated: res.data["authenticated"]});
                 History.push('/');
+                 window.location.reload();
             })
     }
 

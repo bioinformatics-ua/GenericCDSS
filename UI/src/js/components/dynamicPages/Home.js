@@ -32,13 +32,6 @@ class Home extends Reflux.Component {
     }
 
     render() {
-        let styles = {
-            backgroundImage: 'url(images/home_wallpaper.jpg)',
-            backgroundSize: 'cover',
-            overflow: 'hidden',
-            opacity: 0.5
-        };
-
         if (!this.state.showDefaultHome || this.state.user.authenticated)
             return (
                 <div ref="home" id="home" className="Home">
@@ -46,15 +39,15 @@ class Home extends Reflux.Component {
                 </div>
             );
         return (
-            <div className="container row h-100">
-                <div className="col-sm-3"></div>
-                <div className="col-sm-6 h-100 d-table">
-                    <div className="container card card-block d-table-cell align-middle">
-                        <center><h1>{this.state.appSymbol}</h1></center>
+            <div className="full-page-image row">
+                <div className="col-sm-4"></div>
+                <div className="col-sm-4 my-auto">
+                    <div className="container card card-block w-25 h-25 d-table-cell align-middle">
+                        {this.state.appSymbol}
                         <LoginButton />
                     </div>
                 </div>
-                <div className="col-sm-3"></div>
+                <div className="col-sm-4"></div>
             </div>
         );
     }
