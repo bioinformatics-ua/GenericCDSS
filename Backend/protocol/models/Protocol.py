@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from protocol.models import Schedule
 
@@ -82,17 +82,18 @@ class Protocol(models.Model):
         nextScheduleTitle = None
         allPossibleTimes = sorted(allPossibleTimes)
         for timeObj, scheduleTitle in allPossibleTimes:
+            compareTimes = False
             if(last_execution):
-                if(timeObj.time.hour != last_execution.hour or timeObj.time.minute != last_execution.minute):
-                    if(datetime.now().time() < timeObj.time and last_execution.time() < timeObj.time): #the time is after now
-                        if(nextScheduleTime):
-                            if (timeObj.time < nextScheduleTime.time):
-                                nextScheduleTime = timeObj
-                                nextScheduleTitle = scheduleTitle
-                        else:
-                            nextScheduleTime = timeObj
-                            nextScheduleTitle = scheduleTitle
+                if (last_execution.date() == datetime.now().date()):
+                    if(timeObj.time.hour != last_execution.hour or timeObj.time.minute != last_execution.minute):
+                        if(datetime.now().time() < timeObj.time and last_execution.time() < timeObj.time): #the time is after now
+                            compareTimes = True
+                else:
+                    compareTimes = True
             else:
+                compareTimes = True
+
+            if(compareTimes):
                 if (datetime.now().time() < timeObj.time):  # the time is after now
                     if (nextScheduleTime):
                         if (timeObj.time < nextScheduleTime.time):
@@ -106,7 +107,7 @@ class Protocol(models.Model):
             nextScheduleTime, nextScheduleTitle = allPossibleTimes[0]
 
         if(nextScheduleTime.time < datetime.now().time()): #Tomorrow
-            nextSchedule = datetime.now() + datetime.timedelta(days=1)
+            nextSchedule = datetime.now() + timedelta(days=1)
             return (nextSchedule.replace(hour=nextScheduleTime.time.hour, minute=nextScheduleTime.time.minute), nextScheduleTitle)
         else: #Today
             nextSchedule = datetime.now()
