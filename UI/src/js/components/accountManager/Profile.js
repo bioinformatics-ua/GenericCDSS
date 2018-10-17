@@ -1,7 +1,7 @@
 import React from 'react';
 import DisplayField from "../reusable/DisplayField";
 import Reflux from "reflux";
-import {UserStore} from "../../reflux/UserReflux";
+import {UserStore, UserActions} from "../../reflux/UserReflux";
 import $ from "jquery";
 
 class Profile extends Reflux.Component {
@@ -29,17 +29,13 @@ class Profile extends Reflux.Component {
         return this.state.user["email"] !== "" &&
             this.state.user["first_name"] !== "" &&
             this.state.user["last_name"] !== "" &&
-            this.state.user["password"] !== undefined &&
-            this.state.user["confirmPassword"] !== undefined &&
             this.state.user["password"] === this.state.user["confirmPassword"];
     };
 
     save = () => {
         this.setState({validated: true});
         if(this.isValid()){
-            console.log("save profile")
-            console.log(this.state)
-            //todo send to the server the data
+            UserActions.updateUserData();
         }
     };
 
@@ -82,7 +78,7 @@ class Profile extends Reflux.Component {
                                               keydata={"password"}
                                               value={this.state.user["password"]}
                                               type={"password"}
-                                              isInvalid={(this.state.user["password"] === undefined || this.state.user["password"] !== this.state.user["confirmPassword"]) && this.state.validated}
+                                              isInvalid={(this.state.user["password"] !== this.state.user["confirmPassword"]) && this.state.validated}
                                               invalidMessage={"The password doesn't match or are empty"}/>
                             </div>
                             <div className="row mb-3">
@@ -91,7 +87,7 @@ class Profile extends Reflux.Component {
                                               keydata={"confirmPassword"}
                                               value={this.state.user["confirmPassword"]}
                                               type={"password"}
-                                              isInvalid={(this.state.user["confirmPassword"] === undefined || this.state.user["password"] !== this.state.user["confirmPassword"]) && this.state.validated}
+                                              isInvalid={(this.state.user["password"] !== this.state.user["confirmPassword"]) && this.state.validated}
                                               invalidMessage={"The password doesn't match or are empty"}/>
                             </div>
                             <div className="row mb-3 pull-right">

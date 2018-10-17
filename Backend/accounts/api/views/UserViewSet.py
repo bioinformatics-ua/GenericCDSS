@@ -86,6 +86,15 @@ class UserViewSet(viewsets.ModelViewSet):
                     request.user.set_password(password)
                     request.user.save()
 
+                    user = authenticate(username=request.user.username, password=password)
+                    if user.is_active:
+                        login(request, user)
+                    else:
+                        return Response({
+                            'authenticated': False,
+                            'error': 'This account is disabled. This may be because of you are waiting approval.If this is not the case, please contact the administrator'
+                        })
+
             result = serializer.data
             result['authenticated'] = True
 
@@ -301,7 +310,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 'error': 'This login username and password are invalid'
             })
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=user.username, password=password)
         if user != None:#.check_password(password):
             if user.is_active:
                 login(request, user)
