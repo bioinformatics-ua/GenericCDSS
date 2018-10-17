@@ -36,7 +36,7 @@ class CVRepresentationGroup extends Component {
         });
 
         listOfComponents.push({
-            Header: () => <h5 className="h5-table">Data</h5>,
+            Header: () => <h5 className="h5-table">Date</h5>,
             id: "measure_date",
             accessor: obj => obj["measure_date"],
             Cell: props => <span>{props.value}</span>
