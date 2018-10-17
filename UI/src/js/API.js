@@ -83,6 +83,18 @@ const buildPOSTPath = function (globalPath, urlPath) {
  * utlPath: is the rest of the path
  * parameters: are the parameters to send in the post
  * */
+API.PATCH = function (module, urlPath, parameters) {
+    let url = getModuleURL(module);
+    let path = buildPOSTPath(url, urlPath);
+    return API.patch(path, parameters);
+};
+
+/*
+ * The function receive:
+ * module: which is a string to define which webservice module to call
+ * utlPath: is the rest of the path
+ * parameters: are the parameters to send in the post
+ * */
 API.POST = function (module, urlPath, parameters) {
     let url = getModuleURL(module);
     let path = buildPOSTPath(url, urlPath);

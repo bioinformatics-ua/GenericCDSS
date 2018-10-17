@@ -66,8 +66,8 @@ class NavigationBar extends Reflux.Component {
                             </div>
                             <div className="dropdown-divider"></div>
 
-                            {/*<Link to="/profile" className="dropdown-item"><i className="fa fa-pencil-square-o"></i> Edit*/}
-                                {/*profile</Link>*/}
+                            <Link to="/profile" className="dropdown-item"><i className="fa fa-pencil-square-o"></i> Edit
+                                profile</Link>
 
                             <Link to='/about' className="dropdown-item"><i className="fa fa-info-circle"></i> About</Link>
 

@@ -2,7 +2,14 @@ import Reflux from 'reflux';
 import API from '../API.js';
 import History from '../components/globalComponents/History.js';
 
-const UserActions = Reflux.createActions(['login', 'logout', 'loginSuccess', 'loginFailed', 'getUserData']);
+const UserActions = Reflux.createActions([
+    'login',
+    'logout',
+    'loginSuccess',
+    'loginFailed',
+    'getUserData',
+    'updateUserData'
+]);
 
 class UserStore extends Reflux.Store {
     constructor() {
@@ -33,6 +40,24 @@ class UserStore extends Reflux.Store {
                     user: res.data
                 });
                 this.trigger();
+            })
+    }
+
+    onUpdateUserData() {
+        let userData = {
+            "first_name": this.state.user.first_name,
+            "last_name": this.state.user.last_name,
+        };
+
+        if(this.state.user.password !== undefined)
+            userData["password"] = this.state.user.password;
+
+        API.PATCH("account", "personalAccountDetails", userData).then(res => {
+                this.setState({
+                    authenticated: res.data["authenticated"],
+                    user: res.data
+                });
+                History.push('/');
             })
     }
 
