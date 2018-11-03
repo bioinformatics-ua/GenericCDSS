@@ -10,7 +10,7 @@ from models import Language, Multilingual
 # Register your models here.
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = ("language", "ckeck_translations")
+    list_display = ("language", )#"ckeck_translations")
 
     def ckeck_translations(self, obj):
         return format_html(

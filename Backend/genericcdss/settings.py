@@ -206,11 +206,18 @@ GLOBALS = {
                  """,
     'APP_SYMBOL':"""<center><img style='max-width: 150px; max-height: 150px;' src='images/logo.png'></center>
                  """,
-    'LANGUAGE':"pt - to do",
+    'LANGUAGE':'EN',
     'SHOW_DEFAULT_HOME': True
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+CONSTANCE_ADDITIONAL_FIELDS = {
+    'language_selector': ['django.forms.fields.ChoiceField', {
+        'widget': 'django.forms.Select',
+        'choices': (("EN", "EN"), ("PT", "PT"), ("ES", "ES"), ("FR", "FR"), ("DE", "DE"), ("IT", "IT"))
+    }],
+}
 
 CONSTANCE_CONFIG = {
     'copyright': (GLOBALS['COPYRIGHT'], 'Text to show as copyright'),
@@ -219,8 +226,8 @@ CONSTANCE_CONFIG = {
     'app_symbol_small': (GLOBALS['APP_SYMBOL_SMALL'], 'Image used to represent the system (Logo) - small'),
     'app_symbol': (GLOBALS['APP_SYMBOL'], 'Image used to represent the system (Logo)'),
     'site_name': (GLOBALS['SITE_NAME'], 'Website title'),
-    'language':(GLOBALS['LANGUAGE'], 'The languge used in the GUI'),
-    'show_default_home':(GLOBALS['SHOW_DEFAULT_HOME'], 'If true, it show the default home. If false, it show the home flat page')
+    'language':(GLOBALS['LANGUAGE'], 'The languge used in the GUI', 'language_selector'),
+    'show_default_home':(GLOBALS['SHOW_DEFAULT_HOME'], 'If true, it show the default home. If false, it show the home flat page'),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
