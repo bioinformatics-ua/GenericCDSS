@@ -27,10 +27,3 @@ class MultilingualViewSet(viewsets.ViewSet):
             return Response(queryset)
         except:
             return "Error"
-
-# class MultilingualViewSet(viewsets.ModelViewSet):
-#     queryset = Multilingual.all()
-#     serializer_class = MultilingualSerializer
-#
-#     filter_backends = [DjangoFilterBackend, OrderingFilter]
-
