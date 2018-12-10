@@ -78,11 +78,6 @@ $ make build
 $ make docker-run
 ```
 
-### Scientific contributions
-
-
-João Rafael Almeida, Joana Guimarães, and José Luís Oliveira. "Simplifying the digitization of clinical protocols for diabetes management." 2018 IEEE 31st International Symposium on Computer-Based Medical Systems (CBMS). IEEE, 2018.
-
 
 
 ----
